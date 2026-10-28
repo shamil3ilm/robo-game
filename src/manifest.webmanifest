@@ -1,0 +1,17 @@
+{
+  "name": "Robo Run",
+  "short_name": "Robo Run",
+  "description": "A delivery robot on the Malabar coast: run, explore Kerala towns, cook and trade. Works on phones.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0d130f",
+  "theme_color": "#0d130f",
+  "lang": "en",
+  "icons": [
+    { "src": "img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "img/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

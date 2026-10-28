@@ -1,0 +1,6 @@
+backups/
+dist/
+node_modules/
+reference/
+test-results/
+*.bak

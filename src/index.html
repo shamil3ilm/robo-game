@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html><head>
+<script>window.ROBO_ACTIVE_AREAS = ['manjeri', 'malappuram'];   // the towns that are open: Manjeri, and Malappuram by KSRTC bus (remove this line to open every town)</script>
+<script>window.__resources = {"https://unpkg.com/react@18.3.1/umd/react.production.min.js": "js/vendor/react.production.min.js", "https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js": "js/vendor/react-dom.production.min.js"};</script>
+
+
+<title>Robo Run</title>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="js/vendor/dc-runtime.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d130f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="img/icon-192.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<style>/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/Barlow-400-1.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/Barlow-400-2.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/Barlow-400-3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/Barlow-500-1.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/Barlow-500-2.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/Barlow-500-3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/Barlow-600-1.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/Barlow-600-2.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/Barlow-600-3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* vietnamese */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/Barlow-700-1.woff2") format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1, U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/Barlow-700-2.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/Barlow-700-3.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Oxanium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/Oxanium-800-1.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Oxanium';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/Oxanium-800-2.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Oxanium';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/Oxanium-800-1.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Oxanium';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/Oxanium-800-2.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Oxanium';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/Oxanium-800-1.woff2") format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Oxanium';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/Oxanium-800-2.woff2") format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+<style>@font-face {
+  font-family: 'Material Symbols Rounded';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url("fonts/MaterialSymbolsRounded-500-1.woff2") format('woff2');
+}
+
+.material-symbols-rounded {
+  font-family: 'Material Symbols Rounded';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+</style>
+<style>html,body{margin:0;height:100%;overflow:hidden;background:#0d130f;overscroll-behavior:none;-webkit-text-size-adjust:100%}a{color:oklch(0.84 0.14 75)}a:hover{color:oklch(0.9 0.12 80)}</style>
+<script src="js/vendor/three.min.js"></script>
+<script src="js/vendor/post/CopyShader.js"></script>
+<script src="js/vendor/post/LuminosityHighPassShader.js"></script>
+<script src="js/vendor/post/Pass.js"></script>
+<script src="js/vendor/post/ShaderPass.js"></script>
+<script src="js/vendor/post/MaskPass.js"></script>
+<script src="js/vendor/post/EffectComposer.js"></script>
+<script src="js/vendor/post/RenderPass.js"></script>
+<script src="js/vendor/post/UnrealBloomPass.js"></script>
+<script src="js/textures.js"></script>
+<script src="js/clock.js"></script>
+<script src="js/wallet.js"></script>
+<script src="js/scrap.js"></script>
+<script src="js/gear.js"></script>
+<script src="js/battery.js"></script>
+<script src="js/weather.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/map.js"></script>
+<script src="js/story.js"></script>
+<script src="js/puzzles.js"></script>
+<script src="js/terminal.js"></script>
+<script src="js/quests.js"></script>
+<script src="js/explore_rides.js"></script>
+<script src="js/shop.js"></script>
+<script src="js/bend.js"></script>
+<script src="js/explore_notes.js"></script>
+<script src="js/explore_signs.js"></script>
+<script src="js/explore_vehicles.js"></script>
+<script src="js/explore_manjeri.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/explore_roads.js"></script>
+<script src="js/explore_life.js"></script>
+<script src="js/explore_jobs.js"></script>
+<script src="js/explore_city.js"></script>
+<script src="js/explore_hilite.js"></script>
+<script src="js/explore_wayanad.js"></script>
+<script src="js/explore_edge.js"></script>
+<script src="js/explore_malappuram.js"></script>
+<script src="js/explore_water.js"></script>
+<script src="js/explore_interiors.js"></script>
+<script src="js/explore_places.js"></script>
+<script src="js/merge.js"></script>
+<script src="js/explore.js"></script>
+<script src="js/characters.js"></script>
+<script src="js/malabar.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/progress.js"></script>
+<script src="js/kitchen.js"></script>
+</helmet>
+
+<div data-screen-label="Robo Run" style="position:fixed;left:0;right:0;top:0;bottom:0;height:100dvh;overflow:hidden;font-family:Barlow, 'Helvetica Neue', Helvetica, sans-serif;color:#f3f0e8;background:#0d130f;-webkit-tap-highlight-color:transparent;touch-action:none;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;overscroll-behavior:none">
+  <div ref="{{ mountRef }}" style="position:absolute;inset:0"></div>
+
+  <div ref="{{ uiRef }}" style="position:absolute;inset:0;pointer-events:none">
+
+    <div style="position:absolute;inset:0;zoom:{{ hudZoom }}">
+      <sc-if value="{{ showHud }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute;top:0;left:0;right:0;display:grid;grid-template-columns:minmax(0, 1fr) auto minmax(0, 1fr);align-items:start;gap:8px;padding:{{ barPad }}">
+          <div aria-label="{{ livesLabel }}" style="justify-self:start;display:flex;align-items:center;gap:2px;padding:0 9px;height:44px;box-sizing:border-box;border-radius:12px;background:rgba(10,14,12,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
+            <sc-if value="{{ unlimitedLives }}">
+              <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:clamp(24px, 1.5vmin + 18px, 30px);color:oklch(0.84 0.14 75)">all_inclusive</span>
+            </sc-if>
+            <sc-if value="{{ limitedLives }}">
+              <sc-for list="{{ hearts }}" as="h" hint-placeholder-count="3">
+                <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-size:clamp(21px, 1.2vmin + 16px, 27px);color:{{ h.color }};font-variation-settings:{{ h.fill }}">favorite</span>
+              </sc-for>
+            </sc-if>
+          </div>
+          <div style="display:flex;flex-direction:{{ scoreDir }};align-items:{{ scoreAlign }};gap:{{ scoreGap }};padding:{{ scorePad }};box-sizing:border-box;min-width:72px;border-radius:12px;background:rgba(10,14,12,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
+            <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:clamp(22px, 2.4vmin + 12px, 32px);line-height:1.05;font-variant-numeric:tabular-nums;letter-spacing:0.02em">{{ score }}</div>
+            <div style="font-size:clamp(12px, 0.6vmin + 10px, 14px);font-weight:600;letter-spacing:0.12em;color:rgba(243,240,232,0.75);font-variant-numeric:tabular-nums;white-space:nowrap">{{ distLabel }}</div>
+          </div>
+          <div style="justify-self:end;display:flex;align-items:center;gap:6px">
+            <div style="display:flex;flex-direction:column;justify-content:center;gap:4px;padding:0 10px 0 7px;min-height:44px;box-sizing:border-box;border-radius:12px;background:rgba(10,14,12,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)">
+              <div aria-label="Energy" style="display:flex;align-items:center;gap:4px;font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;line-height:1;font-variant-numeric:tabular-nums"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:17px;color:oklch(0.86 0.16 160)">bolt</span>{{ cells }}</div>
+              <div aria-label="Coins" style="display:flex;align-items:center;gap:5px;font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;line-height:1;font-variant-numeric:tabular-nums"><div style="flex:none;width:13px;height:13px;margin:0 1px 0 2px;border-radius:7px;background:#f2c46b;box-shadow:inset 0 0 0 2px #c9922f"></div>{{ coins }}</div>
+            </div>
+            <button sc-camel-on-click="{{ pause }}" aria-label="Pause" style="pointer-events:auto;width:clamp(44px, 2vmin + 36px, 52px);height:clamp(44px, 2vmin + 36px, 52px);border:0;border-radius:12px;background:rgba(10,14,12,0.55);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;color:#f3f0e8;touch-action:manipulation">
+              <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:28px">pause</span>
+            </button>
+          </div>
+        </div>
+
+        <div style="position:absolute;top:{{ pwTop }};left:{{ pwLeft }};right:{{ pwRight }};display:flex;flex-direction:{{ pwDir }};flex-wrap:wrap;justify-content:center;align-items:{{ pwAlign }};gap:6px">
+          <sc-for list="{{ powers }}" as="p" hint-placeholder-count="0">
+            <div style="display:flex;align-items:center;gap:7px;padding:5px 10px 5px 8px;border-radius:999px;background:rgba(10,14,12,0.62);font-size:12px;font-weight:700;letter-spacing:0.12em">
+              <sc-if value="{{ p.svg }}">
+                <svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="color:{{ p.color }}"><path d="M4 3h5v8a3 3 0 0 0 6 0V3h5v8a8 8 0 0 1-16 0z" fill="currentColor"></path><rect x="4" y="3" width="5" height="3" fill="#f3f0e8"></rect><rect x="15" y="3" width="5" height="3" fill="#f3f0e8"></rect></svg>
+              </sc-if>
+              <sc-if value="{{ p.icon }}">
+                <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:17px;color:{{ p.color }}">{{ p.icon }}</span>
+              </sc-if>
+              <sc-if value="{{ p.text }}">
+                <span style="font-family:Oxanium, sans-serif;font-size:14px;font-weight:800;letter-spacing:0;color:{{ p.color }}">{{ p.text }}</span>
+              </sc-if>
+              <span style="color:{{ p.color }}">{{ p.label }}</span>
+              <div style="width:clamp(40px, 5vmin + 20px, 64px);height:4px;border-radius:2px;background:rgba(255,255,255,0.18);overflow:hidden"><div style="height:100%;width:{{ p.pct }};background:{{ p.color }}"></div></div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ hasWeapon }}">
+            <div style="display:flex;align-items:center;gap:7px;padding:5px 11px 5px 8px;border-radius:999px;background:rgba(10,14,12,0.62);border:1px solid oklch(0.82 0.15 75 / 0.55);font-size:12px;font-weight:700;letter-spacing:0.12em">
+              <sc-if value="{{ weaponSvg }}"><svg width="16" height="16" sc-camel-view-box="0 0 24 24" aria-hidden="true" style="color:oklch(0.84 0.14 75)"><path d="M4 3h5v8a3 3 0 0 0 6 0V3h5v8a8 8 0 0 1-16 0z" fill="currentColor"></path><rect x="4" y="3" width="5" height="3" fill="#f3f0e8"></rect><rect x="15" y="3" width="5" height="3" fill="#f3f0e8"></rect></svg></sc-if>
+              <sc-if value="{{ weaponIcon }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:17px;color:oklch(0.84 0.14 75)">{{ weaponIcon }}</span></sc-if>
+              <span style="color:oklch(0.84 0.14 75)">{{ weaponName }}</span>
+              <span style="font-family:Oxanium, sans-serif;font-size:14px;font-weight:700;letter-spacing:0;font-variant-numeric:tabular-nums">{{ weaponUses }}</span>
+            </div>
+          </sc-if>
+          <sc-if value="{{ hasBoss }}">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:5px 12px 7px;border-radius:12px;background:rgba(10,14,12,0.62)">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.2em;color:oklch(0.78 0.15 30)">GUARDIAN</div>
+              <div style="width:clamp(110px, 12vmin + 60px, 180px);height:6px;border-radius:3px;background:rgba(255,255,255,0.18);overflow:hidden"><div style="height:100%;width:{{ bossPct }};background:oklch(0.78 0.15 30)"></div></div>
+            </div>
+          </sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasToast }}">
+        <div style="position:absolute;left:12px;right:12px;top:{{ toastTop }};display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,0.6)">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.32em;color:rgba(243,240,232,0.85)">ENTERING</div>
+          <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:clamp(24px, 3vmin + 14px, 44px);line-height:1.1;letter-spacing:0.06em;text-transform:uppercase;text-wrap:balance">{{ toast }}</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasClock }}">
+        <div aria-label="Time and temperature" style="position:absolute;left:12px;top:calc(env(safe-area-inset-top) + 60px);padding:5px 10px;border-radius:10px;background:rgba(10,14,12,0.55);font-size:13px;font-weight:700;letter-spacing:0.03em;white-space:nowrap;pointer-events:none">{{ clockLabel }}</div>
+      </sc-if>
+
+      <sc-if value="{{ hasFood }}">
+        <div style="position:absolute;left:12px;right:12px;bottom:26%;display:flex;justify-content:center;pointer-events:none">
+          <div style="padding:8px 16px;border-radius:999px;background:rgba(10,14,12,0.85);font-family:Oxanium, sans-serif;font-weight:700;font-size:16px;letter-spacing:0.02em">{{ foodMsg }}</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasSlope }}">
+        <div style="position:absolute;left:12px;right:12px;bottom:14%;display:flex;justify-content:center;pointer-events:none">
+          <div style="padding:5px 14px;border-radius:999px;background:rgba(10,14,12,0.7);font-size:12px;font-weight:700;letter-spacing:0.18em;color:rgba(243,240,232,0.88)">{{ slopeLabel }}</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasPopup }}">
+        <div style="position:absolute;left:12px;right:12px;top:{{ popTop }};display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;text-shadow:0 2px 14px rgba(0,0,0,0.7)">
+          <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:clamp(26px, 3.4vmin + 14px, 46px);line-height:1.1;letter-spacing:0.06em;color:oklch(0.88 0.13 82);text-wrap:balance">{{ popTitle }}</div>
+          <sc-if value="{{ popSub }}"><div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;letter-spacing:0.03em;text-wrap:balance">{{ popSub }}</div></sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasAward }}">
+        <div style="position:absolute;left:{{ awLeft }};right:{{ awRight }};top:{{ awTop }};display:flex;justify-content:{{ awJustify }}">
+          <div style="display:flex;align-items:center;gap:10px;padding:9px 14px 9px 11px;border-radius:14px;background:rgba(10,14,12,0.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);max-width:min(440px, 100%)">
+            <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px;color:oklch(0.84 0.14 75)">{{ award.icon }}</span>
+            <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.16em;color:oklch(0.84 0.14 75)">{{ award.kind }}</div>
+              <div style="font-size:15px;font-weight:600;text-wrap:pretty">{{ award.text }}</div>
+            </div>
+            <sc-if value="{{ award.hasReward }}">
+              <div style="flex:none;display:flex;align-items:center;gap:1px;font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;color:oklch(0.86 0.16 160)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:18px">bolt</span>{{ award.reward }}</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasWarn }}">
+        <div style="position:absolute;left:12px;right:12px;top:{{ warnTop }};bottom:{{ warnBottom }};display:flex;justify-content:center">
+          <div role="alert" style="display:flex;align-items:center;gap:8px;padding:9px 16px 9px 12px;border-radius:999px;background:oklch(0.42 0.14 30 / 0.94);font-size:15px;font-weight:700;letter-spacing:0.08em;text-align:center"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:22px">warning</span>{{ warnText }}</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ showAttack }}">
+        <button sc-camel-on-pointer-down="{{ atkL }}" aria-label="Attack left" style="position:absolute;left:{{ atkSide }};bottom:{{ atkBottom }};width:clamp(64px, 11vmin, 88px);height:clamp(64px, 11vmin, 88px);border-radius:50%;border:2px solid rgba(243,240,232,0.38);background:rgba(10,14,12,0.42);color:#f3f0e8;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;pointer-events:auto;touch-action:none" style-active="background:oklch(0.82 0.15 75 / 0.4)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:clamp(30px, 5vmin, 42px);transform:scaleX(-1)">sports_mma</span></button>
+        <button sc-camel-on-pointer-down="{{ atkR }}" aria-label="Attack right" style="position:absolute;right:{{ atkSide }};bottom:{{ atkBottom }};width:clamp(64px, 11vmin, 88px);height:clamp(64px, 11vmin, 88px);border-radius:50%;border:2px solid rgba(243,240,232,0.38);background:rgba(10,14,12,0.42);color:#f3f0e8;display:flex;align-items:center;justify-content:center;padding:0;cursor:pointer;pointer-events:auto;touch-action:none" style-active="background:oklch(0.82 0.15 75 / 0.4)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:clamp(30px, 5vmin, 42px)">sports_mma</span></button>
+      </sc-if>
+    </div>
+
+    <div style="position:absolute;inset:0;zoom:{{ uiZoom }}">
+      <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ true }}">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Oxanium, sans-serif;font-size:14px;letter-spacing:0.3em;color:rgba(243,240,232,0.7)">LOADING</div>
+      </sc-if>
+
+      <div style="position:absolute;left:16px;right:16px;top:{{ stackTop }};bottom:{{ stackBottom }};max-width:{{ stackMax }};margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px">
+        <sc-if value="{{ hasTip }}">
+          <div style="padding:10px 16px;border-radius:14px;background:rgba(10,14,12,0.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:15px;font-weight:600;line-height:1.35;text-align:center;text-wrap:balance">Tip: portrait mode gives a bigger view of the track.</div>
+        </sc-if>
+        <sc-if value="{{ hasNotice }}">
+          <div style="padding:10px 18px;border-radius:999px;background:rgba(10,14,12,0.8);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:16px;font-weight:600;line-height:1.3;text-align:center;text-wrap:balance">{{ notice }}</div>
+        </sc-if>
+        <sc-if value="{{ hasTut }}">
+          <div style="display:flex;align-items:center;gap:14px;padding:12px 18px;border-radius:16px;border:2px solid {{ tutBorder }};background:rgba(10,14,12,0.84);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);max-width:100%;box-sizing:border-box">
+            <div style="flex:none;display:flex;align-items:center;gap:6px">
+              <sc-for list="{{ tutGlyphs }}" as="g">
+                <sc-if value="{{ g.icon }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:38px;color:oklch(0.84 0.14 75)">{{ g.icon }}</span></sc-if>
+                <sc-if value="{{ g.key }}"><div style="min-width:36px;min-height:36px;padding:0 9px;box-sizing:border-box;border-radius:9px;border:1px solid rgba(243,240,232,0.4);border-bottom-width:4px;display:flex;align-items:center;justify-content:center;font-family:Oxanium, sans-serif;font-weight:700;font-size:16px;background:rgba(243,240,232,0.08)">{{ g.key }}</div></sc-if>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:5px;min-width:0">
+              <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:clamp(18px, 1vmin + 14px, 22px);line-height:1.2;letter-spacing:0.02em;text-wrap:balance">{{ tutText }}</div>
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px">
+                <sc-if value="{{ tutSub }}"><div style="font-size:13px;font-weight:600;color:rgba(243,240,232,0.78)">{{ tutSub }}</div></sc-if>
+                <div style="display:flex;gap:5px">
+                  <sc-for list="{{ tutDots }}" as="d"><div style="width:8px;height:8px;border-radius:4px;background:{{ d.bg }}"></div></sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasHint }}">
+          <div style="display:flex;align-items:center;gap:10px;padding:10px 18px 10px 14px;border-radius:999px;background:rgba(10,14,12,0.74);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);max-width:100%;box-sizing:border-box">
+            <sc-for list="{{ hintGlyphs }}" as="g">
+              <sc-if value="{{ g.icon }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px;color:oklch(0.84 0.14 75)">{{ g.icon }}</span></sc-if>
+              <sc-if value="{{ g.key }}"><div style="flex:none;min-width:30px;min-height:30px;padding:0 8px;box-sizing:border-box;border-radius:7px;border:1px solid rgba(243,240,232,0.4);border-bottom-width:3px;display:flex;align-items:center;justify-content:center;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;background:rgba(243,240,232,0.08)">{{ g.key }}</div></sc-if>
+            </sc-for>
+            <div style="font-size:clamp(15px, 0.6vmin + 13px, 18px);font-weight:600;line-height:1.3;text-wrap:balance">{{ hintText }}</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasCaption }}">
+          <div style="max-width:560px;padding:8px 14px;border-radius:8px;background:rgba(0,0,0,0.8);font-size:clamp(16px, 0.6vmin + 14px, 19px);font-weight:600;line-height:1.35;text-align:center;text-wrap:balance">{{ caption }}</div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ isHome }}" hint-placeholder-val="{{ false }}">
+        <div data-pad="home" style="position:absolute;inset:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;pointer-events:auto;background:linear-gradient(to top, rgba(8,12,10,0.92) 0%, rgba(8,12,10,0.6) 45%, rgba(8,12,10,0) 76%)">
+          <div style="display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;padding:max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 0 max(12px, env(safe-area-inset-left))">
+            <sc-if value="{{ isKids }}">
+              <div style="display:flex;align-items:center;gap:6px;min-height:36px;padding:0 12px 0 9px;border-radius:999px;background:rgba(10,14,12,0.55);font-size:12px;font-weight:700;letter-spacing:0.14em"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:19px;color:oklch(0.84 0.14 75)">child_care</span>KIDS MODE</div>
+            </sc-if>
+            <div aria-label="Energy" style="display:flex;align-items:center;gap:4px;min-height:36px;padding:0 12px 0 8px;border-radius:999px;background:rgba(10,14,12,0.55);font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:19px;color:oklch(0.86 0.16 160)">bolt</span>{{ wallet }}</div>
+            <div aria-label="Coins" style="display:flex;align-items:center;gap:6px;min-height:36px;padding:0 12px 0 10px;border-radius:999px;background:rgba(10,14,12,0.55);font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums"><div style="width:17px;height:17px;border-radius:9px;background:#f2c46b;box-shadow:inset 0 0 0 2px #c9922f;color:#5a3a08;font:800 11px/17px Oxanium, sans-serif;text-align:center">₹</div>{{ coinsTotalLabel }}</div>
+            <sc-if value="{{ hasBest }}">
+              <div aria-label="Best score" style="display:flex;align-items:center;gap:4px;min-height:36px;padding:0 12px 0 8px;border-radius:999px;background:rgba(10,14,12,0.55);font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;font-variant-numeric:tabular-nums"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:19px;color:oklch(0.84 0.14 75)">star</span>{{ best }}</div>
+            </sc-if>
+          </div>
+          <div style="margin-top:auto;display:grid;grid-template-columns:{{ homeCols }};align-items:end;gap:clamp(12px, 2.4vh, 22px) clamp(16px, 4vw, 40px);width:100%;max-width:{{ homeMax }};box-sizing:border-box;padding:20px max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left))">
+            <div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+              <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:{{ titleSize }};line-height:0.92;letter-spacing:0.01em;white-space:nowrap">ROBO RUN</div>
+              <div style="font-size:clamp(15px, 0.8vmin + 12px, 18px);line-height:1.4;color:rgba(243,240,232,0.85);text-wrap:pretty">{{ tagline }}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:clamp(12px, 2.2vh, 18px);min-width:0">
+              <div style="display:grid;grid-template-columns:auto minmax(0, 1fr);align-items:center;gap:8px 14px;font-size:15px">
+                <sc-for list="{{ controls }}" as="c" hint-placeholder-count="3">
+                  <div style="display:flex;align-items:center;gap:5px">
+                    <sc-for list="{{ c.glyphs }}" as="g">
+                      <sc-if value="{{ g.icon }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px;color:oklch(0.84 0.14 75)">{{ g.icon }}</span></sc-if>
+                      <sc-if value="{{ g.key }}"><div style="min-width:28px;min-height:28px;padding:0 7px;box-sizing:border-box;border-radius:7px;border:1px solid rgba(243,240,232,0.38);border-bottom-width:3px;display:flex;align-items:center;justify-content:center;font-family:Oxanium, sans-serif;font-weight:700;font-size:13px;background:rgba(243,240,232,0.08)">{{ g.key }}</div></sc-if>
+                    </sc-for>
+                  </div>
+                  <div style="color:rgba(243,240,232,0.88);line-height:1.3">{{ c.v }}</div>
+                </sc-for>
+              </div>
+              <button sc-camel-on-click="{{ start }}" style="align-self:{{ startAlign }};width:{{ startW }};min-height:56px;padding:12px 30px 12px 22px;box-sizing:border-box;border:0;border-radius:14px;background:oklch(0.82 0.15 75);color:#14110a;font-family:Oxanium, sans-serif;font-weight:800;font-size:20px;line-height:1.15;letter-spacing:0.08em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;touch-action:manipulation" style-hover="background:oklch(0.87 0.14 80)" style-active="transform:scale(0.97)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:28px">play_arrow</span>START RUN</button>
+              <div style="display:grid;grid-template-columns:{{ navCols }};gap:8px;width:100%;max-width:460px">
+                <sc-for list="{{ nav }}" as="n" hint-placeholder-count="4">
+                  <button sc-camel-on-click="{{ n.open }}" style="position:relative;min-height:66px;padding:8px 2px;border:1px solid rgba(243,240,232,0.2);border-radius:14px;background:rgba(10,14,12,0.5);color:#f3f0e8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:Barlow, sans-serif;font-size:12px;font-weight:600;line-height:1.2;text-align:center;cursor:pointer;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">
+                    <sc-if value="{{ n.icon }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">{{ n.icon }}</span></sc-if>
+                    <sc-if value="{{ n.emoji }}"><span style="font-size:24px;line-height:26px">{{ n.emoji }}</span></sc-if>
+                    {{ n.label }}
+                    <sc-if value="{{ n.dot }}"><div style="position:absolute;top:8px;right:10px;width:9px;height:9px;border-radius:5px;background:oklch(0.82 0.15 75)"></div></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isWho }}">
+        <div data-pad="who" style="position:absolute;inset:0;display:flex;padding:max(20px, env(safe-area-inset-top)) max(20px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-left));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;pointer-events:auto;background:rgba(8,12,10,0.76);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="margin:auto;display:flex;flex-direction:column;gap:clamp(14px, 3vh, 22px);width:100%;max-width:560px">
+            <div style="display:flex;flex-direction:column;gap:6px;text-align:center">
+              <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:clamp(28px, 4vmin + 14px, 44px);line-height:1.1;letter-spacing:0.04em">WHO'S PLAYING?</div>
+              <div style="font-size:16px;line-height:1.4;color:rgba(243,240,232,0.82)">You can change this any time in Settings.</div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(min(100%, 200px), 1fr));gap:12px">
+              <button sc-camel-on-click="{{ pickKids }}" style="display:flex;flex-direction:column;align-items:center;gap:8px;min-height:48px;padding:clamp(14px, 3vh, 24px) 18px;border:1px solid rgba(243,240,232,0.22);border-radius:18px;background:rgba(10,14,12,0.6);color:#f3f0e8;cursor:pointer;text-align:center;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">
+                <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:clamp(38px, 4vmin + 22px, 52px);color:oklch(0.84 0.14 75)">child_care</span>
+                <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:24px;letter-spacing:0.04em">Kids</div>
+                <div style="font-size:15px;line-height:1.4;color:rgba(243,240,232,0.82);text-wrap:pretty">Slower and friendlier, with unlimited lives</div>
+              </button>
+              <button sc-camel-on-click="{{ pickStandard }}" style="display:flex;flex-direction:column;align-items:center;gap:8px;min-height:48px;padding:clamp(14px, 3vh, 24px) 18px;border:1px solid rgba(243,240,232,0.22);border-radius:18px;background:rgba(10,14,12,0.6);color:#f3f0e8;cursor:pointer;text-align:center;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">
+                <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:clamp(38px, 4vmin + 22px, 52px);color:oklch(0.84 0.14 75)">directions_run</span>
+                <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:24px;letter-spacing:0.04em">Standard</div>
+                <div style="font-size:15px;line-height:1.4;color:rgba(243,240,232,0.82);text-wrap:pretty">The full challenge</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isMissions }}">
+        <div data-pad="missions" style="position:absolute;inset:0;display:flex;justify-content:center;padding:max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));pointer-events:auto;background:rgba(8,12,10,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="display:flex;flex-direction:column;width:100%;max-width:480px;max-height:100%;border-radius:20px;border:1px solid rgba(243,240,232,0.12);background:rgba(14,19,16,0.95);overflow:hidden">
+            <div style="flex:none;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 6px;border-bottom:1px solid rgba(243,240,232,0.1)">
+              <button sc-camel-on-click="{{ back }}" aria-label="Back" style="flex:none;width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#f3f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">arrow_back</span></button>
+              <div style="flex:1;min-width:0;font-family:Oxanium, sans-serif;font-weight:800;font-size:22px;letter-spacing:0.04em">MISSIONS</div>
+              <div style="flex:none;display:flex;align-items:center;gap:4px;min-height:34px;padding:0 12px 0 8px;border-radius:999px;background:rgba(243,240,232,0.08);font-family:Oxanium, sans-serif;font-weight:700;font-size:18px"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:19px;color:oklch(0.86 0.16 160)">bolt</span>{{ wallet }}</div>
+            </div>
+            <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;display:flex;flex-direction:column;gap:12px;padding:14px">
+              <div sc-camel-tab-index="0" style="display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:14px;border:1px solid oklch(0.82 0.15 75 / 0.55);background:oklch(0.82 0.15 75 / 0.08);outline:none">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px">
+                  <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:20px;color:oklch(0.84 0.14 75)">today</span>
+                  <div style="flex:1;font-size:12px;font-weight:700;letter-spacing:0.18em;color:oklch(0.84 0.14 75)">DAILY CHALLENGE</div>
+                  <div style="font-size:12px;font-weight:600;color:rgba(243,240,232,0.75)">{{ daily.resets }}</div>
+                </div>
+                <div style="display:grid;grid-template-columns:minmax(0, 1fr) auto;align-items:center;gap:8px 12px">
+                  <div style="font-size:17px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ daily.text }}</div>
+                  <sc-if value="{{ dailyDone }}">
+                    <div style="display:flex;align-items:center;gap:4px;font-size:13px;font-weight:700;letter-spacing:0.1em;color:oklch(0.86 0.16 160)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:20px">task_alt</span>DONE</div>
+                  </sc-if>
+                  <sc-if value="{{ dailyOpen }}">
+                    <div style="display:flex;align-items:center;gap:1px;font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;color:oklch(0.86 0.16 160)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:18px">bolt</span>+{{ daily.reward }}</div>
+                  </sc-if>
+                  <div style="height:6px;border-radius:3px;background:rgba(243,240,232,0.14);overflow:hidden"><div style="height:100%;width:{{ daily.pct }};background:oklch(0.82 0.15 75)"></div></div>
+                  <div style="font-size:13px;font-weight:600;color:rgba(243,240,232,0.75);font-variant-numeric:tabular-nums">{{ daily.label }}</div>
+                </div>
+                <sc-if value="{{ hasStreak }}"><div style="font-size:13px;color:rgba(243,240,232,0.78)">{{ streakLabel }}</div></sc-if>
+              </div>
+              <div style="padding:6px 2px 0;font-size:12px;font-weight:700;letter-spacing:0.18em;color:rgba(243,240,232,0.72)">MISSIONS</div>
+              <sc-for list="{{ missions }}" as="m" hint-placeholder-count="3">
+                <div sc-camel-tab-index="0" style="display:grid;grid-template-columns:auto minmax(0, 1fr) auto;align-items:center;gap:8px 12px;padding:12px 14px;border-radius:14px;background:rgba(243,240,232,0.06);outline:none">
+                  <span style="grid-row:span 2;font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:24px;color:rgba(243,240,232,0.75)">flag</span>
+                  <div style="font-size:16px;font-weight:600;line-height:1.3;text-wrap:pretty">{{ m.text }}</div>
+                  <div style="display:flex;align-items:center;gap:1px;font-family:Oxanium, sans-serif;font-weight:700;font-size:18px;color:oklch(0.86 0.16 160)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:17px">bolt</span>+{{ m.reward }}</div>
+                  <div style="height:6px;border-radius:3px;background:rgba(243,240,232,0.14);overflow:hidden"><div style="height:100%;width:{{ m.pct }};background:oklch(0.84 0.14 75)"></div></div>
+                  <div style="font-size:13px;font-weight:600;color:rgba(243,240,232,0.75);font-variant-numeric:tabular-nums">{{ m.label }}</div>
+                </div>
+              </sc-for>
+              <div style="padding:4px 2px 2px;font-size:14px;line-height:1.45;color:rgba(243,240,232,0.75);text-wrap:pretty">Missions pay out energy as soon as you finish them, even mid-run. Spend energy on new characters.</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isGarage }}">
+        <div data-pad="garage" style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:{{ garJustify }};align-items:{{ garAlign }};padding:{{ garPad }};pointer-events:auto;background:{{ garBg }}">
+          <div style="display:flex;flex-direction:column;width:100%;max-width:{{ garMaxW }};max-height:{{ garMaxH }};border-radius:20px;border:1px solid rgba(243,240,232,0.12);background:rgba(14,19,16,0.95);overflow:hidden">
+            <div style="flex:none;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 6px;border-bottom:1px solid rgba(243,240,232,0.1)">
+              <button sc-camel-on-click="{{ back }}" aria-label="Back" style="flex:none;width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#f3f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">arrow_back</span></button>
+              <div style="flex:1;min-width:0;font-family:Oxanium, sans-serif;font-weight:800;font-size:22px;letter-spacing:0.04em">CHARACTERS</div>
+              <div style="flex:none;display:flex;align-items:center;gap:4px;min-height:34px;padding:0 12px 0 8px;border-radius:999px;background:rgba(243,240,232,0.08);font-family:Oxanium, sans-serif;font-weight:700;font-size:18px"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:19px;color:oklch(0.86 0.16 160)">bolt</span>{{ wallet }}</div>
+            </div>
+            <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;padding:14px;display:grid;grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));grid-auto-rows:max-content;gap:10px;align-content:start;min-height:0">
+              <sc-for list="{{ skins }}" as="k" hint-placeholder-count="6">
+                <button sc-camel-on-click="{{ k.select }}" aria-pressed="{{ k.ariaSel }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-height:48px;padding:12px;border-radius:14px;border:2px solid {{ k.border }};background:rgba(243,240,232,0.06);color:#f3f0e8;cursor:pointer;text-align:left;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">
+                  <div style="display:flex;gap:4px">
+                    <div style="width:22px;height:22px;border-radius:11px;background:{{ k.body }};box-shadow:inset 0 0 0 1px rgba(0,0,0,0.3)"></div>
+                    <div style="width:22px;height:22px;border-radius:11px;background:{{ k.acc }};box-shadow:inset 0 0 0 1px rgba(0,0,0,0.3)"></div>
+                    <div style="width:22px;height:22px;border-radius:11px;background:{{ k.glow }};box-shadow:inset 0 0 0 1px rgba(0,0,0,0.3)"></div>
+                  </div>
+                  <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:17px">{{ k.name }}</div>
+                  <sc-if value="{{ k.showPrice }}">
+                    <div style="display:flex;align-items:center;gap:2px;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;color:rgba(243,240,232,0.88)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:16px;color:oklch(0.86 0.16 160)">lock</span>{{ k.priceLabel }}</div>
+                  </sc-if>
+                  <sc-if value="{{ k.showStatus }}">
+                    <div style="display:flex;align-items:center;gap:3px;font-size:13px;font-weight:700;letter-spacing:0.08em;color:{{ k.statusColor }}">{{ k.status }}</div>
+                  </sc-if>
+                </button>
+              </sc-for>
+            </div>
+            <div style="flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:12px 14px;border-top:1px solid rgba(243,240,232,0.1)">
+              <button sc-camel-on-click="{{ garageAction }}" disabled="{{ garageDisabled }}" style="flex:1 1 180px;min-height:52px;padding:10px 20px;border:0;border-radius:14px;background:{{ garageBg }};color:{{ garageColor }};font-family:Oxanium, sans-serif;font-weight:800;font-size:17px;line-height:1.2;letter-spacing:0.06em;cursor:pointer">{{ garageLabel }}</button>
+              <div style="flex:1 1 160px;font-size:14px;line-height:1.4;color:rgba(243,240,232,0.8);text-wrap:pretty">{{ garageMsg }}</div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBadges }}">
+        <div data-pad="badges" style="position:absolute;inset:0;display:flex;justify-content:center;padding:max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));pointer-events:auto;background:rgba(8,12,10,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="display:flex;flex-direction:column;width:100%;max-width:640px;max-height:100%;border-radius:20px;border:1px solid rgba(243,240,232,0.12);background:rgba(14,19,16,0.95);overflow:hidden">
+            <div style="flex:none;display:flex;align-items:center;gap:8px;padding:8px 14px 8px 6px;border-bottom:1px solid rgba(243,240,232,0.1)">
+              <button sc-camel-on-click="{{ back }}" aria-label="Back" style="flex:none;width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#f3f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">arrow_back</span></button>
+              <div style="flex:1;min-width:0;font-family:Oxanium, sans-serif;font-weight:800;font-size:22px;letter-spacing:0.04em">BADGES</div>
+              <div style="font-size:14px;font-weight:600;text-align:right;color:rgba(243,240,232,0.78)">{{ badgeCountLabel }}</div>
+            </div>
+            <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;padding:14px;display:grid;grid-template-columns:repeat(auto-fill, minmax(150px, 1fr));gap:10px;align-content:start">
+              <sc-for list="{{ badges }}" as="b" hint-placeholder-count="6">
+                <div sc-camel-tab-index="0" style="display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:14px;border:1px solid {{ b.border }};background:{{ b.bg }};outline:none">
+                  <div style="display:flex;align-items:center;justify-content:space-between">
+                    <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:30px;color:{{ b.color }}">{{ b.icon }}</span>
+                    <sc-if value="{{ b.locked }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:18px;color:rgba(243,240,232,0.55)">lock</span></sc-if>
+                    <sc-if value="{{ b.got }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:20px;color:oklch(0.86 0.16 160)">task_alt</span></sc-if>
+                  </div>
+                  <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:16px;line-height:1.2;color:{{ b.nameColor }}">{{ b.name }}</div>
+                  <div style="font-size:13px;line-height:1.35;color:rgba(243,240,232,0.78);text-wrap:pretty">{{ b.desc }}</div>
+                  <div style="margin-top:auto;display:flex;flex-direction:column;gap:4px;padding-top:4px">
+                    <div style="height:4px;border-radius:2px;background:rgba(243,240,232,0.14);overflow:hidden"><div style="height:100%;width:{{ b.pct }};background:oklch(0.84 0.14 75)"></div></div>
+                    <div style="font-size:12px;font-weight:600;color:rgba(243,240,232,0.72);font-variant-numeric:tabular-nums">{{ b.label }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isKitchen }}">
+        <div data-pad="kitchen" style="position:absolute;inset:0;display:flex;justify-content:center;padding:max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));pointer-events:auto;background:rgba(8,12,10,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="display:flex;flex-direction:column;width:100%;max-width:640px;max-height:100%;border-radius:20px;border:1px solid rgba(243,240,232,0.12);background:rgba(14,19,16,0.95);overflow:hidden">
+            <div style="flex:none;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 6px;border-bottom:1px solid rgba(243,240,232,0.1)">
+              <button sc-camel-on-click="{{ back }}" aria-label="Back" style="flex:none;width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#f3f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">arrow_back</span></button>
+              <div style="flex:1;min-width:0;font-family:Oxanium, sans-serif;font-weight:800;font-size:22px;letter-spacing:0.04em">KITCHEN</div>
+              <div style="flex:none;display:flex;align-items:center;gap:4px;min-height:34px;padding:0 12px 0 8px;border-radius:999px;background:rgba(243,240,232,0.08);font-family:Oxanium, sans-serif;font-weight:700;font-size:18px"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:19px;color:oklch(0.86 0.16 160)">bolt</span>{{ wallet }}</div>
+            </div>
+            <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;display:flex;flex-direction:column;gap:12px;padding:14px">
+              <sc-if value="{{ hasKitMsg }}"><div style="padding:12px 14px;border-radius:14px;background:oklch(0.82 0.15 75 / 0.1);border:1px solid oklch(0.82 0.15 75 / 0.4);font-size:14px;line-height:1.4;text-wrap:pretty">{{ kitMsg }}</div></sc-if>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;padding:2px 2px 0"><div style="font-size:12px;font-weight:700;letter-spacing:0.18em;color:rgba(243,240,232,0.72)">🎒 BACKPACK</div><div style="font-size:13px;font-weight:600;color:rgba(243,240,232,0.78)">{{ kitSlots }}</div></div>
+              <sc-if value="{{ kitEmpty }}"><div style="padding:12px 14px;border-radius:14px;background:rgba(243,240,232,0.05);font-size:14px;line-height:1.45;color:rgba(243,240,232,0.78);text-wrap:pretty">Empty. Run in the Malabar world and grab coconuts, rice, ghee, spice, tea, plantain, jaggery, and in Wayanad coffee, pepper and cardamom. They go into your backpack when the run ends.</div></sc-if>
+              <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(104px, 1fr));gap:8px">
+                <sc-for list="{{ kitIngredients }}" as="i" hint-placeholder-count="4">
+                  <div sc-camel-tab-index="0" style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 6px;border-radius:14px;background:rgba(243,240,232,0.06);outline:none;text-align:center">
+                    <div style="font-size:30px;line-height:1.1">{{ i.emoji }}</div>
+                    <div style="font-size:13px;font-weight:600;line-height:1.2">{{ i.name }}</div>
+                    <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:15px;color:oklch(0.84 0.14 75)">{{ i.nLabel }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ kitHasMeals }}"><div style="padding:6px 2px 0;font-size:12px;font-weight:700;letter-spacing:0.18em;color:rgba(243,240,232,0.72)">MEALS · PACK ONE FOR YOUR NEXT RUN</div></sc-if>
+              <sc-for list="{{ kitMeals }}" as="m" hint-placeholder-count="1">
+                <button sc-camel-on-click="{{ m.pick }}" aria-pressed="{{ m.ariaPacked }}" style="display:grid;grid-template-columns:auto minmax(0, 1fr) auto;align-items:center;gap:2px 12px;padding:12px 14px;border-radius:14px;border:2px solid {{ m.border }};background:rgba(243,240,232,0.06);color:#f3f0e8;cursor:pointer;text-align:left;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">
+                  <div style="grid-row:span 2;font-size:30px;line-height:1">{{ m.emoji }}</div>
+                  <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:17px">{{ m.name }} <span style="color:oklch(0.84 0.14 75)">{{ m.nLabel }}</span></div>
+                  <div style="grid-row:span 2;font-size:12px;font-weight:700;letter-spacing:0.1em;color:{{ m.statusColor }}">{{ m.status }}</div>
+                  <div style="font-size:13px;color:rgba(243,240,232,0.78)">{{ m.desc }}</div>
+                </button>
+              </sc-for>
+              <div style="padding:6px 2px 0;font-size:12px;font-weight:700;letter-spacing:0.18em;color:rgba(243,240,232,0.72)">RECIPES</div>
+              <sc-for list="{{ kitRecipes }}" as="r" hint-placeholder-count="4">
+                <div sc-camel-tab-index="0" style="display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:rgba(243,240,232,0.06);outline:none">
+                  <div style="display:flex;align-items:center;gap:10px"><div style="font-size:28px;line-height:1">{{ r.emoji }}</div><div style="flex:1;min-width:0"><div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:17px">{{ r.name }}</div><div style="font-size:13px;color:rgba(243,240,232,0.78)">{{ r.desc }}</div></div></div>
+                  <div style="display:flex;flex-wrap:wrap;gap:6px">
+                    <sc-for list="{{ r.need }}" as="x"><div style="padding:4px 10px;border-radius:999px;background:rgba(243,240,232,0.08);font-size:14px;font-weight:600;color:{{ x.color }}">{{ x.label }}</div></sc-for>
+                  </div>
+                  <button sc-camel-on-click="{{ r.cook }}" disabled="{{ r.disabled }}" style="min-height:44px;padding:8px 18px;border:0;border-radius:12px;background:{{ r.bg }};color:{{ r.fg }};font-family:Oxanium, sans-serif;font-weight:800;font-size:15px;letter-spacing:0.06em;cursor:pointer;touch-action:manipulation">{{ r.label }}</button>
+                </div>
+              </sc-for>
+              <sc-if value="{{ kitCanUpgrade }}"><button sc-camel-on-click="{{ kitUpgrade }}" disabled="{{ kitUpgradeOff }}" style="min-height:48px;padding:10px 16px;border:1px solid rgba(243,240,232,0.2);border-radius:14px;background:rgba(243,240,232,0.06);color:{{ kitUpgradeFg }};font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation">🎒 {{ kitUpgradeLabel }}</button></sc-if>
+              <sc-if value="{{ kitUmbrella }}"><div style="padding:2px 2px 0;font-size:14px;line-height:1.45;color:rgba(243,240,232,0.78);text-wrap:pretty">☂️ Umbrella: it opens by itself when you fall, so you float down gently. Slide in the air to close it.</div></sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isShop }}">
+        <div data-pad="shop" style="position:absolute;inset:0;display:flex;justify-content:center;padding:max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));pointer-events:auto;background:rgba(8,12,10,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="display:flex;flex-direction:column;width:100%;max-width:560px;max-height:100%;border-radius:20px;border:1px solid rgba(243,240,232,0.12);background:rgba(14,19,16,0.95);overflow:hidden">
+            <div style="flex:none;display:flex;align-items:center;gap:8px;padding:8px 12px 8px 6px;border-bottom:1px solid rgba(243,240,232,0.1)">
+              <button sc-camel-on-click="{{ back }}" aria-label="Back" style="flex:none;width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#f3f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">arrow_back</span></button>
+              <div style="flex:1;min-width:0"><div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:20px;letter-spacing:0.04em;text-transform:uppercase;line-height:1.15">{{ shopEmoji }} {{ shopTitle }}</div><div style="font-size:13px;color:rgba(243,240,232,0.72)">{{ shopLocal }}</div></div>
+              <div style="flex:none;display:flex;flex-direction:column;gap:4px;align-items:flex-end">
+                <div aria-label="Cash" style="display:flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border-radius:999px;background:rgba(243,240,232,0.08);font-family:Oxanium, sans-serif;font-weight:700;font-size:15px"><div style="width:17px;height:17px;border-radius:9px;background:#f2c46b;box-shadow:inset 0 0 0 2px #c9922f;color:#5a3a08;font:800 11px/17px Oxanium, sans-serif;text-align:center">₹</div>{{ shopCash }}</div>
+                <div aria-label="GPay balance" style="display:flex;align-items:center;gap:6px;min-height:30px;padding:0 10px;border-radius:999px;background:rgba(243,240,232,0.08);font-family:Oxanium, sans-serif;font-weight:700;font-size:15px;min-height:26px;font-size:13px"><span style="color:#8fc8ff">GPay</span> ₹{{ shopUpi }}</div>
+              </div>
+            </div>
+            <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;display:flex;flex-direction:column;gap:10px;padding:14px">
+              <sc-if value="{{ hasShopMsg }}"><div style="padding:12px 14px;border-radius:14px;background:oklch(0.82 0.15 75 / 0.1);border:1px solid oklch(0.82 0.15 75 / 0.4);font-size:14px;line-height:1.4;text-wrap:pretty">{{ shopMsg }}</div></sc-if>
+
+              <sc-if value="{{ shopIsReceipt }}">
+                <div style="padding:16px;border-radius:14px;background:#f4efdc;color:#2a2418;display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px"><div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:18px;letter-spacing:0.06em">{{ rcTitle }} {{ rcNo }}</div><div style="font-size:12px;color:#6a5a3a;text-align:right">{{ rcDate }}</div></div>
+                  <div style="font-size:14px;font-weight:700">{{ rcShop }}</div>
+                  <div style="border-top:1px dashed #8a7a5a;margin:4px 0"></div>
+                  <sc-for list="{{ rcLines }}" as="l" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:10px;font-size:14px"><span>{{ l.text }}</span><span style="font-variant-numeric:tabular-nums">{{ l.amount }}</span></div></sc-for>
+                  <div style="display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:700"><span>{{ totalLabel }}</span><span style="font-variant-numeric:tabular-nums">{{ rcSubtotal }}</span></div>
+                  <sc-for list="{{ rcCredits }}" as="c" hint-placeholder-count="1"><div style="display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#4a6a3a"><span>{{ c.text }}</span><span style="font-variant-numeric:tabular-nums">{{ c.amount }}</span></div></sc-for>
+                  <div style="border-top:1px dashed #8a7a5a;margin:4px 0"></div>
+                  <div style="font-size:14px;font-weight:700">{{ rcPaid }}</div>
+                  <sc-if value="{{ rcHasNoChange }}"><div style="font-size:12px;color:#6a5a3a">{{ rcNoChange }}</div></sc-if>
+                  <div style="font-size:13px;color:#6a5a3a;margin-top:2px">Thank you · നന്ദി</div>
+                </div>
+                <sc-if value="{{ hasBillsToggle }}"><button sc-camel-on-click="{{ toggleBills }}" style="min-height:44px;padding:8px 14px;border:1px solid rgba(243,240,232,0.2);border-radius:12px;background:transparent;color:#f3f0e8;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;letter-spacing:0.05em;cursor:pointer;touch-action:manipulation">{{ billsToggleLabel }}</button></sc-if>
+                <sc-if value="{{ billsOpen }}"><div style="display:flex;flex-direction:column;gap:6px"><sc-for list="{{ billsList }}" as="b" hint-placeholder-count="3"><div sc-camel-on-click="{{ b.open }}" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 8px;padding:10px 12px;border-radius:10px;background:rgba(243,240,232,0.06);font-size:13px;cursor:pointer;touch-action:manipulation"><span style="min-width:0">{{ b.text }}</span><span style="color:rgba(243,240,232,0.6);white-space:nowrap;margin-left:auto">{{ b.when }}</span></div></sc-for></div></sc-if>
+              </sc-if>
+
+              <sc-if value="{{ shopNotReceipt }}">
+                <div style="padding:0 2px;font-size:14px;line-height:1.45;color:rgba(243,240,232,0.78);text-wrap:pretty">{{ shopBlurb }}</div>
+                <sc-if value="{{ hasSellAll }}"><button sc-camel-on-click="{{ sellAll }}" style="min-height:44px;padding:8px 14px;border:1px solid rgba(154,184,138,0.5);border-radius:12px;background:rgba(154,184,138,0.12);color:#d8ecc8;font-family:Oxanium, sans-serif;font-weight:800;font-size:14px;letter-spacing:0.05em;cursor:pointer;touch-action:manipulation">SELL EVERYTHING I HAVE</button></sc-if>
+                <sc-for list="{{ shopItems }}" as="i" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:auto minmax(0, 1fr) auto;align-items:center;gap:4px 12px;padding:12px 14px;border-radius:14px;background:rgba(243,240,232,0.06)">
+                    <div style="grid-row:span 2;font-size:28px;line-height:1">{{ i.emoji }}</div>
+                    <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:16px">{{ i.name }} <span style="font-size:13px;font-weight:500;color:rgba(243,240,232,0.62)">{{ i.local }}</span></div>
+                    <div style="grid-row:span 2;display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+                      <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:16px">{{ i.price }}</div>
+                      <sc-if value="{{ i.buyable }}"><div style="display:flex;align-items:center;gap:6px">
+                        <button sc-camel-on-click="{{ i.minus }}" disabled="{{ i.minusOff }}" aria-label="One less" style="width:40px;height:40px;border:0;border-radius:12px;color:#f3f0e8;font-size:22px;font-weight:800;cursor:pointer;touch-action:manipulation;padding:0;background:{{ i.minusBg }}">−</button>
+                        <div style="min-width:24px;text-align:center;font-family:Oxanium, sans-serif;font-weight:800;font-size:18px">{{ i.qty }}</div>
+                        <button sc-camel-on-click="{{ i.plus }}" disabled="{{ i.plusOff }}" aria-label="One more" style="width:40px;height:40px;border:0;border-radius:12px;color:#f3f0e8;font-size:22px;font-weight:800;cursor:pointer;touch-action:manipulation;padding:0;background:{{ i.plusBg }};color:{{ i.plusFg }}">+</button>
+                      </div></sc-if>
+                      <sc-if value="{{ i.owned }}"><div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:13px;letter-spacing:0.08em;color:rgba(243,240,232,0.6)">OWNED</div></sc-if>
+                    </div>
+                    <div style="font-size:13px;color:rgba(243,240,232,0.78)">{{ i.desc }}</div>
+                  </div>
+                </sc-for>
+
+                <sc-if value="{{ canBarter }}">
+                  <button sc-camel-on-click="{{ toggleBarter }}" style="min-height:44px;padding:8px 14px;border:1px solid rgba(243,240,232,0.2);border-radius:12px;background:{{ barterBtnBg }};color:#f3f0e8;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;letter-spacing:0.05em;cursor:pointer;text-align:left;touch-action:manipulation">{{ barterToggle }}</button>
+                  <sc-if value="{{ barterOpen }}"><div style="display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:14px;background:rgba(143,200,255,0.07);border:1px solid rgba(143,200,255,0.25)">
+                    <div style="font-size:13px;line-height:1.4;color:rgba(243,240,232,0.78)">{{ barterNote }}</div>
+                    <sc-if value="{{ barterEmpty }}"><div style="font-size:13px;color:rgba(243,240,232,0.6)">You have nothing this shop takes. Pick up ingredients around town or on a run.</div></sc-if>
+                    <sc-for list="{{ barterItems }}" as="g" hint-placeholder-count="2"><div style="display:flex;align-items:center;gap:10px"><div style="font-size:22px">{{ g.emoji }}</div><div style="flex:1;min-width:0;font-size:14px"><div style="font-weight:700">{{ g.name }}</div><div style="font-size:12px;color:rgba(243,240,232,0.62)">you have {{ g.have }} · worth {{ g.each }} each here</div></div>
+                      <button sc-camel-on-click="{{ g.minus }}" disabled="{{ g.minusOff }}" aria-label="Offer one less" style="width:40px;height:40px;border:0;border-radius:12px;color:#f3f0e8;font-size:22px;font-weight:800;cursor:pointer;touch-action:manipulation;padding:0;background:{{ g.minusBg }}">−</button>
+                      <div style="min-width:24px;text-align:center;font-family:Oxanium, sans-serif;font-weight:800;font-size:18px">{{ g.offered }}</div>
+                      <button sc-camel-on-click="{{ g.plus }}" disabled="{{ g.plusOff }}" aria-label="Offer one more" style="width:40px;height:40px;border:0;border-radius:12px;color:#f3f0e8;font-size:22px;font-weight:800;cursor:pointer;touch-action:manipulation;padding:0;background:{{ g.plusBg }};color:{{ g.plusFg }}">+</button></div></sc-for>
+                  </div></sc-if>
+                </sc-if>
+
+                <sc-if value="{{ hasBill }}"><div style="padding:14px;border-radius:14px;background:#f4efdc;color:#2a2418;display:flex;flex-direction:column;gap:5px">
+                  <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:13px;letter-spacing:0.12em;color:#6a5a3a">YOUR BILL</div>
+                  <sc-for list="{{ billLines }}" as="l" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:10px;font-size:14px"><span>{{ l.text }}</span><span style="font-variant-numeric:tabular-nums">{{ l.amount }}</span></div></sc-for>
+                  <div style="border-top:1px dashed #8a7a5a;margin:3px 0"></div>
+                  <div style="display:flex;justify-content:space-between;gap:10px;font-size:14px"><span>{{ totalLabel }}</span><span style="font-variant-numeric:tabular-nums">{{ billSub }}</span></div>
+                  <sc-for list="{{ creditRows }}" as="c" hint-placeholder-count="1"><div style="display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#4a6a3a"><span>{{ c.text }}</span><span style="font-variant-numeric:tabular-nums">{{ c.amount }}</span></div></sc-for>
+                  <div style="display:flex;justify-content:space-between;gap:10px;font-size:17px;font-weight:800;font-family:Oxanium, sans-serif"><span>{{ billDueLabel }}</span><span style="font-variant-numeric:tabular-nums">{{ billDue }}</span></div>
+                </div></sc-if>
+
+                <sc-if value="{{ hasProblems }}"><div style="display:flex;flex-direction:column;gap:4px"><sc-for list="{{ problems }}" as="p" hint-placeholder-count="1"><div style="padding:8px 12px;border-radius:10px;background:oklch(0.78 0.15 30 / 0.12);border:1px solid oklch(0.78 0.15 30 / 0.4);font-size:13px">{{ p.text }}</div></sc-for></div></sc-if>
+
+                <sc-if value="{{ showPay }}"><div style="display:flex;flex-direction:column;gap:8px">
+                  <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:12px;letter-spacing:0.12em;color:rgba(243,240,232,0.6)">PAY WITH</div>
+                  <div style="display:flex;gap:8px">
+                    <sc-if value="{{ showCash }}"><button sc-camel-on-click="{{ pickCash }}" style="flex:1;min-height:48px;padding:8px 10px;border:0;border-radius:12px;background:{{ cashBg }};color:{{ cashFg }};font-family:Oxanium, sans-serif;font-weight:800;font-size:15px;cursor:pointer;touch-action:manipulation">CASH · ₹{{ shopCash }}</button></sc-if>
+                    <sc-if value="{{ showUpi }}"><button sc-camel-on-click="{{ pickUpi }}" style="flex:1;min-height:48px;padding:8px 10px;border:0;border-radius:12px;background:{{ upiBg }};color:{{ upiFg }};font-family:Oxanium, sans-serif;font-weight:800;font-size:15px;cursor:pointer;touch-action:manipulation">GPAY · ₹{{ shopUpi }}</button></sc-if>
+                  </div>
+                  <sc-if value="{{ showUpi }}"><div style="display:flex;gap:8px;align-items:center"><div style="flex:1;font-size:12px;color:rgba(243,240,232,0.62)">Add cash to your GPay balance:</div>
+                    <button sc-camel-on-click="{{ topUp50 }}" style="min-height:40px;padding:6px 14px;border:1px solid rgba(143,200,255,0.5);border-radius:10px;background:transparent;color:#8fc8ff;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;cursor:pointer;touch-action:manipulation">+ ₹50</button>
+                    <button sc-camel-on-click="{{ topUp100 }}" style="min-height:40px;padding:6px 14px;border:1px solid rgba(143,200,255,0.5);border-radius:10px;background:transparent;color:#8fc8ff;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;cursor:pointer;touch-action:manipulation">+ ₹100</button></div></sc-if>
+                </div></sc-if>
+              </sc-if>
+            </div>
+            <div style="flex:none;display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-top:1px solid rgba(243,240,232,0.1)">
+              <sc-if value="{{ shopNotReceipt }}"><button sc-camel-on-click="{{ payNow }}" disabled="{{ payOff }}" style="width:100%;min-height:52px;padding:10px 20px;border:0;border-radius:14px;background:{{ payBg }};color:{{ payFg }};font-family:Oxanium, sans-serif;font-weight:800;font-size:17px;letter-spacing:0.06em;cursor:pointer;touch-action:manipulation">{{ payLabel }}</button></sc-if>
+              <button sc-camel-on-click="{{ back }}" style="width:100%;min-height:48px;padding:8px 20px;border:1px solid rgba(243,240,232,0.25);border-radius:14px;background:transparent;color:#f3f0e8;font-family:Oxanium, sans-serif;font-weight:800;font-size:15px;letter-spacing:0.06em;cursor:pointer;touch-action:manipulation">{{ leaveLabel }}</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSettings }}">
+        <div data-pad="settings" style="position:absolute;inset:0;display:flex;justify-content:center;padding:max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));pointer-events:auto;background:rgba(8,12,10,0.64);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="display:flex;flex-direction:column;width:100%;max-width:480px;max-height:100%;border-radius:20px;border:1px solid rgba(243,240,232,0.12);background:rgba(14,19,16,0.96);overflow:hidden">
+            <div style="flex:none;display:flex;flex-direction:column;gap:8px;padding:8px 12px 10px 6px;border-bottom:1px solid rgba(243,240,232,0.1)">
+              <div style="display:flex;align-items:center;gap:8px">
+                <button sc-camel-on-click="{{ back }}" aria-label="Back" style="flex:none;width:48px;height:48px;border:0;border-radius:12px;background:transparent;color:#f3f0e8;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">arrow_back</span></button>
+                <div style="flex:1;font-family:Oxanium, sans-serif;font-weight:800;font-size:22px;letter-spacing:0.04em">SETTINGS</div>
+              </div>
+              <div role="tablist" style="display:flex;gap:6px;overflow-x:auto;overscroll-behavior:contain;touch-action:pan-x;padding:0 0 2px 6px">
+                <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+                  <button sc-camel-on-click="{{ t.pick }}" role="tab" aria-selected="{{ t.ariaOn }}" style="flex:none;min-height:48px;padding:0 16px;border-radius:999px;border:1px solid {{ t.border }};background:{{ t.bg }};color:{{ t.color }};font-size:15px;font-weight:700;cursor:pointer;touch-action:manipulation">{{ t.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;padding:2px 16px 16px">
+              <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex;flex-direction:column;gap:10px;padding:12px 0;border-top:1px solid rgba(243,240,232,0.08)">
+                  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                    <div style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                      <div style="font-size:16px;font-weight:600;line-height:1.3">{{ r.label }}</div>
+                      <sc-if value="{{ r.desc }}"><div style="font-size:13px;line-height:1.4;color:rgba(243,240,232,0.75);text-wrap:pretty">{{ r.desc }}</div></sc-if>
+                    </div>
+                    <sc-if value="{{ r.isToggle }}">
+                      <button sc-camel-on-click="{{ r.toggle }}" role="switch" aria-checked="{{ r.ariaOn }}" aria-label="{{ r.label }}" style="flex:none;width:60px;height:48px;border:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:manipulation"><div style="width:54px;height:32px;border-radius:16px;padding:3px;box-sizing:border-box;display:flex;align-items:center;justify-content:{{ r.justify }};background:{{ r.track }}"><div style="width:26px;height:26px;border-radius:13px;background:#f3f0e8;box-shadow:0 1px 3px rgba(0,0,0,0.35)"></div></div></button>
+                    </sc-if>
+                    <sc-if value="{{ r.isButton }}">
+                      <button sc-camel-on-click="{{ r.onClick }}" style="flex:none;min-height:48px;padding:8px 16px;border:1px solid rgba(243,240,232,0.25);border-radius:12px;background:rgba(10,14,12,0.5);color:#f3f0e8;font-size:14px;font-weight:600;line-height:1.25;cursor:pointer;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">{{ r.btn }}</button>
+                    </sc-if>
+                    <sc-if value="{{ r.isValue }}">
+                      <div style="flex:none;font-family:Oxanium, sans-serif;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums;color:rgba(243,240,232,0.92)">{{ r.valueLabel }}</div>
+                    </sc-if>
+                  </div>
+                  <sc-if value="{{ r.isSeg }}">
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      <sc-for list="{{ r.options }}" as="o">
+                        <button sc-camel-on-click="{{ o.pick }}" aria-pressed="{{ o.ariaOn }}" style="flex:1 1 auto;min-height:48px;padding:6px 14px;border-radius:12px;border:1px solid {{ o.border }};background:{{ o.bg }};color:{{ o.color }};font-size:14px;font-weight:700;line-height:1.2;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;touch-action:manipulation">
+                          <sc-if value="{{ o.on }}"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:18px">check</span></sc-if>
+                          {{ o.label }}
+                        </button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ r.isSlider }}">
+                    <input type="range" min="0" max="100" step="5" value="{{ r.num }}" sc-camel-on-change="{{ r.onInput }}" aria-label="{{ r.label }}" style="width:100%;height:32px;margin:0;accent-color:oklch(0.82 0.15 75);cursor:pointer;touch-action:pan-x">
+                  </sc-if>
+                  <sc-if value="{{ r.isKeys }}">
+                    <div style="display:flex;flex-wrap:wrap;gap:6px">
+                      <sc-for list="{{ r.keys }}" as="k">
+                        <button sc-camel-on-click="{{ k.rebind }}" aria-label="{{ k.aria }}" style="min-width:48px;min-height:48px;padding:4px 12px;border-radius:10px;border:1px solid {{ k.border }};border-bottom-width:3px;background:{{ k.bg }};color:#f3f0e8;font-family:Oxanium, sans-serif;font-weight:700;font-size:14px;line-height:1.2;cursor:pointer">{{ k.label }}</button>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ r.isCode }}">
+                    <textarea sc-camel-read-only="{{ r.readOnly }}" value="{{ r.code }}" sc-camel-on-change="{{ r.onCode }}" placeholder="{{ r.placeholder }}" rows="3" aria-label="{{ r.label }}" style="width:100%;box-sizing:border-box;resize:none;border-radius:10px;border:1px solid rgba(243,240,232,0.2);background:rgba(0,0,0,0.35);color:#f3f0e8;font:13px/1.4 ui-monospace, Menlo, Consolas, monospace;padding:10px;word-break:break-all;user-select:text;-webkit-user-select:text;touch-action:pan-y"></textarea>
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+                      <button sc-camel-on-click="{{ r.codeAction }}" style="min-height:48px;padding:8px 18px;border:1px solid rgba(243,240,232,0.25);border-radius:12px;background:rgba(10,14,12,0.5);color:#f3f0e8;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px" style-hover="background:rgba(243,240,232,0.1)">{{ r.codeBtn }}</button>
+                      <div style="font-size:13px;font-weight:600;color:{{ r.msgColor }}">{{ r.msg }}</div>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isPausedView }}">
+        <div data-pad="pause" style="position:absolute;inset:0;display:flex;padding:max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;pointer-events:auto;background:rgba(8,12,10,0.62);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)">
+          <div style="margin:auto;display:flex;flex-direction:column;align-items:stretch;gap:10px;width:100%;max-width:480px">
+            <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:clamp(30px, 3vmin + 18px, 44px);line-height:1.1;letter-spacing:0.06em;text-align:center;margin-bottom:6px">PAUSED</div>
+            <button sc-camel-on-click="{{ resume }}" style="min-height:56px;padding:10px 20px;border:0;border-radius:14px;background:oklch(0.82 0.15 75);color:#14110a;font-family:Oxanium, sans-serif;font-weight:800;font-size:19px;line-height:1.15;letter-spacing:0.08em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;touch-action:manipulation" style-hover="background:oklch(0.87 0.14 80)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">play_arrow</span>RESUME</button>
+            <button sc-camel-on-click="{{ start }}" style="min-height:48px;padding:10px 18px;border:1px solid rgba(243,240,232,0.25);border-radius:14px;background:rgba(10,14,12,0.5);color:#f3f0e8;font-size:16px;font-weight:600;line-height:1.25;cursor:pointer;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">Restart run</button>
+            <sc-if value="{{ canEndRun }}">
+              <button sc-camel-on-click="{{ endRun }}" style="min-height:48px;padding:10px 18px;border:1px solid rgba(243,240,232,0.25);border-radius:14px;background:rgba(10,14,12,0.5);color:#f3f0e8;font-size:16px;font-weight:600;line-height:1.25;cursor:pointer;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)">Finish run and see results</button>
+            </sc-if>
+            <button sc-camel-on-click="{{ openSettings }}" style="min-height:48px;padding:10px 18px;border:1px solid rgba(243,240,232,0.25);border-radius:14px;background:rgba(10,14,12,0.5);color:#f3f0e8;font-size:16px;font-weight:600;line-height:1.25;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;touch-action:manipulation" style-hover="background:rgba(243,240,232,0.1)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:22px">settings</span>Settings</button>
+            <button sc-camel-on-click="{{ quit }}" style="min-height:48px;padding:8px 16px;border:0;background:transparent;color:rgba(243,240,232,0.8);font-size:15px;font-weight:600;cursor:pointer;touch-action:manipulation">Back to title</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isOverView }}">
+        <div data-pad="over" style="position:absolute;inset:0;display:flex;padding:max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;touch-action:pan-y;pointer-events:auto;background:rgba(8,12,10,0.66);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">
+          <div style="margin:auto;display:grid;grid-template-columns:{{ overCols }};align-items:center;gap:14px 28px;width:100%;max-width:{{ overMax }}">
+            <div style="display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0;text-align:center">
+              <sc-if value="{{ overKids }}">
+                <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:clamp(34px, 3vmin + 24px, 48px);line-height:1.1;letter-spacing:0.02em;color:oklch(0.84 0.14 75)">Try again!</div>
+              </sc-if>
+              <sc-if value="{{ overStandard }}">
+                <div style="font-size:13px;font-weight:700;letter-spacing:0.32em;color:oklch(0.72 0.17 30)">SYSTEM FAILURE</div>
+              </sc-if>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:2px">
+                <div style="font-family:Oxanium, sans-serif;font-weight:800;font-size:clamp(52px, 5vmin + 34px, 80px);line-height:1;font-variant-numeric:tabular-nums">{{ score }}</div>
+                <div style="font-size:13px;font-weight:600;letter-spacing:0.16em;color:rgba(243,240,232,0.75)">SCORE</div>
+              </div>
+              <sc-if value="{{ newBest }}">
+                <div style="display:flex;align-items:center;gap:5px;padding:6px 14px 6px 10px;border-radius:999px;background:oklch(0.82 0.15 75);color:#14110a;font-size:13px;font-weight:700;letter-spacing:0.14em"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:18px">star</span>NEW BEST</div>
+              </sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:stretch;gap:10px;min-width:0">
+              <div style="display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px">
+                <sc-for list="{{ overStats }}" as="st" hint-placeholder-count="6">
+                  <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:10px 4px;border-radius:12px;background:rgba(10,14,12,0.55);text-align:center">
+                    <div style="font-family:Oxanium, sans-serif;font-weight:700;font-size:clamp(18px, 1vmin + 14px, 24px);font-variant-numeric:tabular-nums">{{ st.v }}</div>
+                    <div style="font-size:12px;font-weight:600;letter-spacing:0.12em;color:rgba(243,240,232,0.75)">{{ st.l }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ hasEarned }}">
+                <div style="display:flex;flex-direction:column;gap:8px;padding:12px 14px;border-radius:14px;background:rgba(10,14,12,0.55)">
+                  <div style="display:flex;align-items:center;gap:6px;font-size:15px;font-weight:600"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:20px;color:oklch(0.86 0.16 160)">bolt</span>{{ earnedLabel }}</div>
+                  <sc-if value="{{ hasCoinsEarned }}"><div style="display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600"><div style="width:15px;height:15px;margin:0 2px 0 3px;border-radius:8px;background:#f2c46b;box-shadow:inset 0 0 0 3px #c9922f"></div>{{ coinsEarnedLabel }}</div></sc-if>
+                  <sc-for list="{{ events }}" as="e">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:14px">
+                      <span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:20px;color:oklch(0.84 0.14 75)">{{ e.icon }}</span>
+                      <div style="flex:1;min-width:0;line-height:1.35;text-wrap:pretty"><span style="font-size:12px;font-weight:700;letter-spacing:0.12em;color:oklch(0.84 0.14 75)">{{ e.kind }}</span> {{ e.text }}</div>
+                      <sc-if value="{{ e.hasReward }}"><div style="font-family:Oxanium, sans-serif;font-weight:700;color:oklch(0.86 0.16 160)">{{ e.reward }}</div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ hasHaul }}">
+                <div style="display:flex;flex-direction:column;gap:6px;padding:12px 14px;border-radius:14px;background:rgba(10,14,12,0.55);font-size:15px;font-weight:600">
+                  <sc-if value="{{ hasHaulAdded }}"><div>🎒 Added to your backpack: {{ haulAdded }}</div></sc-if>
+                  <sc-if value="{{ hasHaulLost }}"><div style="color:oklch(0.78 0.15 30)">Backpack full, left behind: {{ haulLost }}</div></sc-if>
+                  <sc-if value="{{ hasHaulUnlock }}"><div>🎉 New character unlocked: {{ haulUnlock }}</div></sc-if>
+                </div>
+              </sc-if>
+              <button sc-camel-on-click="{{ start }}" style="min-height:56px;padding:10px 20px;border:0;border-radius:14px;background:oklch(0.82 0.15 75);color:#14110a;font-family:Oxanium, sans-serif;font-weight:800;font-size:20px;line-height:1.15;letter-spacing:0.08em;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;touch-action:manipulation" style-hover="background:oklch(0.87 0.14 80)" style-active="transform:scale(0.97)"><span style="font-family:'Material Symbols Rounded';font-weight:400;font-style:normal;line-height:1;letter-spacing:normal;white-space:nowrap;direction:ltr;font-variation-settings:'FILL' 1;font-size:26px">replay</span>RUN AGAIN</button>
+              <button sc-camel-on-click="{{ quit }}" style="min-height:48px;padding:8px 16px;border:0;background:transparent;color:rgba(243,240,232,0.8);font-size:15px;font-weight:600;cursor:pointer;touch-action:manipulation">Back to title</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasRing }}">
+    <div style="position:fixed;left:{{ ring.left }};top:{{ ring.top }};width:{{ ring.width }};height:{{ ring.height }};box-sizing:border-box;border:3px solid oklch(0.88 0.14 82);border-radius:16px;box-shadow:0 0 0 3px rgba(8,12,10,0.65);pointer-events:none"></div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;startZone&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Temple Ruins&quot;,&quot;River Crossing&quot;,&quot;Crystal Caves&quot;,&quot;Ice Temple&quot;,&quot;Volcano&quot;,&quot;Sky Ruins&quot;],&quot;default&quot;:&quot;Temple Ruins&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Review&quot;},&quot;freshPlayer&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review&quot;},&quot;unlockAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review&quot;}}">
+class Component extends DCLogic {
+  static KEYS = { left: ['ArrowLeft', 'a'], right: ['ArrowRight', 'd'], jump: ['ArrowUp', 'w', ' '], slide: ['ArrowDown', 's'], pause: ['p', 'Escape'], attackL: ['q', 'j'], attackR: ['e', 'k'] };
+  static ZONES = { 'Temple Ruins': 0, 'River Crossing': 1, 'Crystal Caves': 2, 'Ice Temple': 3, 'Volcano': 4, 'Sky Ruins': 5 };
+  state = {
+    screen: 'loading', score: 0, dist: 0, cells: 0, lives: 3, unlimited: false, best: 0, newBest: false, zone: 0,
+    magnet: 0, shield: 0, mult: 0, jet: 0, toast: '', hint: '', caption: '', notice: '', tut: null,
+    muted: false, voice: true, vol: { music: 0.7, sfx: 0.8, voice: 1 }, music: 0, touch: false, input: 'keys', pad: false, quality: 'High', coins: 0, coinsTotal: 0, cb: null, run: null,
+    set: this.loadSettings(), prog: null, menu: null, tab: 'game', award: null, results: null, rebind: null,
+    backup: '', restore: '', restoreMsg: '', restoreOk: false, copyMsg: '', sel: null, garageMsg: '', ring: null, resetArm: false, kit: null, kitMsg: '', foodMsg: '', haul: null, shop: null,
+    vw: window.innerWidth, vh: window.innerHeight, fs: false, tip: false
+  };
+  mountRef = React.createRef();
+  uiRef = React.createRef();
+  awardQ = [];
+
+  loadSettings() {
+    let s = {};
+    try { s = JSON.parse(localStorage.getItem('runaway.settings') || '{}') || {}; } catch (e) {}
+    const rm = !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+    const st = Object.assign({ player: null, difficulty: 'Moderate', unlimited: true, quality: 'Auto', reduceMotion: rm, textSize: 1, subtitles: false, scheme: 'standard', keymap: null, combat: true, world: 'malabar' }, s);
+    if (!st.worldPicked) st.world = 'malabar';   // until the player chooses a world themselves, the Malabar world is the default (old saved settings only held a placeholder)
+    return st;
+  }
+  saveSettings(s) { try { localStorage.setItem('runaway.settings', JSON.stringify(s)); } catch (e) {} }
+  zoneStart() { return Component.ZONES[this.props.startZone] || 0; }
+  review() { return this.zoneStart() > 0; }
+  engineOpts(s) {
+    const kids = s.player === 'kids';
+    return { quality: s.quality, difficulty: s.difficulty, assist: kids, unlimited: kids && !!s.unlimited, reduceMotion: !!s.reduceMotion, scheme: s.scheme, keymap: Object.assign({}, Component.KEYS, s.keymap || {}), startZone: this.zoneStart(), combat: s.combat !== false, world: s.world, pack: this.packInfo(s) };
+  }
+  /* what the character carries on their back: slot count and up to three ingredients poking out (Malabar world only) */
+  packInfo(s) {
+    const K = window.RoboKitchen; if (!K || s.world !== 'malabar') return null;
+    const sn = K.snapshot(); return { cap: sn.cap, ids: sn.ingredients.slice().sort((a, b) => b.n - a.n).slice(0, 3).map((i) => i.id) };
+  }
+  snap() { return window.RoboProgress ? window.RoboProgress.snapshot(!!this.props.unlockAll) : null; }
+
+  componentDidMount() {
+    if (this.props.freshPlayer) this.setState({ set: Object.assign({}, this.state.set, { player: null }) });
+    const boot = () => {
+      if (window.THREE && window.RunAwayGame && window.RoboProgress && this.mountRef.current) {
+        const set = this.state.set;
+        this.game = window.RunAwayGame.create(this.mountRef.current, Object.assign(this.engineOpts(set), {
+          skin: window.RoboProgress.skin(), onHud: (h) => this.onHud(h), onPad: (a) => this.onPad(a), onRunEnd: (r) => this.onRunEnd(r), onFood: (id) => this.onFood(id), onHerb: (id, healed) => this.onHerb(id, healed), onShop: (kind) => this.openShop(kind), onMenu: (m) => this.setMenu(m), onScrap: (id) => this.onScrapPick(id), onCharge: (a) => this.onChargeHere(a), onWeather: (e) => this.onWeatherChange(e), onStory: (ev) => this.onStory(ev), onRideEnd: (i) => this.chip('🛺 ' + i.name + '. The prepaid fare was ₹' + i.fare + '.', 3000), onBattery: (w) => this.onBatteryWarn(w), onExploreExit: (toRun) => this.onExploreExit(toRun)
+        }));
+        window.__runAway = this.game;
+        const first = !set.player;
+        this.setState({ prog: this.snap(), menu: first ? 'who' : null });
+        this.game.setMenu(first);
+      } else this.bootT = setTimeout(boot, 50);
+    };
+    boot();
+    this.onKeyCap = (e) => this.keyCapture(e);
+    this.onPtr = () => { if (this.state.ring) this.setState({ ring: null }); };
+    this.onResize = () => { cancelAnimationFrame(this.rzF); this.rzF = requestAnimationFrame(() => { this.setState({ vw: window.innerWidth, vh: window.innerHeight }); this.checkTip(); }); };
+    this.onFs = () => this.setState({ fs: !!(document.fullscreenElement || document.webkitFullscreenElement) });
+    window.addEventListener('keydown', this.onKeyCap, true);
+    window.addEventListener('pointerdown', this.onPtr, true);
+    window.addEventListener('resize', this.onResize); window.addEventListener('orientationchange', this.onResize);
+    if (window.visualViewport) window.visualViewport.addEventListener('resize', this.onResize);
+    document.addEventListener('fullscreenchange', this.onFs); document.addEventListener('webkitfullscreenchange', this.onFs);
+    this.checkTip();
+    try { if ('serviceWorker' in navigator && window.isSecureContext && window.self === window.top && (!/^(localhost|127\.0\.0\.1)$/.test(location.hostname) || /[?&]sw\b/.test(location.search))) navigator.serviceWorker.register('sw.js').catch(() => {}); } catch (e) {}
+  }
+
+  componentDidUpdate(prev) {
+    if (!this.game) return;
+    if (prev.startZone !== this.props.startZone) this.game.setOptions({ startZone: this.zoneStart() });
+    if (prev.unlockAll !== this.props.unlockAll) this.setState({ prog: this.snap() });
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.bootT); clearTimeout(this.awardT); clearTimeout(this.tipT); cancelAnimationFrame(this.rzF);
+    window.removeEventListener('keydown', this.onKeyCap, true);
+    window.removeEventListener('pointerdown', this.onPtr, true);
+    window.removeEventListener('resize', this.onResize); window.removeEventListener('orientationchange', this.onResize);
+    if (window.visualViewport) window.visualViewport.removeEventListener('resize', this.onResize);
+    document.removeEventListener('fullscreenchange', this.onFs); document.removeEventListener('webkitfullscreenchange', this.onFs);
+    if (this.game) this.game.destroy();
+  }
+
+  checkTip() {
+    if (this.state.tip || window.innerHeight >= 360 || window.innerWidth <= window.innerHeight) return;
+    try { if (localStorage.getItem('runaway.tipPortrait')) return; localStorage.setItem('runaway.tipPortrait', '1'); } catch (e) { return; }
+    this.setState({ tip: true });
+    this.tipT = setTimeout(() => this.setState({ tip: false }), 7000);
+  }
+  fsSupported() { return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled); }
+  toggleFs() {
+    const d = document, el = d.documentElement;
+    try {
+      if (d.fullscreenElement || d.webkitFullscreenElement) (d.exitFullscreen || d.webkitExitFullscreen).call(d);
+      else { const p = (el.requestFullscreen || el.webkitRequestFullscreen).call(el, { navigationUI: 'hide' }); if (p && p.catch) p.catch(() => {}); }
+    } catch (e) {}
+  }
+
+  onHud(h) {
+    const prev = this.state.screen;
+    if (h.screen === 'playing' && (prev === 'title' || prev === 'over')) this.beginRun();
+    if (h.screen !== prev && (h.screen === 'paused' || h.screen === 'over' || h.screen === 'title') && this.state.input === 'pad') setTimeout(() => this.focusFirst(), 90);
+    this.setState(h);
+    if (h.screen === 'playing' && h.run && !this.review()) {
+      const ev = window.RoboProgress.track(h.run);
+      if (ev.length) { this.awardQ = this.awardQ.concat(ev); this.nextAward(); }
+    }
+  }
+  beginRun() { window.RoboProgress.beginRun(); if (window.RoboKitchen) window.RoboKitchen.beginRun(); this.awardQ = []; clearTimeout(this.awardT); this.setState({ results: null, award: null }); }
+  nextAward() {
+    if (this.state.award || !this.awardQ.length) return;
+    const a = this.awardQ.shift();
+    this.setState({ award: a });
+    clearTimeout(this.awardT);
+    this.awardT = setTimeout(() => { this.setState({ award: null }); this.awardT = setTimeout(() => this.nextAward(), 250); }, 3200);
+  }
+  onFood(id) {
+    const K = window.RoboKitchen, i = K && K.INGREDIENTS.find((x) => x.id === id); if (!i) return;
+    K.collect(id);
+    this.chip(i.emoji + ' ' + i.name + ' +1', 1500);
+  }
+  /* roadside shops: the run is paused by the engine; this opens the shop screen, and closing it resumes the run */
+  shopCtx() { const g = this.game, K = window.RoboKitchen, B = window.RoboBattery; window.RoboShop.tariffHours = () => g.clockHours(); return { ride: (fx) => { this.pendingTrip = fx; }, batteryRoom: () => (B ? B.room() : 0), charge: (kind, blocks) => { if (!B) return; B.charge(blocks * B.BLOCK); g.advanceClock((blocks * B.MIN_PER_BLOCK[kind]) / 60); }, pool: () => g.coinPool, spend: (n) => g.spendCoins(n), apply: (fx) => g.applyEffect(fx), kitchen: K, progress: window.RoboProgress, onUmbrella: () => g.setOptions({ umbrella: true }), have: (id) => (K ? K.have(id) : 0), take: (id, n) => (K ? K.take(id, n) : false), ingredient: (id) => { if (K) K.collect(id); }, wallet: window.RoboWallet, scrapHave: (id) => (window.RoboScrap ? window.RoboScrap.have(id) : 0), scrapTake: (id, n) => (window.RoboScrap ? window.RoboScrap.take(id, n) : false), earn: (n) => g.earnCoins(n), gear: window.RoboGear }; }
+  openShop(kind) { const acc = window.RoboShop.accepts(kind); this.setState({ shop: { kind, cart: {}, offer: {}, method: acc.indexOf('cash') >= 0 ? 'cash' : acc[0], msg: '', receipt: null, barter: false, bills: false } }); this.setMenu('shop'); }
+  shopSet(patch) { const s = this.state.shop; if (s) this.setState({ shop: Object.assign({}, s, patch) }); }
+  /* the cart: + and - on a line change its quantity (at most 9, and one only of a costume or the umbrella) */
+  shopStep(id, d) { const s = this.state.shop, cart = Object.assign({}, s.cart), nxt = Math.max(0, Math.min(9, (cart[id] || 0) + d)); if (nxt) cart[id] = nxt; else delete cart[id]; this.shopSet({ cart, msg: '' }); }
+  /* goods offered in barter: never more than you hold */
+  offerStep(id, d) { const s = this.state.shop, have = this.shopCtx().have(id), offer = Object.assign({}, s.offer), nxt = Math.max(0, Math.min(have, (offer[id] || 0) + d)); if (nxt) offer[id] = nxt; else delete offer[id]; this.shopSet({ offer, msg: '' }); }
+  shopMethod(m) { this.shopSet({ method: m, msg: '' }); }
+  shopTopUp(n) { const W = window.RoboWallet; if (!W || !this.game.spendCoins(n)) { this.shopSet({ msg: 'You need ₹' + n + ' in cash to add to GPay.' }); return; } W.add(n); this.shopSet({ msg: '₹' + n + ' added to your GPay balance.' }); }
+  shopPay() {
+    const s = this.state.shop, r = window.RoboShop.checkout(s.kind, s.cart, { method: s.method, offer: s.offer }, this.shopCtx());
+    if (!r.ok) { this.shopSet({ msg: r.msg }); return; }
+    const sh = window.RoboShop.SHOPS[s.kind], helps = r.receipt.lines.some((l) => { const it = sh.items.find((i) => i.id === l.id); return it && ['costume', 'umbrella', 'ingredient', 'scrap', 'shoes', 'charge'].indexOf(it.fx.type) < 0; }), charged = r.receipt.lines.reduce((m, l) => { const it = sh.items.find((i) => i.id === l.id); return m + (it && it.fx.type === 'charge' ? l.qty * window.RoboBattery.MIN_PER_BLOCK[it.fx.kind] : 0); }, 0), shoes = r.receipt.lines.some((l) => { const it = sh.items.find((i) => i.id === l.id); return it && it.fx.type === 'shoes'; });
+    if (this.game && this.game.storyEmit) { const cnt = r.receipt.lines.reduce((a, l) => a + l.qty, 0); if (r.receipt.method !== 'sold') this.game.storyEmit('buy', { shop: s.kind, count: cnt }); if (r.receipt.method === 'upi' || r.receipt.paidBy === 'upi') this.game.storyEmit('pay_upi', {}); }
+    this.setState({ shop: Object.assign({}, s, { cart: {}, offer: {}, receipt: r.receipt, bills: false, msg: this.pendingTrip ? (this.pendingTrip.mode === 'bus' ? '🎫 Ticket bought. Press BOARD THE BUS.' : '🛺 Paid. Your auto is waiting: press START THE RIDE.') : charged ? '🔋 Charged to ' + window.RoboBattery.pct() + '%. ' + Math.floor(charged / 60) + ' h ' + (charged % 60) + ' min passed.' : shoes ? 'You put the new shoes on. You will feel it in town, and on every run.' : this.state.screen === 'explore' && helps ? 'What you bought helps on your next run.' : '' }), prog: this.snap() });
+  }
+  /* the bills screen outside any shop: the newest bill with the whole list; tap a bill to read it */
+  openBills() {
+    const list = window.RoboShop.bills(); if (!list.length) { this.chip('🧾 No bills yet. Buy something, or sell scrap.', 2600); return; }
+    this.setState({ shop: { kind: 'ledger', ledger: true, cart: {}, offer: {}, method: 'cash', msg: '', receipt: list[0], barter: false, bills: true } }); this.setMenu('shop');
+  }
+  closeShop() { this.setMenu(null); this.setState({ shop: null }); if (this.game) { this.game.shopDone(); this.game.resume(); const trip = this.pendingTrip; this.pendingTrip = null; if (trip) this.game.startTrip(trip); } }   // a paid ride or bus trip starts when you leave the counter
+  /* Explore mode (the walkable town): ingredients picked up go to the backpack when you leave; the gate there starts a run */
+  exploreTown(asStory) { if (!this.game) return; const Q = asStory && window.RoboQuests, nx = Q && Q.next(); let hinted = true; try { hinted = !!localStorage.getItem('runaway.storyHint'); if (!hinted && nx) localStorage.setItem('runaway.storyHint', '1'); } catch (e) { /* the hint just shows every time */ } if (nx && !hinted) setTimeout(() => this.chip('📚 Your story has started. ' + nx.text + ' Tap the map and open Story to follow it.', 7000), 2500); this.setMenu(null); if (window.RoboKitchen) window.RoboKitchen.beginRun(); this.setState({ results: null, haul: null }); if (this.game.explore(!!asStory)) { let seen = false; try { seen = !!localStorage.getItem('runaway.townHint'); localStorage.setItem('runaway.townHint', '1'); } catch (e) { /* private mode: the hint just shows every time */ } if (!seen) this.chip('Step into a glowing ring and press F (or tap the button) to shop. The green gate at the far end starts a run.', 6000); } }
+  onExploreExit(toRun) {
+    const K = window.RoboKitchen; let haul = K ? K.endRun() : null; const got = this.grantCharacters();
+    if (haul && haul.has) {
+      const parts = [haul.added.length ? '\ud83c\udf92 Added: ' + haul.addedLabel : '', haul.lost.length ? 'Backpack full, left behind: ' + haul.lostLabel : '', got.length ? '\ud83c\udf89 New character: ' + got.join(', ') : ''].filter(Boolean);
+      if (parts.length) this.chip(parts.join('   '), 4500);
+    }
+    this.setState({ prog: this.snap() }); if (this.game) this.game.setOptions({ pack: this.packInfo(this.state.set) });
+    if (toRun) this.start();
+  }
+  /* the story: a short notice when a step, a quest or a chapter is finished (the Story tab on the map has the whole picture) */
+  onStory(events) {
+    const pick = (k) => events.find((e) => e.kind === k), ch = pick('chapter'), qu = pick('quest'), st = pick('step');
+    if (ch) this.chip('🎉 Chapter complete: ' + ch.title + '. The next chapter is not open yet.', 5000);
+    else if (qu) this.chip('★ Quest complete: ' + qu.title + (qu.reward && qu.reward.coins ? '  +₹' + qu.reward.coins : ''), 4500);
+    else if (st) this.chip('✓ ' + st.text, 3200);
+  }
+  /* showers in the town: a chip when one starts and stops (the umbrella from the Hardware shop keeps the wet street from slowing you) */
+  onWeatherChange(e) {
+    const dry = window.RoboKitchen && window.RoboKitchen.hasUmbrella();
+    this.chip(e === 'start' ? '🌧️ It starts to rain. ' + (dry ? 'Your umbrella keeps you moving.' : 'The wet street slows you. An umbrella from the Hardware shop helps.') : '🌤️ The rain stops.', 3200);
+  }
+  /* the battery: a warning as it runs down, and the free charge at the home cradle (it takes the slow AC time, and the clock moves on) */
+  onBatteryWarn(w) { this.chip(w === 0 ? '🔋 Battery empty: you crawl. Charge at home or at a KSEB bay.' : '🔋 Battery ' + w + '%. Charge soon: home is free, KSEB bays cost.', 3200); }
+  onChargeHere(arg) {
+    const B = window.RoboBattery; if (!B || arg !== 'home') return;
+    const room = B.room(); if (room <= 0) { this.chip('🔋 Already full (100%).', 1800); return; }
+    const mins = Math.ceil(room / B.BLOCK) * B.MIN_PER_BLOCK.ac; B.charge(room); this.game.advanceClock(mins / 60);
+    this.chip('🔋 Charged to 100% at home, free. ' + Math.floor(mins / 60) + ' h ' + (mins % 60) + ' min passed.', 3500);
+  }
+  /* a piece of scrap picked up in town goes into the scrap bag; a full bag leaves it where it lies */
+  onScrapPick(id) { const S = window.RoboScrap, T = S && S.TYPES[id]; if (!T) return true; if (!S.add(id)) { this.chip('♻️ Your scrap bag is full (' + S.total() + ' of ' + S.CAP + '). Sell some to the scrap dealer.', 2500); return false; } this.chip(T.emoji + ' ' + T.name + ' +1 (' + S.total() + ' of ' + S.CAP + ')', 1400); return true; }
+  onHerb(id, healed) {
+    const h = { tulsi: ['🌿', 'Tulsi'], turmeric: ['🌱', 'Turmeric'], aloe: ['🌵', 'Aloe vera'] }[id] || ['🌿', 'Herb'];
+    this.chip(h[0] + ' ' + h[1] + (healed ? ': +1 heart' : ': +50 points'), 1800);
+  }
+  chip(text, ms) { this.setState({ foodMsg: text }); clearTimeout(this.foodT); this.foodT = setTimeout(() => this.setState({ foodMsg: '' }), ms); }
+  onRunEnd(r) {
+    if (this.review()) { this.setState({ results: { earned: 0, events: [] }, haul: null }); return; }
+    const res = window.RoboProgress.endRun(r);
+    let haul = window.RoboKitchen ? window.RoboKitchen.endRun() : null;
+    const got = this.grantCharacters(); if (haul) haul = Object.assign({}, haul, { unlocked: got, has: haul.has || got.length > 0 });
+    this.awardQ = []; clearTimeout(this.awardT);
+    this.setState({ results: res, award: null, prog: this.snap(), haul, foodMsg: '' });
+    if (this.game) this.game.setOptions({ pack: this.packInfo(this.state.set) });
+  }
+  kitRefresh(msg) { this.setState({ kit: window.RoboKitchen.snapshot(), prog: this.snap(), kitMsg: msg || '' }); if (this.game) this.game.setOptions({ pack: this.packInfo(this.state.set) }); }
+  /* characters unlocked by playing: returns the names newly granted */
+  grantCharacters() { const K = window.RoboKitchen, P = window.RoboProgress, names = []; (K ? K.unlocks() : []).forEach((id) => { if (P.grant(id)) names.push(P.skin(id).name); }); return names; }
+  kitCook(id) { const r = window.RoboKitchen.cook(id), got = r.ok ? this.grantCharacters() : []; this.kitRefresh(r.msg + (got.length ? ' New character unlocked: ' + got.join(', ') + '. Find it under Characters.' : '')); }
+  kitPack(id) { window.RoboKitchen.pack(id); this.kitRefresh(''); }
+  kitUpgrade() { this.kitRefresh(window.RoboKitchen.upgrade().msg); }
+
+  start(tutorial) {
+    if (!this.game) return;
+    this.beginRun();
+    const t = tutorial === true || (this.props.freshPlayer && !this.freshDone) || !this.game.tutorialDone;
+    this.freshDone = true;
+    this.setMenu(null);
+    const K = window.RoboKitchen, meal = K && !t ? K.takeMeal() : null;
+    this.game.setOptions({ umbrella: !!(K && K.hasUmbrella()) });
+    this.game.start({ tutorial: t, buff: meal ? meal.buff : null });
+    if (meal) this.chip(meal.emoji + ' ' + meal.name + ': ' + meal.desc, 3500);
+  }
+  setMenu(m) {
+    if (this.state.menu === 'garage' && m !== 'garage' && this.game) this.game.setSkin(window.RoboProgress.skin());
+    const patch = { menu: m, ring: null, sel: null, garageMsg: '', copyMsg: '', restoreMsg: '', rebind: null, resetArm: false };
+    if (m === 'missions' || m === 'garage' || m === 'badges') patch.prog = this.snap();
+    if (m === 'kitchen') { patch.prog = this.snap(); patch.kit = window.RoboKitchen.snapshot(); patch.kitMsg = ''; }
+    if (m === 'settings' && this.state.tab === 'save') patch.backup = window.RoboProgress.exportCode();
+    this.setState(patch);
+    if (this.game) this.game.setMenu(!!m);
+    if (this.state.input === 'pad') setTimeout(() => this.focusFirst(), 90);
+  }
+  back() {
+    const s = this.state;
+    if (s.menu === 'shop') { this.closeShop(); return; }
+    if (s.rebind) { this.setState({ rebind: null }); return; }
+    if (s.menu === 'who' && !s.set.player) return;
+    this.setMenu(null);
+  }
+  setTab(t) { this.setState({ tab: t, rebind: null, copyMsg: '', restoreMsg: '', resetArm: false, backup: t === 'save' ? window.RoboProgress.exportCode() : this.state.backup }); }
+  setSetting(k, v) {
+    const old = this.state.set, s = Object.assign({}, old, { [k]: v });
+    if (k === 'player' && v !== old.player) { if (v === 'kids') { s.difficulty = 'Relaxed'; s.unlimited = true; } else if (old.player === 'kids') s.difficulty = 'Moderate'; }
+    if (k === 'world') s.worldPicked = true;   // from now on the player's own choice is respected
+    this.saveSettings(s); this.setState({ set: s });
+    if (this.game) this.game.setOptions(this.engineOpts(s));
+  }
+  keyCapture(e) {
+    const s = this.state;
+    if (s.rebind) {
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (e.key !== 'Escape' && e.key !== 'Tab') this.applyRebind(e.key);
+      this.setState({ rebind: null }); return;
+    }
+    if (s.ring && e.key !== 'Enter' && e.key !== ' ') this.setState({ ring: null });
+    if (e.key === 'Escape' && s.menu) { e.preventDefault(); e.stopImmediatePropagation(); this.back(); }
+  }
+  applyRebind(key) {
+    const { action, idx } = this.state.rebind, k = key.length === 1 ? key.toLowerCase() : key;
+    const km = JSON.parse(JSON.stringify(Object.assign({}, Component.KEYS, this.state.set.keymap || {})));
+    const list = (km[action] || []).slice(); list[idx] = k;
+    for (const a in km) if (a !== action) km[a] = km[a].filter((x) => x !== k);
+    km[action] = list.filter((x, i) => x && list.indexOf(x) === i).slice(0, 3);
+    this.setSetting('keymap', km);
+  }
+
+  topRoot() { const r = this.uiRef.current ? this.uiRef.current.querySelectorAll('[data-pad]') : []; return r[r.length - 1] || null; }
+  focusables(root) { return Array.from(root.querySelectorAll('button:not([disabled]), input, textarea, [tabindex="0"]')).filter((el) => el.getClientRects().length > 0); }
+  focusFirst() { const root = this.topRoot(); if (!root) return; const els = this.focusables(root); if (els.length) this.padFocus(els[0]); }
+  padFocus(el) {
+    el.focus();
+    requestAnimationFrame(() => { const r = el.getBoundingClientRect(); this.setState({ ring: { left: r.left - 4 + 'px', top: r.top - 4 + 'px', width: r.width + 8 + 'px', height: r.height + 8 + 'px' } }); });
+  }
+  onPad(a) {
+    const s = this.state;
+    if (s.rebind || !this.game) return;
+    if (a === 'back') { if (s.menu) this.back(); else if (s.screen === 'paused') this.game.resume(); return; }
+    if (a === 'start') {
+      if (s.menu === 'who') return;
+      if (s.menu) { this.back(); return; }
+      if (s.screen === 'title' || s.screen === 'over') this.start(); else if (s.screen === 'paused') this.game.resume();
+      return;
+    }
+    const root = this.topRoot(); if (!root) return;
+    const els = this.focusables(root); if (!els.length) return;
+    const cur = els.indexOf(document.activeElement) >= 0 ? document.activeElement : null;
+    if (!cur) { this.padFocus(els[0]); return; }
+    if (a === 'confirm') { cur.click(); setTimeout(() => { if (document.activeElement && this.uiRef.current && this.uiRef.current.contains(document.activeElement)) this.padFocus(document.activeElement); else this.focusFirst(); }, 90); return; }
+    if (cur.type === 'range' && (a === 'left' || a === 'right')) {
+      const v = Math.max(0, Math.min(100, Number(cur.value) + (a === 'left' ? -10 : 10)));
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set.call(cur, String(v));
+      cur.dispatchEvent(new Event('input', { bubbles: true })); return;
+    }
+    const r0 = cur.getBoundingClientRect(), cx = r0.left + r0.width / 2, cy = r0.top + r0.height / 2;
+    let best = null, bd = Infinity;
+    for (const el of els) {
+      if (el === cur) continue;
+      const r = el.getBoundingClientRect(), dx = r.left + r.width / 2 - cx, dy = r.top + r.height / 2 - cy;
+      const along = a === 'left' ? -dx : a === 'right' ? dx : a === 'up' ? -dy : dy, across = a === 'left' || a === 'right' ? Math.abs(dy) : Math.abs(dx);
+      if (along <= 2) continue;
+      const d = along + across * 2; if (d < bd) { bd = d; best = el; }
+    }
+    if (best) this.padFocus(best);
+  }
+
+  copyCode() {
+    const code = this.state.backup, ok = () => this.setState({ copyMsg: 'Copied' }), no = () => this.setState({ copyMsg: 'Select the code above and copy it' });
+    try { if (navigator.clipboard) navigator.clipboard.writeText(code).then(ok, no); else no(); } catch (e) { no(); }
+  }
+  restoreCode() {
+    if (window.RoboProgress.importCode(this.state.restore)) { this.setState({ restoreMsg: 'Restored. Reloading the game.', restoreOk: true }); setTimeout(() => location.reload(), 900); }
+    else this.setState({ restoreMsg: 'That code is not valid. Check it and try again.', restoreOk: false });
+  }
+  resetAll() {
+    if (!this.state.resetArm) { this.setState({ resetArm: true }); return; }
+    try { const ks = []; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (k && k.indexOf('runaway.') === 0) ks.push(k); } ks.forEach((k) => localStorage.removeItem(k)); } catch (e) {}
+    location.reload();
+  }
+  garageAction(sel, list) {
+    const P = window.RoboProgress, k = list.find((x) => x.id === sel); if (!k) return;
+    if (k.owned) { P.equip(sel); this.setState({ prog: this.snap(), garageMsg: k.name + ' is ready to run.' }); return; }
+    const ev = P.buy(sel);
+    if (P.snapshot().skins.find((x) => x.id === sel).owned) this.setState({ prog: this.snap(), garageMsg: 'Unlocked ' + k.name + '!' + (ev.length ? ' Badge earned: ' + ev[0].text + '.' : '') });
+  }
+
+  renderVals() {
+    const s = this.state, set = s.set, g = () => this.game, prog = s.prog;
+    const amber = 'oklch(0.84 0.14 75)', btnAmber = 'oklch(0.82 0.15 75)', green = 'oklch(0.86 0.16 160)', faint = 'rgba(243,240,232,0.25)';
+    const fmt = (n) => Math.floor(n || 0).toLocaleString();
+    const kids = set.player === 'kids', menu = s.menu, scr = s.screen, inp = s.input, sch = set.scheme, kit = s.kit;
+
+    // layout: decided from the viewport in CSS px (after the text-size setting), no media queries needed
+    const zoom = set.textSize || 1, vw = s.vw || 360, vh = s.vh || 640;
+    const hudZoom = Math.max(1, Math.min(zoom, (vw - 20) / 340));
+    const ew = vw / zoom, eh = vh / zoom, land = ew > eh, short = land && eh < 500, wide = Math.min(ew, eh) >= 600;
+    const safeT = (n) => 'calc(max(' + (short ? 6 : 10) + 'px, env(safe-area-inset-top)) + ' + n + 'px)';
+    const colW = short ? (ew - 70) / 2 : Math.min(ew, 640) - 40;
+    const titleSize = Math.round(Math.max(32, Math.min(112, colW / 5.6, eh * 0.13))) + 'px';
+
+    const KL = (k) => ({ ' ': 'Space', ArrowLeft: '←', ArrowRight: '→', ArrowUp: '↑', ArrowDown: '↓', Escape: 'Esc', Enter: 'Enter' }[k] || (k && k.length === 1 ? k.toUpperCase() : k || ''));
+    const km = Object.assign({}, Component.KEYS, set.keymap || {}), keys = (a, n) => (km[a] || []).slice(0, n || 2).map((k) => ({ icon: '', key: KL(k) }));
+    const I = (icon) => ({ icon, key: '' }), K = (key) => ({ icon: '', key });
+    const AUTO = I('smart_toy');
+    const glyph = (a) => {
+      if (sch === 'onebutton' && (a === 'jump' || a === 'slide')) return inp === 'pad' ? [K('A')] : inp === 'touch' ? [I('touch_app')] : keys('jump', 1);
+      if (sch === 'tapzones' && a === 'lane' && inp === 'touch') return [I('touch_app')];
+      if (inp === 'pad') return [K(a === 'lane' ? 'D-pad' : a === 'jump' ? 'A' : 'B')];
+      if (inp === 'touch') return a === 'lane' ? [I('swipe_left'), I('swipe_right')] : a === 'jump' ? [I('swipe_up')] : [I('swipe_down')];
+      return a === 'lane' ? keys('left', 1).concat(keys('right', 1)) : keys(a, 2);
+    };
+    const verb = (a) => {
+      if (sch === 'onebutton' && a === 'jump') return inp === 'touch' ? 'Tap to jump' : 'Press to jump';
+      if (sch === 'onebutton' && a === 'slide') return 'Hold to slide';
+      if (sch === 'tapzones' && a === 'lane' && inp === 'touch') return 'Tap a side to change lanes';
+      if (inp === 'touch') return a === 'lane' ? 'Swipe to change lanes' : a === 'jump' ? 'Swipe up to jump' : 'Swipe down to slide';
+      return a === 'lane' ? 'Change lanes' : a === 'jump' ? 'Jump' : 'Slide';
+    };
+    const atkKeys = () => keys('attackL', 1).concat(keys('attackR', 1));
+    const hintInfo = (kind) => {
+      if (kind === 'rival') return { glyphs: inp === 'touch' ? [I('sports_mma')] : inp === 'pad' ? [K('LB'), K('RB')] : atkKeys(), text: inp === 'touch' ? 'Rival robot! Tap the corner buttons to attack.' : inp === 'pad' ? 'Rival robot! Press LB / RB to attack.' : 'Rival robot! Press ' + KL((km.attackL || ['q'])[0]) + ' / ' + KL((km.attackR || ['e'])[0]) + ' to attack.' };
+      if (kind === 'weapon') return { glyphs: [I('build')], text: 'Grab the weapon to fight back!' };
+      if (kind === 'loot') return { glyphs: [I('bolt')], text: 'Run through the loot to collect it!' };
+      if (kind === 'shop') return { glyphs: glyph('lane'), text: 'Shop ahead! Steer into the glowing bay on the right to stop and shop' };
+      if (kind === 'web') return { glyphs: glyph('slide'), text: 'Spider web! Slide under it, or it slows you down' };
+      if (kind === 'pothole') return { glyphs: glyph('jump'), text: 'Pothole! Jump it or lose speed' };
+      if (kind === 'mud') return { glyphs: glyph('lane'), text: 'Mud! It slows you and makes you slide. Change lanes or jump' };
+      if (kind === 'crate') return { glyphs: sch === 'tapzones' ? [AUTO] : glyph('jump'), text: 'Crate! Jump it or blast it open' };
+      const act = { lane: 'lane', boulder: 'lane', slider: 'lane', jump: 'jump', gap: 'jump', roller: 'jump', slide: 'slide' }[kind] || 'lane';
+      if (sch === 'onebutton' && act === 'lane') return { glyphs: [AUTO], text: kind === 'boulder' ? 'Boulder ahead! The robot steers by itself' : kind === 'slider' ? 'Moving block! The robot steers by itself' : 'The robot changes lanes by itself' };
+      if (sch === 'tapzones' && act !== 'lane') return { glyphs: [AUTO], text: act === 'jump' ? 'The robot jumps by itself' : 'The robot slides by itself' };
+      const pre = { boulder: 'Boulder! ', gap: 'Gap ahead! ', roller: 'Rolling stone! ', slider: 'Moving block! ' }[kind] || '';
+      return { glyphs: glyph(act), text: pre + verb(act) };
+    };
+
+    const t = s.tut; let tut = null;
+    if (t && t.kind && scr === 'playing') {
+      if (t.kind === 'nice') tut = { glyphs: [I('check')], text: 'Nice!', sub: '' };
+      else if (t.kind === 'again') tut = { glyphs: [I('replay')], text: "Let's try that again", sub: '' };
+      else if (t.kind === 'autojump') tut = { glyphs: [AUTO], text: 'Jumps and slides happen by themselves', sub: 'Just steer' };
+      else if (t.kind === 'autosteer') tut = { glyphs: [AUTO], text: 'The robot changes lanes by itself', sub: 'You jump and slide' };
+      else { const h = hintInfo(t.kind); tut = { glyphs: h.glyphs, text: h.text, sub: t.waiting ? 'Your turn' : 'Get ready' }; }
+    }
+    const hint = s.hint && scr === 'playing' && !tut ? hintInfo(s.hint) : null;
+
+    const ctl = [];
+    if (sch === 'standard') ctl.push({ g: glyph('lane'), v: 'Change lanes' }, { g: glyph('jump'), v: 'Jump' }, { g: glyph('slide'), v: 'Slide' });
+    else if (sch === 'tapzones') ctl.push({ g: glyph('lane'), v: inp === 'touch' ? 'Tap left or right to change lanes' : 'Change lanes' }, { g: [AUTO], v: 'Jumps and slides happen by themselves' });
+    else ctl.push({ g: glyph('jump'), v: verb('jump') }, { g: glyph('slide'), v: 'Hold to slide' }, { g: [AUTO], v: 'Lanes steer by themselves' });
+    if (set.combat !== false) ctl.push({ g: inp === 'touch' ? [I('sports_mma')] : inp === 'pad' ? [K('LB'), K('RB')] : atkKeys(), v: inp === 'touch' ? 'Corner buttons attack rivals' : 'Attack left / right' });
+    if (inp !== 'touch') ctl.push({ g: inp === 'pad' ? [K('Start')] : keys('pause', 2), v: 'Pause' });
+
+    const powers = [];
+    const pw = (on, o) => { if (on > 0) powers.push(Object.assign({ svg: false, icon: '', text: '', pct: Math.round(on * 100) + '%' }, o)); };
+    pw(s.magnet, { svg: true, label: 'MAGNET', color: 'oklch(0.78 0.15 30)' });
+    pw(s.shield, { icon: 'shield', label: 'SHIELD', color: 'oklch(0.78 0.13 235)' });
+    pw(s.mult, { text: '×2', label: 'SCORE', color: amber });
+    pw(s.jet, { icon: 'rocket_launch', label: 'JETPACK', color: 'oklch(0.8 0.14 55)' });
+    pw(s.boots, { text: '🥾', label: 'GUMBOOTS', color: 'oklch(0.8 0.1 70)' });
+    pw(s.sickle, { text: '🌾', label: 'SICKLE', color: 'oklch(0.85 0.12 130)' });
+    pw(s.rideT, { text: s.ride === 'buffalo' ? '🐃' : '🛵', label: (s.ride === 'buffalo' ? 'BUFFALO ' : 'SCOOTER ') + '♥'.repeat(Math.max(0, s.rideHp || 0)), color: 'oklch(0.86 0.12 160)' });
+
+    const base = { desc: '', isSeg: false, isToggle: false, isSlider: false, isButton: false, isValue: false, isKeys: false, isCode: false };
+    const seg = (label, desc, opts, cur, pick) => Object.assign({}, base, { label, desc, isSeg: true, options: opts.map(([v, l]) => { const on = v === cur; return { label: l, on, ariaOn: on ? 'true' : 'false', bg: on ? btnAmber : 'rgba(10,14,12,0.5)', color: on ? '#14110a' : '#f3f0e8', border: on ? btnAmber : faint, pick: () => pick(v) }; }) });
+    const tog = (label, desc, on, fn) => Object.assign({}, base, { label, desc, isToggle: true, ariaOn: on ? 'true' : 'false', justify: on ? 'flex-end' : 'flex-start', track: on ? btnAmber : 'rgba(243,240,232,0.22)', toggle: fn });
+    const sld = (label, desc, v, fn) => Object.assign({}, base, { label, desc, isSlider: true, isValue: true, num: Math.round(v * 100), valueLabel: Math.round(v * 100) + '%', onInput: (e) => fn(Number(e.target.value) / 100) });
+    const btn = (label, desc, b, fn) => Object.assign({}, base, { label, desc, isButton: true, btn: b, onClick: fn });
+    let rows = [];
+    if (menu === 'settings') {
+      if (s.tab === 'game') rows = [
+        seg("Who's playing", kids ? 'Slower and friendlier, with more room for mistakes' : 'The full challenge', [['kids', 'Kids'], ['standard', 'Standard']], set.player, (v) => this.setSetting('player', v)),
+        seg('Difficulty', kids ? 'Kids mode is gentler at every difficulty' : '', [['Relaxed', 'Relaxed'], ['Moderate', 'Moderate'], ['Hard', 'Hard']], set.difficulty, (v) => this.setSetting('difficulty', v)),
+        kids ? tog('Unlimited lives', 'Runs only end when you choose to finish', !!set.unlimited, () => this.setSetting('unlimited', !set.unlimited)) : null,
+        seg('Language', 'Pick the language of the menus', [['en', 'English'], ['ml', 'മലയാളം']], window.RoboI18n ? window.RoboI18n.lang() : 'en', (v) => { if (window.RoboI18n) window.RoboI18n.set(v); this.setState({ langTick: Date.now() }); }),
+        seg('World', set.world === 'malabar' ? 'Kerala coast: Kozhikode Beach at sunset' : 'The lost jungle and its six zones', [['classic', 'Classic'], ['malabar', 'Malabar']], set.world || 'classic', (v) => this.setSetting('world', v)),
+        tog('Combat', 'Rival robots, weapons and loot. Turn off to just run.', set.combat !== false, () => this.setSetting('combat', set.combat === false)),
+        btn('Tutorial', 'Practise the moves again', 'Play tutorial', () => this.start(true))
+      ].filter(Boolean);
+      else if (s.tab === 'sound') rows = [
+        tog('Sound', '', !s.muted, () => g() && g().setMuted(!s.muted)),
+        sld('Music', s.music ? '' : 'No music tracks loaded yet', s.vol.music, (v) => g() && g().setVolume('music', v)),
+        sld('Sound effects', '', s.vol.sfx, (v) => g() && g().setVolume('sfx', v)),
+        sld('Voice', '', s.vol.voice, (v) => g() && g().setVolume('voice', v)),
+        tog('Voice lines', 'The robot calls out zones and power-ups', s.voice, () => g() && g().setVoice(!s.voice)),
+        tog('Subtitles', "Show the robot's voice lines as text", !!set.subtitles, () => this.setSetting('subtitles', !set.subtitles))
+      ];
+      else if (s.tab === 'display') rows = [
+        seg('Graphics', set.quality === 'Auto' ? 'Picks the best setting for this device. Using ' + s.quality + ' now.' : set.quality === 'Low' ? 'Smoother on older phones' : 'Sharpest picture and shadows', [['Auto', 'Auto'], ['High', 'High'], ['Low', 'Low']], set.quality, (v) => this.setSetting('quality', v)),
+        tog('Reduce motion', 'Turns off camera shake and flashing effects', !!set.reduceMotion, () => this.setSetting('reduceMotion', !set.reduceMotion)),
+        seg('Text size', '', [[1, '100%'], [1.25, '125%'], [1.5, '150%']], set.textSize, (v) => this.setSetting('textSize', v)),
+        this.fsSupported() ? tog('Fullscreen', 'Hides the browser bars', !!s.fs, () => this.toggleFs()) : null
+      ].filter(Boolean);
+      else if (s.tab === 'controls') {
+        const D = { standard: 'Swipe, or use the keyboard, to change lanes, jump and slide.', tapzones: 'Tap the left or right half of the screen to change lanes. Jumps and slides happen by themselves.', onebutton: 'Tap to jump and hold to slide. The robot changes lanes by itself.' };
+        rows = [seg('Control style', D[sch], [['standard', 'Swipe and keys'], ['tapzones', 'Tap sides'], ['onebutton', 'One button']], sch, (v) => this.setSetting('scheme', v))];
+        if (!s.touch || inp === 'keys') {
+          const ACT = [['left', 'Move left'], ['right', 'Move right'], ['jump', sch === 'onebutton' ? 'The button (tap to jump, hold to slide)' : 'Jump'], ['slide', sch === 'onebutton' ? 'Also works as the button' : 'Slide'], ['pause', 'Pause'], ['attackL', 'Attack left'], ['attackR', 'Attack right']];
+          ACT.forEach(([a, l]) => {
+            const list = km[a] || [], slots = list.length < 3 ? list.concat(['']) : list;
+            rows.push(Object.assign({}, base, { label: l, isKeys: true, keys: slots.map((k, i) => { const on = !!s.rebind && s.rebind.action === a && s.rebind.idx === i; return { label: on ? 'Press a key' : k ? KL(k) : '+', aria: on ? 'Press a key' : k ? 'Change key ' + KL(k) : 'Add a key', border: on ? btnAmber : faint, bg: on ? 'oklch(0.82 0.15 75 / 0.18)' : 'rgba(10,14,12,0.5)', rebind: () => this.setState({ rebind: { action: a, idx: i } }) }; }) }));
+          });
+          rows.push(btn('Reset keys', 'Arrow keys, WASD, Space, P, Esc, Q / E and J / K', 'Reset', () => this.setSetting('keymap', null)));
+        }
+        rows.push(Object.assign({}, base, { label: 'Controller', desc: sch === 'onebutton' ? 'A: tap to jump, hold to slide. D-pad: change lanes. LB / RB: attack. Start: pause.' : 'D-pad or stick: change lanes. A: jump. B: slide. LB / RB: attack. Start: pause.', isValue: true, valueLabel: s.pad ? 'Connected' : 'Not connected' }));
+      } else rows = [
+        Object.assign({}, base, { label: 'Backup code', desc: 'Progress is saved on this device. Keep this code to move it to another device or get it back later.', isCode: true, readOnly: true, code: s.backup, onCode: () => {}, placeholder: '', codeBtn: 'Copy code', codeAction: () => this.copyCode(), msg: s.copyMsg, msgColor: green }),
+        Object.assign({}, base, { label: 'Restore from a code', desc: 'Replaces the progress on this device.', isCode: true, readOnly: false, code: s.restore, onCode: (e) => this.setState({ restore: e.target.value, restoreMsg: '' }), placeholder: 'Paste a backup code', codeBtn: 'Restore', codeAction: () => this.restoreCode(), msg: s.restoreMsg, msgColor: s.restoreOk ? green : 'oklch(0.78 0.15 30)' }),
+        btn('Start over', s.resetArm ? 'Tap again to delete all progress on this device. This cannot be undone.' : 'Deletes energy, coins, robots, missions, badges and best scores on this device.', s.resetArm ? 'Confirm reset' : 'Reset', () => this.resetAll())
+      ];
+    }
+    const SHP = window.RoboShop, sh = s.shop, shopV = sh && SHP && this.game ? SHP.stock(sh.kind, this.shopCtx()) : null;
+    const rs = (n) => '₹' + (Number.isInteger(n) ? n : n.toFixed(1));
+    const shopVM = (() => {
+      const empty = { shopTitle: '', shopLocal: '', shopEmoji: '', shopBlurb: '', shopCash: '0', shopUpi: '0', shopItems: [], shopMsg: '', hasShopMsg: false, hasBillsToggle: true, shopIsReceipt: false, shopNotReceipt: true, rcNo: '', rcDate: '', rcShop: '', rcLines: [], rcCredits: [], rcSubtotal: '', rcPaid: '', rcHasNoChange: false, rcNoChange: '', billsToggleLabel: '', billsOpen: false, billsList: [], toggleBills: () => {}, canBarter: false, barterOpen: false, barterToggle: '', barterBtnBg: 'transparent', barterNote: '', barterEmpty: false, barterItems: [], toggleBarter: () => {}, hasBill: false, billLines: [], creditRows: [], billSub: '', billDue: '', hasProblems: false, problems: [], showPay: false, showCash: false, showUpi: false, cashBg: '', cashFg: '', upiBg: '', upiFg: '', pickCash: () => {}, pickUpi: () => {}, topUp50: () => {}, topUp100: () => {}, payNow: () => {}, payOff: true, payBg: '', payFg: '', payLabel: '', leaveLabel: 'BACK TO THE ROAD', isSell: false, hasSellAll: false, sellAll: () => {}, billDueLabel: 'TO PAY', totalLabel: 'Total (prices include tax)', rcTitle: 'BILL' };
+      if (!shopV) return empty;
+      const ctx = this.shopCtx(), cash = ctx.pool(), upi = window.RoboWallet ? window.RoboWallet.upi() : 0, vm = Object.assign({}, empty);
+      vm.shopTitle = shopV.name; vm.shopLocal = shopV.local; vm.shopEmoji = shopV.emoji; vm.shopBlurb = shopV.blurb + (SHP.openLine(sh.kind) ? ' ' + SHP.openLine(sh.kind) : ''); vm.shopCash = fmt(cash); vm.shopUpi = fmt(upi); vm.shopMsg = sh.msg || ''; vm.hasShopMsg = !!sh.msg;
+      if (sh.receipt) {   // after paying: the receipt, and the list of recent bills
+        const rc = sh.receipt, when = (d) => { try { return new Date(d).toLocaleString('en-IN', { day: 'numeric', month: 'short', hour: 'numeric', minute: '2-digit' }); } catch (e) { return ''; } };
+        vm.shopIsReceipt = true; vm.shopNotReceipt = false; vm.rcNo = rc.no; vm.rcTitle = rc.method === 'sold' ? 'SLIP' : 'BILL'; vm.totalLabel = rc.method === 'sold' ? 'Total paid to you' : 'Total (prices include tax)'; vm.rcDate = when(rc.date); vm.rcShop = rc.shop + (rc.local ? ' · ' + rc.local : '');
+        vm.rcLines = rc.lines.map((l) => ({ text: l.name + ' × ' + l.qty + ' @ ' + rs(l.rate), amount: rs(l.amount) })); vm.rcSubtotal = rs(rc.subtotal);
+        vm.rcCredits = rc.creditLines.map((c) => ({ text: 'Barter: ' + c.name + ' × ' + c.qty + ' @ ' + rs(c.each), amount: '−' + rs(c.credit) }));
+        const by = rc.paidBy === 'upi' ? 'GPay ' : 'cash '; vm.rcPaid = rc.method === 'sold' ? 'The dealer paid you ' + rs(rc.payout) + ' in cash' : rc.method === 'barter' ? 'Paid by barter' : rc.method === 'mixed' ? 'Barter ' + rs(rc.credit) + ' + ' + by + rs(rc.due) + (rc.txn ? ' · ref ' + rc.txn : '') : (rc.method === 'upi' ? 'Paid by GPay ' + rs(rc.due) + ' · ref ' + rc.txn : 'Paid in cash ' + rs(rc.due));
+        vm.rcHasNoChange = rc.noChange > 0; vm.rcNoChange = 'No change is given for the extra ' + rs(rc.noChange) + ' of goods.';
+        vm.billsOpen = !!sh.bills || !!sh.ledger; vm.hasBillsToggle = !sh.ledger; vm.billsToggleLabel = sh.bills ? 'HIDE MY BILLS' : 'MY BILLS'; vm.toggleBills = () => this.shopSet({ bills: !sh.bills });
+        vm.billsList = SHP.bills().slice(0, sh.ledger ? 30 : 8).map((b) => ({ text: b.no + ' · ' + b.shop + ' · ' + (b.method === 'sold' ? '+' + rs(b.payout) : rs(b.subtotal)), when: when(b.date), open: () => this.shopSet({ receipt: b }) }));
+        if (sh.ledger) { const Bt = window.RoboBattery, Sc = window.RoboScrap, Gr = window.RoboGear, shoes = Gr && Gr.best(); vm.shopMsg = (Bt ? '🔋 Battery ' + Bt.pct() + '%' : '') + (Sc ? ' · ♻️ Scrap bag ' + Sc.total() + ' of ' + Sc.CAP : '') + ' · ' + (shoes === 'sports' ? '👟 Sports shoes' : shoes === 'chappal' ? '🩴 Chappals' : 'Barefoot'); vm.hasShopMsg = true; vm.leaveLabel = 'CLOSE'; return vm; }
+        vm.leaveLabel = this.pendingTrip ? (this.pendingTrip.mode === 'bus' ? 'BOARD THE BUS' : 'START THE RIDE') : 'BACK TO THE ROAD'; return vm;
+      }
+      const q = SHP.quote(sh.kind, sh.cart, sh.offer, ctx), cartN = q.lines.reduce((a, l) => a + l.qty, 0), accepts = q.accepts, method = accepts.indexOf(sh.method) >= 0 ? sh.method : accepts[0];
+      vm.shopItems = shopV.items.map((i) => {
+        const qty = sh.cart[i.id] || 0, unique = i.fx.type === 'costume' || i.fx.type === 'umbrella', plusOff = !!i.soldOut || qty >= 9 || (unique && qty >= 1);
+        return { emoji: i.emoji, name: i.name, local: i.local, desc: i.desc, price: rs(i.price), qty, owned: !!i.soldOut, buyable: !i.soldOut, minusOff: qty === 0, plusOff, minusBg: qty ? 'rgba(243,240,232,0.18)' : 'rgba(243,240,232,0.07)', plusBg: plusOff ? 'rgba(243,240,232,0.14)' : 'oklch(0.82 0.15 75)', plusFg: plusOff ? 'rgba(243,240,232,0.5)' : '#14110a', plus: () => this.shopStep(i.id, 1), minus: () => this.shopStep(i.id, -1) };
+      });
+      const list = SHP.barterList(sh.kind); vm.canBarter = list.length > 0; vm.barterOpen = !!sh.barter;
+      const credit = q.creditLines.reduce((a, c) => a + c.credit, 0);
+      vm.barterToggle = (sh.barter ? '▾ ' : '▸ ') + 'Barter: pay with goods from your backpack' + (credit > 0 ? ' (' + rs(Math.round(credit * 10) / 10) + ')' : ''); vm.barterBtnBg = credit > 0 ? 'rgba(143,200,255,0.18)' : 'transparent'; vm.toggleBarter = () => this.shopSet({ barter: !sh.barter });
+      const dem = SHP.DEMAND[sh.kind]; vm.barterNote = dem ? 'This shop takes ' + (dem.take === 'all' ? 'any ingredient' : list.map((b) => b.name.toLowerCase()).join(', ')) + ', crediting ' + Math.round(dem.rate * 100) + '% of what it is worth. A little over the bill is fine, but no change is given.' : '';
+      vm.barterItems = list.map((b) => { const have = ctx.have(b.id), off = sh.offer[b.id] || 0, minusOff = off === 0, plusOff = off >= have; return { emoji: b.emoji, name: b.name, have, offered: off, each: rs(b.each), minusOff, plusOff, minusBg: minusOff ? 'rgba(243,240,232,0.07)' : 'rgba(243,240,232,0.18)', plusBg: plusOff ? 'rgba(243,240,232,0.14)' : 'oklch(0.82 0.15 75)', plusFg: plusOff ? 'rgba(243,240,232,0.5)' : '#14110a', plus: () => this.offerStep(b.id, 1), minus: () => this.offerStep(b.id, -1) }; }).filter((b) => b.have > 0 || b.offered > 0);
+      vm.barterEmpty = vm.barterItems.length === 0;
+      vm.hasBill = cartN > 0; vm.billLines = q.lines.map((l) => ({ text: l.name + ' × ' + l.qty + ' @ ' + rs(l.rate), amount: rs(l.amount) })); vm.billSub = rs(q.subtotal);
+      vm.creditRows = q.creditLines.map((c) => ({ text: 'Barter: ' + c.name + ' × ' + c.qty + ' @ ' + rs(c.each), amount: '−' + rs(c.credit) })); vm.billDue = rs(q.due);
+      const probs = q.problems.filter((p) => !(cartN === 0 && /cart is empty/i.test(p))).map((text) => ({ text }));
+      const funds = q.due === 0 ? true : method === 'upi' ? upi >= q.due : cash >= q.due;
+      if (cartN > 0 && q.ok && !funds) probs.push({ text: method === 'upi' ? 'Your GPay balance is short: add cash to it below, or pay with cash.' : 'You do not have enough cash for this bill.' });
+      vm.problems = probs; vm.hasProblems = probs.length > 0;
+      vm.showPay = cartN > 0 && q.due > 0; vm.showCash = accepts.indexOf('cash') >= 0; vm.showUpi = accepts.indexOf('upi') >= 0;
+      vm.cashBg = method === 'cash' ? 'oklch(0.82 0.15 75)' : 'rgba(243,240,232,0.1)'; vm.cashFg = method === 'cash' ? '#14110a' : '#f3f0e8'; vm.upiBg = method === 'upi' ? '#8fc8ff' : 'rgba(243,240,232,0.1)'; vm.upiFg = method === 'upi' ? '#0c1a2a' : '#f3f0e8';
+      vm.pickCash = () => this.shopMethod('cash'); vm.pickUpi = () => this.shopMethod('upi'); vm.topUp50 = () => this.shopTopUp(50); vm.topUp100 = () => this.shopTopUp(100); vm.payNow = () => this.shopPay();
+      const ready = cartN > 0 && q.ok && funds; vm.payOff = !ready; vm.payBg = ready ? 'oklch(0.82 0.15 75)' : 'rgba(243,240,232,0.14)'; vm.payFg = ready ? '#14110a' : 'rgba(243,240,232,0.55)';
+      vm.payLabel = cartN === 0 ? 'ADD SOMETHING TO BUY' : q.due === 0 ? 'SETTLE BY BARTER' : 'PAY ' + rs(q.due) + (method === 'upi' ? ' WITH GPAY' : ' IN CASH'); vm.leaveLabel = 'BACK TO THE ROAD';
+      if (SHP.SHOPS[sh.kind].buys) {   // the scrap dealer: you sell pieces from your scrap bag and he pays you
+        vm.canBarter = false; vm.barterOpen = false; vm.showPay = false; vm.billDueLabel = 'THE DEALER PAYS'; vm.totalLabel = 'Total at the posted rates'; vm.billDue = rs(q.payout);
+        vm.shopItems = shopV.items.map((i) => { const have = ctx.scrapHave(i.id), qty = sh.cart[i.id] || 0, plusOff = qty >= have; return { emoji: i.emoji, name: i.name, local: '', desc: i.desc + ' · you have ' + have, price: rs(i.price), qty, owned: false, buyable: true, minusOff: qty === 0, plusOff, minusBg: qty ? 'rgba(243,240,232,0.18)' : 'rgba(243,240,232,0.07)', plusBg: plusOff ? 'rgba(243,240,232,0.14)' : 'oklch(0.82 0.15 75)', plusFg: plusOff ? 'rgba(243,240,232,0.5)' : '#14110a', plus: () => this.shopStep(i.id, 1), minus: () => this.shopStep(i.id, -1) }; });
+        const all = {}; shopV.items.forEach((i) => { const h = ctx.scrapHave(i.id); if (h > 0) all[i.id] = h; }); vm.hasSellAll = Object.keys(all).length > 0; vm.sellAll = () => this.shopSet({ cart: all, msg: '' });
+        const ready = cartN > 0 && q.ok; vm.payOff = !ready; vm.payBg = ready ? 'oklch(0.82 0.15 75)' : 'rgba(243,240,232,0.14)'; vm.payFg = ready ? '#14110a' : 'rgba(243,240,232,0.55)';
+        vm.payLabel = cartN === 0 ? (vm.hasSellAll ? 'CHOOSE WHAT TO SELL' : 'YOUR SCRAP BAG IS EMPTY') : 'SELL FOR ' + rs(q.payout);
+        vm.problems = cartN === 0 ? [] : q.problems.map((text) => ({ text })); vm.hasProblems = vm.problems.length > 0;
+      }
+      if (q.closed) { vm.shopMsg = q.problems[0]; vm.hasShopMsg = true; vm.problems = []; vm.hasProblems = false; vm.payLabel = 'CLOSED NOW'; vm.payOff = true; vm.payBg = 'rgba(243,240,232,0.14)'; vm.payFg = 'rgba(243,240,232,0.55)'; }
+      return vm;
+    })();
+    const tabs = [['game', 'Game'], ['sound', 'Sound'], ['display', 'Display'], ['controls', 'Controls'], ['save', 'Save']].map(([id, label]) => { const on = s.tab === id; return { label, ariaOn: on ? 'true' : 'false', bg: on ? '#f3f0e8' : 'transparent', color: on ? '#14110a' : '#f3f0e8', border: on ? '#f3f0e8' : faint, pick: () => this.setTab(id) }; });
+
+    const skinsRaw = prog ? prog.skins : [], equipped = (skinsRaw.find((k) => k.equipped) || { id: 'scout' }).id, sel = s.sel || equipped, wallet = prog ? prog.wallet : 0;
+    const skins = skinsRaw.map((k) => ({
+      name: k.name, body: k.body, acc: k.acc, glow: k.glow, priceLabel: k.priceLabel, ariaSel: k.id === sel ? 'true' : 'false',
+      border: k.id === sel ? btnAmber : 'rgba(243,240,232,0.14)', showPrice: !k.owned, showStatus: k.owned,
+      status: k.equipped ? 'EQUIPPED' : 'OWNED', statusColor: k.equipped ? green : 'rgba(243,240,232,0.72)',
+      select: () => { this.setState({ sel: k.id, garageMsg: '' }); if (g()) g().setSkin(window.RoboProgress.skin(k.id)); }
+    }));
+    const selK = skinsRaw.find((k) => k.id === sel) || { owned: true, equipped: true, price: 0, name: '' };
+    const gDisabled = selK.equipped || (!selK.owned && (!!selK.gate || wallet < selK.price));
+    const gLabel = selK.equipped ? 'EQUIPPED' : selK.owned ? 'EQUIP' : selK.gate ? 'LOCKED' : 'UNLOCK FOR ' + fmt(selK.price);
+    const gMsg = s.garageMsg || (!selK.owned && selK.gate ? selK.gate + ' to unlock this character.' : !selK.owned && wallet < selK.price ? 'You need ' + fmt(selK.price - wallet) + ' more energy. Missions are the quickest way to earn it.' : 'Tap a character to try it on.');
+
+    const res = s.results, KIND = { mission: 'MISSION', daily: 'DAILY', badge: 'BADGE' };
+    const events = res ? res.events.map((e) => ({ icon: e.icon || 'task_alt', kind: KIND[e.kind] || '', text: e.text, hasReward: !!e.reward, reward: e.reward ? '+' + fmt(e.reward) : '' })) : [];
+    const award = s.award ? { icon: s.award.icon || 'celebration', kind: s.award.kind === 'badge' ? 'BADGE UNLOCKED' : s.award.kind === 'daily' ? 'DAILY CHALLENGE DONE' : 'MISSION COMPLETE', text: s.award.text, hasReward: !!s.award.reward, reward: '+' + fmt(s.award.reward) } : { icon: '', kind: '', text: '', hasReward: false, reward: '' };
+    const daily = prog ? prog.daily : { text: '', reward: '', pct: '0%', label: '', resets: '', done: false };
+
+    const cb = s.cb || { on: false, weapon: null, popup: null, warn: '', boss: -1 };
+    const WI = { pipe: ['plumbing', 'PIPE'], wrench: ['build', 'WRENCH'], baton: ['flash_on', 'ENERGY BATON'], blaster: ['flare', 'BLASTER'], magnet: ['', 'MAGNET LAUNCHER'], foam: ['sports_cricket', 'FOAM BAT'], bubble: ['bubble_chart', 'BUBBLE BLASTER'] };
+    const wv = cb.weapon, wi = wv ? WI[wv.type] || ['build', 'WEAPON'] : null;
+    const pp = cb.popup; let popTitle = '', popSub = '';
+    if (pp) {
+      const P2 = {
+        takedown: [kids ? 'BOING!' : 'TAKEDOWN', '+' + fmt(pp.n)], env: [kids ? 'BOING!' : 'TAKEDOWN', 'Obstacle bonus +' + fmt(pp.n)], combo: ['COMBO ×' + pp.combo, '+' + fmt(pp.n)],
+        boss: ['GUARDIAN DOWN', '+' + fmt(pp.n)], disarm: ['DISARMED', 'Their weapon is yours'], stolenE: ['ENERGY STOLEN', 'Catch the thief to get it back'],
+        stolenW: ['WEAPON STOLEN', 'Catch the thief to get it back'], coinsLost: ['−' + pp.n + ' COINS', 'Beat that robot to win them back'],
+        equip: [wi ? wi[1] : 'WEAPON', wv ? wv.uses + (wv.ranged ? ' shots' : ' swings') : ''], broke: ['WEAPON BROKE', '']
+      }[pp.kind] || ['', ''];
+      popTitle = P2[0]; popSub = P2[1];
+    }
+    const showAttack = scr === 'playing' && cb.on && !s.tut && (s.touch || inp === 'touch');
+    const NOTICE = { ready: "You're ready! Run as far as you can.", lowgfx: 'Switched to Low graphics for smoother play' };
+    const run = s.run || {};
+
+    return {
+      mountRef: this.mountRef, uiRef: this.uiRef, uiZoom: zoom, hudZoom,
+      isLoading: scr === 'loading', showHud: scr === 'playing' || scr === 'paused',
+      isHome: scr === 'title' && !menu, isWho: menu === 'who', isMissions: menu === 'missions', isGarage: menu === 'garage', isBadges: menu === 'badges', isKitchen: menu === 'kitchen', isShop: menu === 'shop' && !!shopV, isSettings: menu === 'settings',
+      isPausedView: scr === 'paused' && !menu, isOverView: scr === 'over' && !menu, overKids: kids, overStandard: !kids, canEndRun: !!s.unlimited,
+
+      barPad: (short ? 'max(6px, env(safe-area-inset-top))' : 'max(10px, env(safe-area-inset-top))') + ' max(10px, env(safe-area-inset-right)) 0 max(10px, env(safe-area-inset-left))',
+      scoreDir: short ? 'row' : 'column', scoreAlign: short ? 'baseline' : 'center', scoreGap: short ? '10px' : '0px', scorePad: short ? '7px 14px' : '5px 14px',
+      pwTop: safeT(short ? 54 : 74), pwLeft: short ? 'max(10px, env(safe-area-inset-left))' : '8px', pwRight: short ? 'auto' : '8px', pwDir: short ? 'column' : 'row', pwAlign: short ? 'flex-start' : 'center',
+      toastTop: short ? '24%' : '28%', popTop: short ? '34%' : '22%',
+      awTop: safeT(short ? 54 : 120), awLeft: short ? 'auto' : '12px', awRight: short ? 'max(10px, env(safe-area-inset-right))' : '12px', awJustify: short ? 'flex-end' : 'center',
+      warnTop: short ? 'auto' : safeT(164), warnBottom: short ? 'max(12px, env(safe-area-inset-bottom))' : 'auto',
+      atkSide: short ? 'max(12px, env(safe-area-inset-left), env(safe-area-inset-right))' : 'max(16px, env(safe-area-inset-left), env(safe-area-inset-right))',
+      atkBottom: short ? 'max(10px, env(safe-area-inset-bottom))' : 'max(20px, calc(env(safe-area-inset-bottom) + 10px))',
+      stackTop: short ? safeT(56) : 'auto',
+      stackBottom: short ? 'auto' : showAttack ? 'calc(max(20px, env(safe-area-inset-bottom)) + clamp(64px, 11vmin, 88px) + 16px)' : 'max(28px, calc(env(safe-area-inset-bottom) + 16px))',
+      stackMax: short ? '58%' : '560px',
+      homeCols: short ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)', homeMax: short ? '100%' : '640px', titleSize,
+      startW: wide ? 'auto' : '100%', startAlign: wide ? 'flex-start' : 'stretch',
+      garJustify: short ? 'center' : 'flex-end', garAlign: short ? 'flex-end' : 'center',
+      garPad: short ? 'max(8px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) 10px' : '0 max(10px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left))',
+      garBg: short ? 'linear-gradient(to left, rgba(8,12,10,0.85) 0%, rgba(8,12,10,0.3) 55%, rgba(8,12,10,0) 80%)' : 'linear-gradient(to top, rgba(8,12,10,0.85) 0%, rgba(8,12,10,0.35) 55%, rgba(8,12,10,0) 80%)',
+      garMaxW: short ? 'min(58%, 560px)' : '640px', garMaxH: short ? '100%' : '58%',
+      overCols: short ? 'minmax(0, 0.85fr) minmax(0, 1.15fr)' : 'minmax(0, 1fr)', overMax: short ? '780px' : '480px',
+
+      hasClock: !!s.clock && (scr === 'playing' || scr === 'paused'), clockLabel: s.clock ? s.clock.icon + ' ' + s.clock.label + ' · ' + s.clock.temp + '°C' : '',
+      score: fmt(s.score), distLabel: fmt(s.dist) + ' M', cells: s.cells, best: fmt(s.best), hasBest: s.best > 0, newBest: s.newBest,
+      unlimitedLives: !!s.unlimited, limitedLives: !s.unlimited, livesLabel: s.unlimited ? 'Unlimited lives' : s.lives + ' lives left',
+      hearts: [0, 1, 2].map((i) => ({ color: i < s.lives ? amber : 'rgba(243,240,232,0.45)', fill: i < s.lives ? "'FILL' 1" : "'FILL' 0" })),
+      powers,
+      hasWeapon: !!wv, weaponIcon: wi ? wi[0] : '', weaponSvg: !!wi && !wi[0], weaponName: wi ? wi[1] : '', weaponUses: wv ? wv.uses + '/' + wv.max : '',
+      hasBoss: cb.boss >= 0 && scr === 'playing', bossPct: Math.round(Math.max(0, cb.boss) * 100) + '%',
+      hasPopup: !!pp && !!popTitle && scr === 'playing', popTitle, popSub,
+      hasWarn: !!cb.warn && scr === 'playing', warnText: cb.warn === 'slam' ? 'GROUND SLAM! CHANGE LANES' : 'GUARDIAN APPROACHING',
+      showAttack,
+      atkL: (e) => { if (e && e.preventDefault) e.preventDefault(); if (g()) g().attack(-1); },
+      atkR: (e) => { if (e && e.preventDefault) e.preventDefault(); if (g()) g().attack(1); },
+      coins: fmt(s.coins), coinsTotalLabel: fmt(s.coinsTotal),
+      overStats: [
+        { v: fmt(s.dist), l: 'METRES' }, { v: fmt(s.cells), l: 'ENERGY' }, { v: fmt(s.best), l: 'BEST' },
+        { v: fmt(s.coins), l: 'COINS' }, { v: fmt(run.takedowns), l: 'DEFEATED' }, { v: fmt(run.looted), l: 'WEAPONS' }
+      ],
+      hasCoinsEarned: !!res && s.coins > 0, coinsEarnedLabel: '+' + fmt(s.coins) + (s.coins === 1 ? ' coin saved' : ' coins saved'),
+      hasToast: !!s.toast && scr === 'playing', toast: s.toast,
+      hasAward: !!s.award && scr === 'playing', award,
+      hasTip: !!s.tip, hasNotice: !!s.notice && scr === 'playing', notice: NOTICE[s.notice] || '',
+      hasTut: !!tut, tutGlyphs: tut ? tut.glyphs : [], tutText: tut ? tut.text : '', tutSub: tut ? tut.sub : '', tutBorder: t && t.waiting ? btnAmber : 'rgba(243,240,232,0.15)',
+      tutDots: t ? Array.from({ length: t.total }, (_, i) => ({ bg: i < t.step ? amber : 'rgba(243,240,232,0.25)' })) : [],
+      hasHint: !!hint, hintGlyphs: hint ? hint.glyphs : [], hintText: hint ? hint.text : '',
+      hasCaption: !!set.subtitles && !!s.caption && (scr === 'playing' || scr === 'over'), caption: s.caption,
+      isKids: kids, wallet: prog ? prog.walletLabel : '0',
+      controls: ctl.map((c) => ({ glyphs: c.g, v: c.v })),
+      nav: [
+        { icon: 'flag', label: 'Missions', dot: !!prog && !prog.daily.done, open: () => this.setMenu('missions') },
+        { icon: 'smart_toy', label: 'Characters', dot: false, open: () => this.setMenu('garage') },
+        { icon: 'military_tech', label: 'Badges', dot: false, open: () => this.setMenu('badges') },
+        { icon: 'settings', label: 'Settings', dot: false, open: () => this.setMenu('settings') }
+      ].reduce((a, n) => (n.label === 'Settings' && set.world === 'malabar' ? a.concat({ icon: '', emoji: '🧭', label: 'Town', dot: false, open: () => this.exploreTown() }, ...(kids ? [] : [{ icon: '', emoji: '📖', label: 'Story', dot: false, open: () => this.exploreTown(true) }]), { icon: 'local_fire_department', label: 'Kitchen', dot: false, open: () => this.setMenu('kitchen') }, { icon: '', emoji: '🧾', label: 'Bills', dot: false, open: () => this.openBills() }, { icon: '', emoji: '🗺️', label: 'Map', dot: false, open: () => { if (window.RoboMap) window.RoboMap.open({ tab: 'region', area: 'kozhikode', maps: {}, spots: [], story: kids ? null : window.RoboQuests }); } }, n) : a.concat(n)), []),
+      tagline: set.world === 'malabar' ? 'A delivery robot on the Malabar coast. Run the beach, collect ingredients and cook meals that power your next run.' : 'A lost robot, an ancient jungle and no way back. Dodge the ruins, collect energy and see how far you get.',
+      navCols: 'repeat(4, minmax(0, 1fr))',   // four to a row: seven buttons make two even rows, and each is easy to hit on a phone
+      hasFood: !!s.foodMsg && (scr === 'playing' || scr === 'explore' || scr === 'title'), foodMsg: s.foodMsg,
+      hasSlope: !!s.slope && scr === 'playing', slopeLabel: s.slope === 'up' ? '⬆ UPHILL · SLOWER' : '⬇ DOWNHILL · FASTER',
+      hasHaul: !!s.haul && s.haul.has && !this.review(), hasHaulAdded: !!s.haul && s.haul.added.length > 0, haulAdded: s.haul ? s.haul.addedLabel : '', hasHaulLost: !!s.haul && s.haul.lost.length > 0, haulLost: s.haul ? s.haul.lostLabel : '', hasHaulUnlock: !!s.haul && !!s.haul.unlocked && s.haul.unlocked.length > 0, haulUnlock: s.haul && s.haul.unlocked ? s.haul.unlocked.join(', ') : '',
+      kitSlots: kit ? kit.slotsLabel : '', kitEmpty: !!kit && kit.ingredients.length === 0 && kit.meals.length === 0,
+      kitIngredients: kit ? kit.ingredients.map((i) => ({ emoji: i.emoji, name: i.name, nLabel: '×' + i.n })) : [],
+      kitHasMeals: !!kit && kit.meals.length > 0,
+      kitMeals: kit ? kit.meals.map((m) => ({ emoji: m.emoji, name: m.name, nLabel: '×' + m.n, desc: m.desc, ariaPacked: m.packed ? 'true' : 'false', border: m.packed ? btnAmber : 'rgba(243,240,232,0.12)', status: m.packed ? 'PACKED' : 'TAP TO PACK', statusColor: m.packed ? green : 'rgba(243,240,232,0.6)', pick: () => this.kitPack(m.id) })) : [],
+      kitRecipes: kit ? kit.recipes.map((r) => ({ emoji: r.emoji, name: r.name, desc: r.desc, need: r.need.map((x) => ({ label: x.emoji + ' ' + x.have + '/' + x.want, color: x.ok ? green : 'rgba(243,240,232,0.6)' })), disabled: !r.can, bg: r.can ? btnAmber : 'rgba(243,240,232,0.14)', fg: r.can ? '#14110a' : 'rgba(243,240,232,0.65)', label: r.can ? 'COOK' : 'MISSING INGREDIENTS', cook: () => this.kitCook(r.id) })) : [],
+      kitCanUpgrade: !!kit && !!kit.upgrade, kitUpgradeLabel: kit && kit.upgrade ? kit.upgrade.label : '', kitUpgradeOff: !kit || !kit.upgrade || !prog || prog.wallet < kit.upgrade.cost, kitUpgradeFg: kit && kit.upgrade && prog && prog.wallet >= kit.upgrade.cost ? '#f3f0e8' : 'rgba(243,240,232,0.5)', kitUpgrade: () => this.kitUpgrade(),
+      kitMsg: s.kitMsg, hasKitMsg: !!s.kitMsg, kitUmbrella: !!kit && kit.umbrella,
+      ...shopVM,
+      pickKids: () => { this.setSetting('player', 'kids'); this.setMenu(null); },
+      pickStandard: () => { this.setSetting('player', 'standard'); this.setMenu(null); },
+      daily, dailyDone: !!daily.done, dailyOpen: !daily.done, hasStreak: !!prog && prog.streak > 1, streakLabel: prog ? prog.streak + ' days in a row' : '',
+      missions: prog ? prog.missions : [],
+      skins, garageDisabled: gDisabled, garageLabel: gLabel, garageMsg: gMsg,
+      garageBg: gDisabled ? 'rgba(243,240,232,0.14)' : btnAmber, garageColor: gDisabled ? 'rgba(243,240,232,0.65)' : '#14110a',
+      garageAction: () => this.garageAction(sel, skinsRaw),
+      badges: prog ? prog.badges.map((b) => ({ icon: b.icon, name: b.name, desc: b.desc, pct: b.pct, label: b.label, got: b.got, locked: !b.got, color: b.got ? amber : 'rgba(243,240,232,0.45)', nameColor: b.got ? '#f3f0e8' : 'rgba(243,240,232,0.82)', border: b.got ? 'oklch(0.82 0.15 75 / 0.5)' : 'rgba(243,240,232,0.08)', bg: b.got ? 'oklch(0.82 0.15 75 / 0.08)' : 'rgba(243,240,232,0.04)' })) : [],
+      badgeCountLabel: prog ? prog.badgeCount + ' of ' + prog.badgeTotal + ' unlocked' : '',
+      tabs, rows,
+      hasEarned: !!res && !this.review(), earnedLabel: res ? '+' + fmt(res.earned) + ' energy added' : '', events,
+      hasRing: !!s.ring, ring: s.ring || { left: '0px', top: '0px', width: '0px', height: '0px' },
+      back: () => this.back(),
+      openSettings: () => this.setMenu('settings'),
+      start: () => this.start(),
+      pause: () => g() && g().pause(),
+      resume: () => g() && g().resume(),
+      endRun: () => g() && g().endRun(),
+      quit: () => { if (g()) g().quit(); this.setState({ results: null }); }
+    };
+  }
+}
+</script>
+
+
+</body></html>
