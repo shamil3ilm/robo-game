@@ -2032,12 +2032,13 @@ function create(container, opts) {
         ex.scene.environment = scene.environment;
       }
       ex.setStory(storyMode); resetWorld(); state = 'explore'; fps.skip = 3; fps.t = 0; fps.n = 0; fps.low = 0; ex.scene.add(R.root); R.root.scale.setScalar(0.78); R.root.visible = true; ex.enter();
-      camera.fov = aspect < 0.8 ? 64 : 56; camera.updateProjectionMatrix(); exUI.show(true); exUI.update(null, coinsTotal, lastInput === 'touch'); exR = null; last = performance.now(); acc = 0;
+      camera.fov = aspect < 0.8 ? 64 : 56; camera.near = 0.4; camera.updateProjectionMatrix(); exUI.show(true);   /* the town camera never gets closer than a few metres to anything that matters; a larger near plane gives the depth buffer about four times the precision, so thin things (road paint, kerbs) at 60 m or more stop shimmering */ exUI.update(null, coinsTotal, lastInput === 'touch'); exR = null; last = performance.now(); acc = 0;
       emit(); return true;
     },
     exitExplore(toRun) {
       renderer.toneMappingExposure = 1.0;   // the run has its own light
       if (state !== 'explore') return;
+      camera.near = 0.1; camera.updateProjectionMatrix();
       if (window.RoboMap && window.RoboMap.isOpen()) window.RoboMap.close();
       for (const k in exKeys) delete exKeys[k];
       scene.add(R.root); R.root.scale.setScalar(1); R.root.rotation.set(0, 0, 0); exUI.show(false); if (audio.rainSet) audio.rainSet(0);

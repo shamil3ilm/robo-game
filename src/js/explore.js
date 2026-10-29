@@ -857,7 +857,7 @@
         // people
         for (const q of persons) {
           const near = Math.abs(q.g.position.x - state.x) < 58 && Math.abs(q.g.position.z - state.z) < 58; q.g.visible = near && !q.off; if (!near) continue;
-          if (q.lod) q.lod(Math.hypot(q.g.position.x - state.x, q.g.position.z - state.z) > 16);
+          if (q.lod) { const pd = Math.hypot(q.g.position.x - state.x, q.g.position.z - state.z); q.lod(q.isFar === undefined ? pd > 16 : q.isFar ? pd > 14.5 : pd > 17.5); }   /* a person swaps between the full model and the joined one at about 16 m; the two limits differ by 3 m so a person (or you) hovering at the line does not flicker between them */
           if (q.ctrl) { q.update(time, dt, !!q.moving); continue; }   /* a footballer: the turf game moves him */
           if (q.route) {
             const tp = q.route[q.i], px2 = q.g.position.x, pz2 = q.g.position.z, ddx = tp[0] - px2, ddz = tp[1] - pz2, dist = Math.hypot(ddx, ddz);
