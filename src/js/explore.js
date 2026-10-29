@@ -802,6 +802,8 @@
         state.ride = { pts, dist: RR.length(pts), s: 0, t: 0, name: tr.name, fare: tr.fare, tripDist: tr.dist, to: toId }; rideRig.g.visible = true; return true;
       },
       /* a bus (or any) trip between towns: arrive at the given point, or at the area's spawn */
+      /* a test helper: stand at (x, z) in the same area, keeping the job, the vehicle and the room as they are */
+      moveTo(x, z) { state.x = x; state.z = z; state.vx = state.vz = 0; state.bs = 0; },
       travelTo(id, ax, az) { const a = AREAS[id]; if (!a) return; if (!isActive(id)) { cb.onNote && cb.onNote({ title: 'Not open yet', emoji: '🚧', body: a.name + ' opens in a later version. For now the game is Manjeri.', src: '' }); return; } clearWp(); state.bike = false; bikePark = null; returnVehicles(); state.ride = null; if (rideRig) rideRig.g.visible = false; state.area = id; state.bounds = walkBounds(state.area); state.room = null; state.x = ax !== undefined ? ax : a.spawn[0]; state.z = az !== undefined ? az : a.spawn[1]; state.vx = state.vz = 0; state.camYaw = 0; state.init = false; jobs.cur = null; setBeam(null); cb.onTravel && cb.onTravel(a.name); },
       /* self-check for tests: pickups a walker cannot stand on, and walker waypoints inside walls */
       audit() {
