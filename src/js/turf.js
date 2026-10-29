@@ -1,0 +1,40 @@
+/* Robo Run: the football turf game. Exposes window.RoboTurf = { kick, step, goal, rect, KICK_R, GOAL_HALF }.
+   The rules are pure (the ball is a plain { x, z, vx, vz, hop } that every function returns anew), so tests can play a match without a browser; the drawing lives in explore_manjeri.js.
+   Walk into the ball and it runs ahead of you; a ball that crosses the goal line between the posts is a goal. */
+(function () {
+  'use strict';
+  if (window.RoboTurf) return;   // the page loads its scripts twice
+
+  const KICK_R = 0.95, GOAL_HALF = 3.0, GOAL_LINE = 1.4;   // metres: how close you must be, half the goal mouth, how far the goal line stands in from the end
+
+  /* the pitch as a rectangle: centre and size (the fence line) */
+  const rect = (cx, cz, w, d) => ({ cx, cz, hw: w / 2, hd: d / 2 });
+
+  /* a touch: if the player is close enough the ball goes the way the player is going, a little faster than the player; standing still only nudges it. A kick every quarter of a second at most, so a dribble is a string of small kicks. */
+  const kick = (b, p, now) => {
+    const dx = b.x - p.x, dz = b.z - p.z, d = Math.hypot(dx, dz);
+    if (d > KICK_R || now - (b.last || -9) < 0.25) return b;
+    const sp = Math.hypot(p.vx, p.vz), dirX = sp > 0.4 ? p.vx / sp : d > 1e-3 ? dx / d : 0, dirZ = sp > 0.4 ? p.vz / sp : d > 1e-3 ? dz / d : 1;
+    const power = sp > 0.4 ? 3.2 + sp * 1.25 : 2.2;
+    return { x: b.x, z: b.z, vx: dirX * power, vz: dirZ * power, hop: 0.22 + Math.min(0.3, power * 0.025), last: now };
+  };
+
+  /* one step of the ball: rolls, slows (a ball loses about 80% of its speed in a second), bounces off the fence and keeps its small hop */
+  const step = (b, dt, r) => {
+    let { x, z, vx, vz, hop } = b; const k = Math.exp(-1.6 * dt);
+    x += vx * dt; z += vz * dt; vx *= k; vz *= k; hop = Math.max(0, hop - dt * 0.9);
+    const x0 = r.cx - r.hw + 0.3, x1 = r.cx + r.hw - 0.3, z0 = r.cz - r.hd + 0.3, z1 = r.cz + r.hd - 0.3;
+    if (x < x0) { x = x0; vx = Math.abs(vx) * 0.6; } else if (x > x1) { x = x1; vx = -Math.abs(vx) * 0.6; }
+    if (z < z0) { z = z0; vz = Math.abs(vz) * 0.6; } else if (z > z1) { z = z1; vz = -Math.abs(vz) * 0.6; }
+    return { x, z, vx, vz, hop, last: b.last };
+  };
+
+  /* 'north' or 'south' when the ball is over a goal line between the posts, else null */
+  const goal = (b, r) => {
+    if (Math.abs(b.x - r.cx) >= GOAL_HALF) return null;
+    const dz = b.z - r.cz, line = r.hd - GOAL_LINE;
+    return dz <= -line ? 'north' : dz >= line ? 'south' : null;
+  };
+
+  window.RoboTurf = { kick, step, goal, rect, KICK_R, GOAL_HALF, GOAL_LINE };
+})();

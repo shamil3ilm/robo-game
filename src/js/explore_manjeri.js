@@ -155,16 +155,27 @@
       // mesh fence on three sides, a gap on the road side; floodlights at the corners
       const fenceTex = canvasTex(64, 64, (x, w2, h2) => { x.clearRect(0, 0, w2, h2); x.strokeStyle = 'rgba(30,30,30,0.85)'; x.lineWidth = 2; for (let i = 0; i <= 8; i++) { x.beginPath(); x.moveTo(i * 8, 0); x.lineTo(i * 8, h2); x.moveTo(0, i * 8); x.lineTo(w2, i * 8); x.stroke(); } }, 6, 1);
       const fm = new THREE.MeshBasicMaterial({ map: fenceTex, transparent: true, side: THREE.DoubleSide, alphaTest: 0.3 });
-      [[cx, cz - d / 2, w, 0], [cx, cz + d / 2, w, 0], [cx - w / 2, cz, d, PI / 2]].forEach(([fx, fz, len, ry]) => { const f = new THREE.Mesh(new THREE.PlaneGeometry(len, 3.4), fm); f.position.set(X(fx), 1.7, fz); f.rotation.y = ry; add(f); });
+      [[cx, cz - d / 2, w, 0], [cx, cz + d / 2, w, 0], [cx - w / 2, cz, d, PI / 2]].forEach(([fx, fz, len, ry]) => { const f = new THREE.Mesh(new THREE.PlaneGeometry(len, 1.8), fm); f.position.set(X(fx), 0.9, fz);   /* low enough for the camera to see over when it stands behind the fence */ f.rotation.y = ry; add(f); });
       solid(X(cx - w / 2) - 0.3, X(cx + w / 2), cz - d / 2 - 0.2, cz - d / 2 + 0.2); solid(X(cx - w / 2) - 0.3, X(cx + w / 2), cz + d / 2 - 0.2, cz + d / 2 + 0.2); solid(X(cx - w / 2) - 0.3, X(cx - w / 2) + 0.3, cz - d / 2, cz + d / 2);
       solid(X(cx + w / 2) - 0.2, X(cx + w / 2) + 0.2, cz - d / 2, cz + d / 2 - 6); solid(X(cx + w / 2) - 0.2, X(cx + w / 2) + 0.2, cz + d / 2 - 3, cz + d / 2);   // the gate gap is on the road side
       [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx2, sz2]) => { const px = X(cx + sx2 * (w / 2 + 0.5)), pz = cz + sz2 * (d / 2 + 0.5); box(0.2, 8, 0.2, dark, px, 4, pz, undefined, true); mesh(new THREE.BoxGeometry(1.2, 0.5, 0.4), new THREE.MeshBasicMaterial({ color: 0xfff2c0 }), px, 8.1, pz, g); post(px, pz, 0.3); });
       const board = sign(5.5, 1.1, 1024, 200, (x, w2, h2) => { x.fillStyle = '#12482a'; x.fillRect(0, 0, w2, h2); x.strokeStyle = '#fff'; x.lineWidth = 6; x.strokeRect(6, 6, w2 - 12, h2 - 12); txt(x, 'FOOTBALL TURF', w2 / 2, h2 * 0.38, 'bold 84px sans-serif', '#fff'); txt(x, 'ഫുട്ബോൾ ടർഫ്', w2 / 2, h2 * 0.76, 'bold 56px ' + FONT_ML, '#ffe9b0'); });
       board.position.set(X(cx), 5, cz - d / 2); g.add(board); both(board, g); add(g); g.userData = { x: X(cx), z: cz }; cullables.push(g);
       noteSpot(-6.5, 40, 'payyanad');
-      // the game: a ball that never stops, and four players
-      const ball = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 10), mat(0xf4f1e8)); ball.castShadow = true; add(ball); ball.position.set(X(cx), 0.3, cz);
-      let t0 = 0; c.onFrame((dt) => { t0 += dt; ball.position.x = X(cx) + Math.sin(t0 * 0.9) * (w / 2 - 4); ball.position.z = cz + Math.sin(t0 * 0.6 + 1) * (d / 2 - 4); ball.position.y = 0.25 + Math.abs(Math.sin(t0 * 5)) * 0.18; });
+      // the game: a real ball (walk into it to kick it, score between the posts), and four players who run about
+      const TU = window.RoboTurf, pitch = TU.rect(X(cx), cz, w, d), ball = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 10), mat(0xf4f1e8));
+      ball.castShadow = true; add(ball);
+      let b = { x: X(cx), z: cz, vx: 0, vz: 0, hop: 0, last: -9 }, now = 0, goals = 0, pause = 0, told = false;
+      c.onFrame((dt) => {
+        now += dt; const pl = c.player && c.player();
+        if (pause > 0) pause -= dt;
+        else {
+          if (pl && !pl.room && !pl.ride && !pl.bike) { if (!told && Math.hypot(pl.x - b.x, pl.z - b.z) < 5) { told = true; c.toast && c.toast('Walk into the ball to kick it. Score between the posts.'); } b = TU.kick(b, pl, now); }
+          b = TU.step(b, Math.min(dt, 0.1), pitch);
+          if (TU.goal(b, pitch)) { goals++; c.toast && c.toast('GOAL! ⚽  Goals today: ' + goals); pause = 1.4; b = { x: X(cx), z: cz, vx: 0, vz: 0, hop: 0, last: -9 }; }
+        }
+        ball.position.set(b.x, 0.25 + b.hop, b.z); ball.rotation.x += b.vz * dt * 4; ball.rotation.z -= b.vx * dt * 4;
+      });
       [['schoolboy', [[cx - 6, cz - 6], [cx + 6, cz + 6]], 1.9], ['schoolboy', [[cx + 6, cz - 6], [cx - 6, cz + 6]], 2.1], ['fisher', [[cx - 8, cz], [cx + 8, cz]], 1.7], ['lungi', [[cx, cz - 8], [cx, cz + 8]], 1.5]].forEach(([type, pts, sp]) => walker(type, pts.map(([lx, lz]) => [X(lx), lz]), sp, 0));
     })();
 

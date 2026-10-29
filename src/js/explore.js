@@ -495,7 +495,7 @@
         plane: (w, d, m, x, y, z) => { const p = plane(w, d, m, x, y, z); ag.add(p); return p; }, canvasTex, rr, pick,
         walker: (type, pts, sp, j) => walker(type, pts.map((q) => [q[0], q[1] + oz]), sp, j), stander: (type, x, z, yaw) => stander(type, x, z + oz, yaw), addPickup: (kind, id, x, z) => addPickup(kind, id, x, z + oz),
         cullables, staticGroups, noMerge, palmAt: (x, z, i, s) => palmAt(x, z + oz, i, s), building: (side, z0, z1, ox0, pair) => building(side, z0 + oz, z1 + oz, ox0, pair), buildingEW: (side, lx0, lx1, tz, ox0, pair) => buildingEW(side, lx0, lx1, tz + oz, ox0, pair),
-        auto: (x, z, ry) => auto(x, z + oz, ry), scooter: (x, z, ry) => scooter(x, z + oz, ry), V, spots: spotsHere, marker: (x, z, color) => marker(x, z + oz, color), notes: NOTES, kit, earthMat, asphaltMat, paverMat, roofMat, onFrame: (fn) => frameHooks.push(fn) };
+        auto: (x, z, ry) => auto(x, z + oz, ry), scooter: (x, z, ry) => scooter(x, z + oz, ry), V, spots: spotsHere, marker: (x, z, color) => marker(x, z + oz, color), notes: NOTES, kit, earthMat, asphaltMat, paverMat, roofMat, onFrame: (fn) => frameHooks.push(fn), player: () => state, toast: (text) => toast(text) };
     };
     if (window.RoboExplore && window.RoboExploreManjeri) window.RoboExploreManjeri.build(areaCtx(MANJERI_X));
     if (window.RoboExplore && window.RoboExploreCity && isActive('city')) window.RoboExploreCity.build(areaCtx(CITY_X));
