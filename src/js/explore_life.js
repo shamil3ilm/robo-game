@@ -46,11 +46,15 @@
   };
   /* a flock bird circling a centre: position at time t */
   const circle = (cx, cz, r, w, t, ph) => ({ x: cx + Math.cos(t * w + ph) * r, z: cz + Math.sin(t * w + ph) * r, yaw: -(t * w + ph) });
-  const pure = { stepVehicle, freeAhead, stepAnimal, stepPlane, stepTrain, circle };
+  /* a moving vehicle is solid: a few circles along its length, [distance along it, radius] (the player is 0.45 m wide). Where circle i stands, given the vehicle's place: an 'x' axis vehicle drives east-west, its `pos` is its x and its `x` is its lane's z. */
+  const BODY = { car: [[-1.05, 0.95], [1.05, 0.95]], auto: [[-0.45, 0.7], [0.45, 0.7]], scooter: [[0, 0.5]], bus: [[-3.6, 1.35], [0, 1.35], [3.6, 1.35]], lorry: [[-3, 1.3], [0, 1.3], [3, 1.3]] };
+  const body = (kind) => BODY[kind] || BODY.car;
+  const bodyAt = (v, i) => { const off = body(v.kind)[i][0]; return v.axis === 'x' ? { x: v.pos + off, z: v.x } : { x: v.x, z: v.pos + off }; };
+  const pure = { stepVehicle, freeAhead, stepAnimal, stepPlane, stepTrain, circle, body, bodyAt };
 
   /* ---------------- the models ---------------- */
   function build(c) {
-    const { THREE, add, mat, rr, pick, kit, V, cullables, onFrame, player, people, X } = c;
+    const { THREE, add, mat, rr, pick, kit, V, cullables, onFrame, player, people, X, addCollider } = c;
     const near = (x, z, d) => { const p = player(); return Math.abs(p.x - x) < d && Math.abs(p.z - z) < d; };
     const bx = (w, h, d, m, x, y, z, parent) => { const o = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), m); o.position.set(x, y, z); o.castShadow = true; (parent || c.scene).add(o); return o; };
     let T = 0;
@@ -66,12 +70,13 @@
       bx(1.8, 0.7, 4.0, mat(col, { roughness: 0.4, metalness: 0.3 }), 0, 0.7, 0, g); bx(1.6, 0.6, 2.0, mat(0x24405a, { roughness: 0.2, metalness: 0.4 }), 0, 1.3, -0.1, g);
       [[-0.9, 1.3], [0.9, 1.3], [-0.9, -1.3], [0.9, -1.3]].forEach(([wx, wz]) => { const w = new THREE.Mesh(wheel, dark); w.position.set(wx, 0.34, wz); g.add(w); }); return g; };
     const traffic = [];
+    const track = (v) => { v.cs = body(v.kind).map(([, r], i) => { const p = bodyAt(v, i), c = { t: 'circle', x: p.x, z: p.z, r, tag: 'vehicle', obj: v.m, dyn: true }; addCollider(c); return c; }); };   /* solid: you cannot walk through a moving car */
     const road = (ox, lx, z0, z1, kinds) => {
       kinds.forEach((kind, i) => {
         const dir = i % 2 ? -1 : 1, m = kind === 'auto' ? makeAuto() : kind === 'scooter' ? (() => { const s = kit.ride('scooter'); s.scale.setScalar(0.85); return s; })() : makeCar(pick([0xb8352a, 0x2b4a7a, 0xe8e4da, 0x4a6a4a]));
         const v = { x: ox + lx + dir * -1.35, pos: z0 + (z1 - z0) * (i / kinds.length) + rr(-3, 3), dir, speed: kind === 'scooter' ? 6 : kind === 'car' ? 7 : 5, cur: 0, lo: z0, hi: z1, m, kind };   // east lane (dir +1, south) is at +x
         v.x = ox + lx + (dir > 0 ? 1.35 : -1.35);
-        m.rotation.y = dir > 0 ? PI : 0; m.position.set(v.x, 0, v.pos); m.userData = { x: v.x, z: v.pos }; add(m); cullables.push(m); traffic.push(v);
+        m.rotation.y = dir > 0 ? PI : 0; m.position.set(v.x, 0, v.pos); m.userData = { x: v.x, z: v.pos }; add(m); cullables.push(m); traffic.push(v); track(v);
       });
     };
     /* the highway (NH 66) runs east to west along z = hz: keeping left, the east-going lane is the north one. A vehicle there has axis 'x': its `pos` is its x and its `x` is its lane's z, so the same stepping rules apply. */
@@ -80,7 +85,7 @@
         const dir = i % 2 ? -1 : 1, lane = hz + (dir > 0 ? -2.6 : 2.6);
         const m = kind === 'auto' ? makeAuto() : kind === 'scooter' ? (() => { const s = kit.ride('scooter'); s.scale.setScalar(0.85); return s; })() : kind === 'bus' && V ? V.bus(pick(['ksrtc', 'private-blue']), pick([['Kozhikode', 'കോഴിക്കോട്'], ['Manjeri', 'മഞ്ചേരി'], ['Mananthavady', 'മാനന്തവാടി']])) : kind === 'lorry' && V ? V.lorry(pick([0xd9792a, 0x2f6a8a, 0xb8352a])) : makeCar(pick([0xb8352a, 0x2b4a7a, 0xe8e4da, 0x4a6a4a, 0x3a3a3a]));
         const v = { axis: 'x', x: lane, pos: xa + (xb - xa) * ((i + 0.5) / kinds.length) + rr(-12, 12), dir, speed: { car: 11, auto: 6.5, scooter: 8.5, bus: 9, lorry: 8 }[kind] || 9, cur: 0, lo: xa + 6, hi: xb - 6, m, kind };
-        m.rotation.y = dir > 0 ? -PI / 2 : PI / 2; m.position.set(v.pos, 0, v.x); m.userData = Object.assign(m.userData || {}, { x: v.pos, z: v.x }); add(m); cullables.push(m); traffic.push(v);
+        m.rotation.y = dir > 0 ? -PI / 2 : PI / 2; m.position.set(v.pos, 0, v.x); m.userData = Object.assign(m.userData || {}, { x: v.pos, z: v.x }); add(m); cullables.push(m); traffic.push(v); track(v);
       });
     };
     highway(84, X.manjeri + 84, 69, ['car', 'lorry', 'auto', 'car', 'bus', 'scooter', 'car', 'lorry', 'car', 'auto', 'bus', 'car', 'scooter', 'car']); highway(X.wayanad - 84, -84, 69, ['car', 'bus', 'auto', 'lorry', 'car', 'scooter']);
@@ -94,6 +99,7 @@
         for (const o of traffic) if (o !== v && o.axis === v.axis && o.x === v.x) things.push({ x: o.x, z: o.pos, r: 1.2 });
         stepVehicle(v, dt, freeAhead(v, things));
         if (ax) { v.m.position.set(v.pos, 0, v.x); v.m.userData.x = v.pos; v.m.userData.z = v.x; } else { v.m.position.set(v.x, 0, v.pos); v.m.userData.x = v.x; v.m.userData.z = v.pos; }
+        v.cs.forEach((c, i) => { const p = bodyAt(v, i); c.x = p.x; c.z = p.z; });
       }
     });
 

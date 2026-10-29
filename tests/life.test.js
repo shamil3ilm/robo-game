@@ -49,4 +49,12 @@ t('birds circle their centre at their radius, and the model code never touches t
   const q2 = P.circle(100, 50, 20, 0.5, Math.PI, 0); assert.ok(Math.abs(Math.hypot(q2.x - 100, q2.z - 50) - 20) < 1e-9);
   const file = fs.readFileSync(path.join(__dirname, '..', 'src', 'js', 'explore_life.js'), 'utf8'); for (const bad of ['eval(', 'new Function', 'fetch(', 'XMLHttpRequest', 'localStorage', 'innerHTML']) assert.ok(!file.includes(bad), 'life.js contains ' + bad);
 });
+t('a moving vehicle is solid: circles along its length, placed in its lane, turning with its axis', () => {
+  const c0 = P.bodyAt({ x: 3, pos: 10, kind: 'car' }, 0), c1 = P.bodyAt({ x: 3, pos: 10, kind: 'car' }, 1);
+  assert.deepEqual([c0.x, c1.x], [3, 3], 'a north-south car: both circles in its lane'); assert.ok(c0.z < 10 && c1.z > 10 && Math.abs((c1.z - c0.z) - 2.1) < 1e-9, 'one each side of its middle');
+  const e = P.bodyAt({ axis: 'x', x: 66.4, pos: 100, kind: 'bus' }, 2); assert.equal(e.z, 66.4, 'an east-west bus: its lane is its z'); assert.ok(e.x > 100, 'and its length runs along x');
+  for (const k of ['car', 'auto', 'scooter', 'bus', 'lorry', 'unknown']) { const b = P.body(k); assert.ok(b.length >= 1 && b.every(([o, r]) => Number.isFinite(o) && r >= 0.4 && r <= 1.5), k); }
+  const span = (k) => { const b = P.body(k); return Math.max(...b.map(([o, r]) => o + r)) - Math.min(...b.map(([o, r]) => o - r)); };
+  assert.ok(span('bus') >= 9 && span('car') >= 3.8 && span('auto') >= 2 && span('scooter') >= 0.9, 'long enough to cover each body: bus ' + span('bus') + ', car ' + span('car'));
+});
 console.log('\n' + n + ' tests passed');

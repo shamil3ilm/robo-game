@@ -523,7 +523,7 @@
       const exs = exsAll.length ? exsAll : window.RoboExploreManjeri ? window.RoboExploreManjeri.shape.exits() : [{ x: 0, z: -135.2, tx: 0, tz: -1 }, { x: 0, z: 105.2, tx: 0, tz: 1 }, { x: 95.2, z: 0, tx: 1, tz: 0 }, { x: -95.2, z: 0, tx: -1, tz: 0 }];
       exs.forEach((e) => { const bx = (e.wx !== undefined ? e.wx : MANJERI_X + e.x) - e.tx * 1.5, bz = e.z - e.tz * 1.5; closed(bx, bz, Math.atan2(-e.tx, -e.tz)); });   // a metre and a half inside the edge
     }
-    if (window.RoboExploreLife) window.RoboExploreLife.build({ THREE, scene, add, mat, rr, pick, kit, V, cullables, low, onFrame: (fn) => frameHooks.push(fn), player: () => state, people: () => persons, X: { kozhikode: 0, city: CITY_X, hilite: HILITE_X, manjeri: MANJERI_X, wayanad: WAYANAD_X } });   // the town's own life: traffic, animals, birds, sky, boats
+    if (window.RoboExploreLife) window.RoboExploreLife.build({ THREE, scene, add, mat, rr, pick, kit, V, cullables, low, onFrame: (fn) => frameHooks.push(fn), addCollider: (q) => colliders.push(q), player: () => state, people: () => persons, X: { kozhikode: 0, city: CITY_X, hilite: HILITE_X, manjeri: MANJERI_X, wayanad: WAYANAD_X } });   // the town's own life: traffic, animals, birds, sky, boats
     if (window.RoboExploreSigns) window.RoboExploreSigns.build({ THREE, add, mat, solid, post, canvasTex, spots, marker, lampPos, cullables, laneZ: LANE_Z, notes: NOTES });
     /* ---------- scrap: old paper, plastic, tins, glass and iron lie about; the scrap dealers (one in each area) buy them by weight ---------- */
     const scrapModel = (id) => {
@@ -803,6 +803,7 @@
       },
       /* a bus (or any) trip between towns: arrive at the given point, or at the area's spawn */
       /* a test helper: stand at (x, z) in the same area, keeping the job, the vehicle and the room as they are */
+      carCircles() { return colliders.filter((q) => q.dyn && q.tag === 'vehicle').map((q) => [q.x, q.z, q.r]); },   /* a test helper: where the moving vehicles are solid */
       moveTo(x, z) { state.x = x; state.z = z; state.vx = state.vz = 0; state.bs = 0; },
       travelTo(id, ax, az) { const a = AREAS[id]; if (!a) return; if (!isActive(id)) { cb.onNote && cb.onNote({ title: 'Not open yet', emoji: '🚧', body: a.name + ' opens in a later version. For now the game is Manjeri.', src: '' }); return; } clearWp(); state.bike = false; bikePark = null; returnVehicles(); state.ride = null; if (rideRig) rideRig.g.visible = false; state.area = id; state.bounds = walkBounds(state.area); state.room = null; state.x = ax !== undefined ? ax : a.spawn[0]; state.z = az !== undefined ? az : a.spawn[1]; state.vx = state.vz = 0; state.camYaw = 0; state.init = false; jobs.cur = null; setBeam(null); cb.onTravel && cb.onTravel(a.name); },
       /* self-check for tests: pickups a walker cannot stand on, and walker waypoints inside walls */
