@@ -168,7 +168,7 @@
       const mk = (type, team, lx, lz) => { const p = walker(type, [[X(lx), lz], [X(lx), lz]], 0, 0); p.ctrl = true; return { p, s: { x: X(lx), z: lz, team, hx: X(lx), hz: lz, moving: false, yaw: team === 'home' ? 0 : PI } }; };
       const team = [mk('schoolboy', 'home', cx - 5, cz + 7), mk('schoolboy', 'home', cx + 5, cz + 3), mk('fisher', 'away', cx - 5, cz - 7), mk('lungi', 'away', cx + 5, cz - 3), mk('mundu', 'away', cx, cz - 9)];
       const fresh = () => ({ x: X(cx), z: cz, vx: 0, vz: 0, hop: 0, last: -9 });
-      let b = fresh(), now = 0, home = 0, away = 0, pause = 0, told = false, paid = 0;   /* ₹10 for each of your first five goals since the page was opened, so goals cannot be farmed */
+      let b = fresh(), now = 0, home = 0, away = 0, pause = 0, told = false, paid = 0, wins = 0;   /* ₹10 for each of your first five goals since the page was opened, so goals cannot be farmed */
       const shot = { x: b.x, z: b.z, r: 1.9, kind: 'kick', label: 'Shoot', emoji: '⚽', quiet: true, off: true, use: () => { const pl = c.player(); b = TU.shoot(b, pl, -Math.sin(pl.yaw), -Math.cos(pl.yaw), now); } };
       c.spots.push(shot);
       c.onFrame((dt) => {
@@ -180,7 +180,9 @@
           const r = TU.ai(team.map((q) => q.s), b, pitch, Math.min(dt, 0.1), now, playing ? pl : null); b = TU.step(r.ball, Math.min(dt, 0.1), pitch);
           r.players.forEach((s2, i) => { team[i].s = s2; const g2 = team[i].p.g; g2.position.x = s2.x; g2.position.z = s2.z; let dy = s2.yaw - g2.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); g2.rotation.y += dy * Math.min(1, dt * 8); team[i].p.moving = s2.moving; });
           const gl = TU.goal(b, pitch);
-          if (gl) { if (gl === 'north') home++; else away++; const pay = gl === 'north' && paid < 5 && c.coin; if (pay) { paid++; c.coin(10); } c.toast && c.toast(gl === 'north' ? 'GOAL for you! ⚽  ' + home + ' - ' + away + (pay ? '   +₹10' : '') : 'Goal for them.  ' + home + ' - ' + away); pause = 1.6; b = fresh(); team.forEach((q) => { q.s = Object.assign({}, q.s, { x: q.s.hx, z: q.s.hz }); q.p.g.position.x = q.s.hx; q.p.g.position.z = q.s.hz; }); }
+          if (gl) { if (gl === 'north') home++; else away++; const pay = gl === 'north' && paid < 5 && c.coin; if (pay) { paid++; c.coin(10); } const won = TU.result(home, away), line = home + ' - ' + away;
+          if (won) { const bonus = won === 'home' && wins < 2 && c.coin; if (bonus) { wins++; c.coin(30); } c.toast && c.toast(won === 'home' ? 'FULL TIME! You win ' + line + (bonus ? '   +₹30' : '') : 'FULL TIME. They win ' + line + '. Try again.'); home = away = 0; pause = 4.5; }
+          else { c.toast && c.toast(gl === 'north' ? 'GOAL for you! ⚽  ' + line + (pay ? '   +₹10' : '') : 'Goal for them.  ' + line); pause = 1.6; } b = fresh(); team.forEach((q) => { q.s = Object.assign({}, q.s, { x: q.s.hx, z: q.s.hz }); q.p.g.position.x = q.s.hx; q.p.g.position.z = q.s.hz; }); }
         }
         ball.position.set(b.x, 0.25 + b.hop, b.z); ball.rotation.x += b.vz * dt * 4; ball.rotation.z -= b.vx * dt * 4; shot.x = b.x; shot.z = b.z;
       });

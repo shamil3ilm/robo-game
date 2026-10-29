@@ -78,4 +78,8 @@ t('two teams left alone for a few minutes keep the ball on the pitch, never prod
     assert.ok([b.x, b.z].every(Number.isFinite) && list.every((p) => Number.isFinite(p.x) && Number.isFinite(p.z))); assert.ok(Math.abs(b.x) <= 13 && Math.abs(b.z) <= 14); }
   assert.ok(goals >= 1, 'goals in 5 minutes: ' + goals);
 });
+t('a match is first to five goals', () => {
+  assert.equal(T.result(0, 0), null); assert.equal(T.result(4, 4), null); assert.equal(T.result(5, 3), 'home'); assert.equal(T.result(2, 5), 'away');
+  assert.equal(T.result(5, 5), null, 'cannot both reach five by one goal at a time, but a tie is never a result'); assert.equal(T.WIN_AT, 5);
+});
 console.log('\n' + n + ' tests passed');

@@ -69,5 +69,9 @@
     return { players: out, ball };
   };
 
-  window.RoboTurf = { kick, step, goal, rect, push, shoot, ai, KICK_R, GOAL_HALF, GOAL_LINE };
+  /* a match is first to WIN_AT goals: 'home' (you), 'away' (them) or null while it is still on */
+  const WIN_AT = 5;
+  const result = (home, away) => (home >= WIN_AT && home > away ? 'home' : away >= WIN_AT && away > home ? 'away' : null);
+
+  window.RoboTurf = { kick, step, goal, rect, push, shoot, ai, result, WIN_AT, KICK_R, GOAL_HALF, GOAL_LINE };
 })();
