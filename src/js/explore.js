@@ -260,6 +260,14 @@
       for (let i = 0; i < 500; i++) { x.fillStyle = 'rgba(0,0,0,.05)'; x.fillRect(Math.random() * w, Math.random() * w, 1, 1); }
     });
     const wallMats = WALLS.map((h) => std({ color: h, roughness: 0.95, map: plasterTex }));
+    /* paper pasted on shutters and walls, as on every Kerala street: six invented posters (no real film, party or person) */
+    const POSTERS = [
+      ['LIVE MUSIC', 'SATURDAY NIGHT', '#1f2a5a', '#ffd23a'], ['TUITION', 'ALL SUBJECTS · ENROLL', '#f4f1e6', '#1a1a1a'], ['MEDICAL CAMP', 'FREE · SUNDAY 9 AM', '#e8f3ea', '#1f6a3a'],
+      ['FOOTBALL FINAL', 'TURF · 7 PM', '#a82a1c', '#ffffff'], ['VACANCY', 'SALESMAN WANTED', '#ffe14a', '#1a1a1a'], ['SUPER SALE', 'UP TO 50% OFF', '#7a1f3a', '#ffe9b0']];
+    const posterMats = POSTERS.map(([a, b, bg, fg]) => std({ color: 0xffffff, roughness: 1, map: canvasTex(128, 180, (x, w, hh) => {
+      x.fillStyle = bg; x.fillRect(0, 0, w, hh); x.strokeStyle = fg; x.lineWidth = 4; x.strokeRect(6, 6, w - 12, hh - 12); x.fillStyle = fg; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.font = 'bold 20px sans-serif'; const words = a.split(' '); words.forEach((wd, i) => x.fillText(wd, w / 2, 34 + i * 24)); x.beginPath(); x.arc(w / 2, 104, 20, 0, 6.3); x.fill(); x.fillStyle = bg; x.font = 'bold 18px sans-serif'; x.fillText('★', w / 2, 105);
+      x.fillStyle = fg; x.font = 'bold 11px sans-serif'; b.split(' · ').forEach((ln, i) => x.fillText(ln, w / 2, 144 + i * 14)); for (let k = 0; k < 90; k++) { x.fillStyle = 'rgba(0,0,0,.06)'; x.fillRect(Math.random() * w, Math.random() * hh, 1 + Math.random() * 2, 1 + Math.random() * 7); } }) }));
     const roofTex = canvasTex(128, 128, (x, s2) => { x.fillStyle = '#b5532e'; x.fillRect(0, 0, s2, s2); for (let i = 0; i < 16; i++) { x.fillStyle = i % 2 ? 'rgba(90,30,15,.35)' : 'rgba(230,140,90,.25)'; x.fillRect(0, i * 8, s2, 4); } for (let i = 0; i < 600; i++) { x.fillStyle = 'rgba(40,15,8,.18)'; x.fillRect(Math.random() * s2, Math.random() * s2, 2, 2); } }, 4, 1);
     const roofMat = std({ map: roofTex, roughness: 0.85, side: THREE.DoubleSide }), darkWood = mat(0x3e2a1c, { roughness: 0.9 }), shutterGreen = mat(0x2f6a4a), glassMat = mat(0x1d2a30, { roughness: 0.2, metalness: 0.3 }), trim = mat(0xe8dcc0);
     const signCache = {};
@@ -281,6 +289,7 @@
       const aw = box(1.5, 0.07, w - 0.6, mat(look && look.awning ? look.awning : pick([0xb8352a, 0x2f6a4a, 0xc89a2a, 0x2b4a7a])), xf - side * 0.7, 3.05, zc, g, true); aw.rotation.z = side * 0.3;   // fabric awning over the shopfront
       aw.material = aw.material.clone(); aw.material.transparent = true; const fade = { m: aw, k: 1, x0: xf - side * 1.5, x1: xf, z0: zc - (w - 0.6) / 2, z1: zc + (w - 0.6) / 2 };
       const real = ox ? null : REAL_SIGNS.find((r) => r.side === side && z0 <= r.z && r.z < z1), pair = pairO || (real ? real.pair : SIGNS[signIdx++ % SIGNS.length]), sg = new THREE.Mesh(new THREE.PlaneGeometry(Math.min((look && look.signW) || 4.4, w - 1), 1.05), new THREE.MeshBasicMaterial({ map: sign(pair, look && look.bg, look && look.fg) })); sg.position.set(xf - side * 0.07, 4.05, zc); sg.rotation.y = -side * PI / 2; g.add(sg);
+      for (let i = 0; i < 3; i++) if (rnd() < 0.7) { const span = Math.max(0.4, (w - 2.4) / 2 - 0.4), p = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.7), pick(posterMats)); p.position.set(xf - side * 0.06, rr(1.0, 1.95), zc + (-span + (2 * span * (i + 0.5 + rr(-0.3, 0.3))) / 3)); p.rotation.y = -side * PI / 2; p.rotation.z = rr(-0.05, 0.05); g.add(p); }   // posters on the shutters
       const nw = Math.max(1, Math.floor((w - 1.6) / 2.6));
       for (let i = 0; i < nw; i++) { const wz = zc - ((nw - 1) * 2.6) / 2 + i * 2.6; box(0.1, 1.5, 1.2, trim, xf - side * 0.03, 5.5, wz, g); box(0.06, 1.3, 1.0, glassMat, xf - side * 0.07, 5.5, wz, g); box(0.1, 1.3, 0.5, shutterGreen, xf - side * 0.1, 5.5, wz - 0.85, g); box(0.1, 1.3, 0.5, shutterGreen, xf - side * 0.1, 5.5, wz + 0.85, g); }
       /* street dressing: a black water tank and a TV aerial on some roofs, and something in front of each shop (a fruit crate, sacks, a potted plant or a bench); all inside the building's group, so it is merged with it */
