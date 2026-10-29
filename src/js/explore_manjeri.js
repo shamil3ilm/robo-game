@@ -162,21 +162,28 @@
       const board = sign(5.5, 1.1, 1024, 200, (x, w2, h2) => { x.fillStyle = '#12482a'; x.fillRect(0, 0, w2, h2); x.strokeStyle = '#fff'; x.lineWidth = 6; x.strokeRect(6, 6, w2 - 12, h2 - 12); txt(x, 'FOOTBALL TURF', w2 / 2, h2 * 0.38, 'bold 84px sans-serif', '#fff'); txt(x, 'ഫുട്ബോൾ ടർഫ്', w2 / 2, h2 * 0.76, 'bold 56px ' + FONT_ML, '#ffe9b0'); });
       board.position.set(X(cx), 5, cz - d / 2); g.add(board); both(board, g); add(g); g.userData = { x: X(cx), z: cz }; cullables.push(g);
       noteSpot(-6.5, 40, 'payyanad');
-      // the game: a real ball (walk into it to kick it, score between the posts), and four players who run about
+      // the game: you and two schoolboys play north (home) against three men who play south (away); walk into the ball to dribble, the action button shoots, run into a dribbler's ball to steal it
       const TU = window.RoboTurf, pitch = TU.rect(X(cx), cz, w, d), ball = new THREE.Mesh(new THREE.SphereGeometry(0.22, 12, 10), mat(0xf4f1e8));
       ball.castShadow = true; add(ball);
-      let b = { x: X(cx), z: cz, vx: 0, vz: 0, hop: 0, last: -9 }, now = 0, goals = 0, pause = 0, told = false;
+      const mk = (type, team, lx, lz) => { const p = walker(type, [[X(lx), lz], [X(lx), lz]], 0, 0); p.ctrl = true; return { p, s: { x: X(lx), z: lz, team, hx: X(lx), hz: lz, moving: false, yaw: team === 'home' ? 0 : PI } }; };
+      const team = [mk('schoolboy', 'home', cx - 5, cz + 7), mk('schoolboy', 'home', cx + 5, cz + 3), mk('fisher', 'away', cx - 5, cz - 7), mk('lungi', 'away', cx + 5, cz - 3), mk('mundu', 'away', cx, cz - 9)];
+      const fresh = () => ({ x: X(cx), z: cz, vx: 0, vz: 0, hop: 0, last: -9 });
+      let b = fresh(), now = 0, home = 0, away = 0, pause = 0, told = false;
+      const shot = { x: b.x, z: b.z, r: 1.9, kind: 'kick', label: 'Shoot', emoji: '⚽', quiet: true, off: true, use: () => { const pl = c.player(); b = TU.shoot(b, pl, -Math.sin(pl.yaw), -Math.cos(pl.yaw), now); } };
+      c.spots.push(shot);
       c.onFrame((dt) => {
-        now += dt; const pl = c.player && c.player();
+        now += dt; const pl = c.player && c.player(); if (!pl || Math.abs(pl.x - b.x) > 70 || Math.abs(pl.z - b.z) > 70) return;
+        const playing = !pl.room && !pl.ride && !pl.bike; shot.off = !playing || pause > 0;
         if (pause > 0) pause -= dt;
         else {
-          if (pl && !pl.room && !pl.ride && !pl.bike) { if (!told && Math.hypot(pl.x - b.x, pl.z - b.z) < 5) { told = true; c.toast && c.toast('Walk into the ball to kick it. Score between the posts.'); } b = TU.kick(b, pl, now); }
-          b = TU.step(b, Math.min(dt, 0.1), pitch);
-          if (TU.goal(b, pitch)) { goals++; c.toast && c.toast('GOAL! ⚽  Goals today: ' + goals); pause = 1.4; b = { x: X(cx), z: cz, vx: 0, vz: 0, hop: 0, last: -9 }; }
+          if (playing) { if (!told && Math.hypot(pl.x - b.x, pl.z - b.z) < 5) { told = true; c.toast && c.toast('Walk into the ball to dribble. The action button shoots. You play north with two schoolboys.'); } b = TU.kick(b, pl, now); }
+          const r = TU.ai(team.map((q) => q.s), b, pitch, Math.min(dt, 0.1), now, playing ? pl : null); b = TU.step(r.ball, Math.min(dt, 0.1), pitch);
+          r.players.forEach((s2, i) => { team[i].s = s2; const g2 = team[i].p.g; g2.position.x = s2.x; g2.position.z = s2.z; let dy = s2.yaw - g2.rotation.y; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); g2.rotation.y += dy * Math.min(1, dt * 8); team[i].p.moving = s2.moving; });
+          const gl = TU.goal(b, pitch);
+          if (gl) { if (gl === 'north') home++; else away++; c.toast && c.toast(gl === 'north' ? 'GOAL for you! ⚽  ' + home + ' - ' + away : 'Goal for them.  ' + home + ' - ' + away); pause = 1.6; b = fresh(); team.forEach((q) => { q.s = Object.assign({}, q.s, { x: q.s.hx, z: q.s.hz }); q.p.g.position.x = q.s.hx; q.p.g.position.z = q.s.hz; }); }
         }
-        ball.position.set(b.x, 0.25 + b.hop, b.z); ball.rotation.x += b.vz * dt * 4; ball.rotation.z -= b.vx * dt * 4;
+        ball.position.set(b.x, 0.25 + b.hop, b.z); ball.rotation.x += b.vz * dt * 4; ball.rotation.z -= b.vx * dt * 4; shot.x = b.x; shot.z = b.z;
       });
-      [['schoolboy', [[cx - 6, cz - 6], [cx + 6, cz + 6]], 1.9], ['schoolboy', [[cx + 6, cz - 6], [cx - 6, cz + 6]], 2.1], ['fisher', [[cx - 8, cz], [cx + 8, cz]], 1.7], ['lungi', [[cx, cz - 8], [cx, cz + 8]], 1.5]].forEach(([type, pts, sp]) => walker(type, pts.map(([lx, lz]) => [X(lx), lz]), sp, 0));
     })();
 
     /* the Government Medical College: south of the junction on the east side of the highway, a gate and a drive (z 36) leading to the OPD building at the back */

@@ -36,5 +36,38 @@
     return dz <= -line ? 'north' : dz >= line ? 'south' : null;
   };
 
-  window.RoboTurf = { kick, step, goal, rect, KICK_R, GOAL_HALF, GOAL_LINE };
+  /* a ball set going in a direction (unit vector) at a speed, with a hop */
+  const push = (b, dx, dz, power, now) => ({ x: b.x, z: b.z, vx: dx * power, vz: dz * power, hop: 0.22 + Math.min(0.3, power * 0.025), last: now });
+
+  /* your own shot (the Shoot button): a hard kick the way you face, when the ball is close enough */
+  const shoot = (b, p, dirX, dirZ, now) => (Math.hypot(b.x - p.x, b.z - p.z) > KICK_R + 0.5 ? b : push(b, dirX, dirZ, 11, now));
+
+  /* the other players. Each is { x, z, team: 'home' | 'away', hx, hz (where he stands when the ball is not his), moving, yaw }. Home attacks the north goal (low z) like you; away attacks the south goal.
+     The player of each team closest to the ball chases it (a home player stays back when you are the closer one); the rest hold their place, drifting with the play. At the ball he dribbles it towards goal with small pushes, and shoots when he is near; he waits 0.45 s after any touch, so a dribble can be stolen by running into the ball. */
+  const SPEED = { home: 3.0, away: 3.2 };
+  const goalZ = (team, r) => (team === 'home' ? r.cz - r.hd + 0.4 : r.cz + r.hd - 0.4);
+  const ai = (list, b, r, dt, now, human) => {
+    const d2 = (p) => Math.hypot(p.x - b.x, p.z - b.z), chaser = {};
+    for (const team of ['home', 'away']) {
+      let best = -1, bd = Infinity; list.forEach((p, i) => { if (p.team === team && d2(p) < bd) { bd = d2(p); best = i; } });
+      chaser[team] = team === 'home' && human && Math.hypot(human.x - b.x, human.z - b.z) < bd ? -1 : best;
+    }
+    let ball = b;
+    const out = list.map((p, i) => {
+      const chase = chaser[p.team] === i, lead = chase ? 0.3 : 0;
+      const tx = chase ? b.x + b.vx * lead : p.hx + (b.x - r.cx) * 0.25, tz = chase ? b.z + b.vz * lead : p.hz + (b.z - p.hz) * 0.3;
+      const dx = tx - p.x, dz = tz - p.z, dist = Math.hypot(dx, dz), sp = SPEED[p.team] * (chase ? 1 : 0.7), mv = dist > 0.35 ? Math.min(dist, sp * dt) : 0;
+      let x = p.x + (dist > 1e-6 ? dx / dist * mv : 0), z = p.z + (dist > 1e-6 ? dz / dist * mv : 0);
+      x = Math.max(r.cx - r.hw + 0.8, Math.min(r.cx + r.hw - 0.8, x)); z = Math.max(r.cz - r.hd + 0.8, Math.min(r.cz + r.hd - 0.8, z));
+      const yaw = mv > 0 ? Math.atan2(-(x - p.x), -(z - p.z)) : p.yaw;
+      if (chase && Math.hypot(b.x - x, b.z - z) < KICK_R * 0.9 && now - (ball.last || -9) > 0.45) {
+        const gz = goalZ(p.team, r), gx = r.cx + Math.sin(now * 1.7 + i * 2.3) * (GOAL_HALF - 0.8), ex = gx - ball.x, ez = gz - ball.z, el = Math.hypot(ex, ez) || 1;
+        ball = push(ball, ex / el, ez / el, el > 15 ? 3.8 : el > 8 ? 6.5 : 8.5, now);
+      }
+      return { x, z, team: p.team, hx: p.hx, hz: p.hz, moving: mv > 0, yaw };
+    });
+    return { players: out, ball };
+  };
+
+  window.RoboTurf = { kick, step, goal, rect, push, shoot, ai, KICK_R, GOAL_HALF, GOAL_LINE };
 })();

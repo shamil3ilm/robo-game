@@ -47,4 +47,35 @@ t('a dribble and a shot score: walk the ball up the pitch, then a hard kick at t
 t('it never produces NaN, whatever the touches', () => {
   let b = ball(); for (let i = 0; i < 500; i++) { b = T.kick(b, { x: b.x + (i % 3 - 1) * 0.5, z: b.z, vx: (i % 7) - 3, vz: (i % 5) - 2 }, i * 0.1); b = T.step(b, 0.016, R); assert.ok([b.x, b.z, b.vx, b.vz, b.hop].every(Number.isFinite)); }
 });
+const team = () => [{ x: -6, z: -5, team: 'home', hx: -6, hz: -5 }, { x: 6, z: 5, team: 'home', hx: 6, hz: 5 }, { x: -5, z: 6, team: 'away', hx: -5, hz: 6 }, { x: 5, z: -6, team: 'away', hx: 5, hz: -6 }];
+
+t('your shot goes the way you face, hard, only when the ball is at your feet', () => {
+  const s = T.shoot(ball({ x: 0, z: -0.6 }), { x: 0, z: 0 }, 0, -1, 2);
+  assert.ok(s.vz < -9 && Math.abs(s.vx) < 1e-9, 'north at 11 m/s: ' + s.vz); const far = ball({ x: 0, z: -4 }); assert.equal(T.shoot(far, { x: 0, z: 0 }, 0, -1, 2), far);
+});
+
+t('the nearest player of a team runs at the ball, the others hold their places', () => {
+  const list = team(), b = ball({ x: 6, z: 4 }), r = T.ai(list, b, R, 0.5, 1, null);
+  const away = r.players[2], before = list[2]; assert.ok(Math.hypot(away.x - 6, away.z - 4) < Math.hypot(before.x - 6, before.z - 4), 'the nearer away player closes in');
+  assert.ok(away.moving, 'and walks while doing it');
+});
+
+t('a home player stays back when you are closer to the ball than any of them', () => {
+  const b = ball({ x: 0, z: 0 }), list = team(), me = { x: 0.5, z: 0 }, r = T.ai(list, b, R, 0.5, 1, me), h = r.players[0];
+  assert.ok(Math.hypot(h.x - list[0].x, h.z - list[0].z) <= 3.0 * 0.7 * 0.5 + 1e-9, 'home players move at hold speed only');
+});
+
+t('a player at the ball pushes it towards the goal he attacks, and not twice in 0.45 s', () => {
+  const list = [{ x: 0, z: 1, team: 'away', hx: 0, hz: 1 }], r = T.ai(list, ball({ x: 0, z: 0.4 }), R, 0.016, 1, null);
+  assert.ok(r.ball.vz > 0, 'away attacks south (z up): ' + r.ball.vz);
+  const r2 = T.ai(r.players, r.ball, R, 0.016, 1.2, null); assert.equal(r2.ball, r.ball);
+  const h = T.ai([{ x: 0, z: -1, team: 'home', hx: 0, hz: -1 }], ball({ x: 0, z: -0.4 }), R, 0.016, 1, null); assert.ok(h.ball.vz < 0, 'home attacks north');
+});
+
+t('two teams left alone for a few minutes keep the ball on the pitch, never produce NaN, and score now and then', () => {
+  let b = ball(), list = team(), now = 0, goals = 0;
+  for (let i = 0; i < 6000; i++) { now += 0.05; const r = T.ai(list, b, R, 0.05, now, null); list = r.players; b = T.step(r.ball, 0.05, R); if (T.goal(b, R)) { goals++; b = ball({ last: now }); }
+    assert.ok([b.x, b.z].every(Number.isFinite) && list.every((p) => Number.isFinite(p.x) && Number.isFinite(p.z))); assert.ok(Math.abs(b.x) <= 13 && Math.abs(b.z) <= 14); }
+  assert.ok(goals >= 1, 'goals in 5 minutes: ' + goals);
+});
 console.log('\n' + n + ' tests passed');
