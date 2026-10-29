@@ -79,7 +79,7 @@ t('every note has a title, a body and a named source, and no placeholder text', 
   const nsrc = fs.readFileSync(path.join(__dirname, '..', 'src', 'js', 'explore_notes.js'), 'utf8'), nw = {}; new Function('window', nsrc)(nw);
   const N = nw.RoboExploreNotes.NOTES, keys = Object.keys(N); assert.ok(keys.length >= 7);
   for (const k of keys) { const x = N[k]; assert.ok(x.title && x.body && x.src && x.emoji, k); assert.ok(!/lorem|todo|tbd/i.test(x.body), k); assert.ok(x.body.length > 40 && x.body.length < 420, k + ' length ' + x.body.length); }
-  ['smstreet', 'renovation', 'pottekkatt', 'swamy', 'bombay', 'foodtrail', 'literature', 'zilmoney', 'zilsite', 'zilcubator', 'zilwhat', 'farsa', 'oottupura', 'zindagi', 'vanitha', 'kuzhimandi', 'budget', 'malappuram', 'manjeri', 'payyanad', 'mcmanjeri', 'ksrtc'].forEach((k) => assert.ok(N[k], 'missing ' + k));
+  ['smstreet', 'renovation', 'pottekkatt', 'swamy', 'bombay', 'foodtrail', 'literature', 'zilmoney', 'zilsite', 'zilcubator', 'zilwork', 'zilterrace', 'zilwhat', 'farsa', 'oottupura', 'zindagi', 'vanitha', 'kuzhimandi', 'budget', 'malappuram', 'manjeri', 'payyanad', 'mcmanjeri', 'ksrtc'].forEach((k) => assert.ok(N[k], 'missing ' + k));
 });
 t('hitting something reports what was hit and how hard; sliding along a wall and free walking report nothing hard', () => {
   const w2 = { t: 'box', x0: 4, x1: 12, z0: -10, z1: 10, tag: 'wall' }, c2 = { t: 'circle', x: 0, z: -3, r: 0.5, tag: 'person' };

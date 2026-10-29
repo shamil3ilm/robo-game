@@ -53,6 +53,16 @@
       body: 'ZillaCubator is the game\'s parody of ZilCubator, the accelerator that is part of Silicon Jeri. It is described as offering local entrepreneurs mentoring, funding links and access to global markets. A proposed Zil Park, a technology park modelled on Apple Park, has been spoken of as a plan; it is not built.',
       src: 'Free Press Journal; MyNation; Asianet Newsable'
     },
+    zilwork: {
+      title: 'Zilla Workspace (a parody) · co-working', emoji: '🪑',
+      body: 'Press reports say the real Manjeri site has co-working space beside the development centre and the accelerator. Zilla Workspace is the game’s invented version: a bar-stool counter, hot desks, a glass meeting room and a pantry. The layout is made up for the game, not a copy of any real floor.',
+      src: 'Free Press Journal (March 2026); MyNation; the room itself is invented'
+    },
+    zilterrace: {
+      title: 'Zilla Terrace (a parody) · the roof', emoji: '🌿',
+      body: 'Zilla Terrace is the game’s invented roof terrace, drawn from the owner’s photos of the real site: a wooden deck under a tin roof with hanging lamps, tall tables with stools, round windows with climbing plants, and pots everywhere. The layout and the people are made up for the game.',
+      src: 'Photos supplied by the game’s owner; the room itself is invented'
+    },
     zilwhat: {
       title: 'The real company: what it does', emoji: '💳',
       body: 'Zil Money calls itself a payment operations platform for businesses. One wallet balance can fund payments by ACH, wire, check or card: digital checks that are printed and mailed, bill pay, virtual cards, and an API for other software. It connects to accounting tools such as QuickBooks and NetSuite.',

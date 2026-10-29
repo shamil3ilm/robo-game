@@ -73,6 +73,8 @@
       for (let r = 0; r < 3; r++) for (let k = 0; k < 6; k++) { const p = mesh(new THREE.BoxGeometry(1.5, 0.06, 2.2), panel, X(zx + 2.2 + r * 3.0), h + 1.1, zc - w / 2 + 2.0 + k * 2.4, g); p.rotation.x = -0.35; }
       add(g); g.userData = { x: X(zx + d / 2), z: zc }; cullables.push(g); if (c.staticGroups) c.staticGroups.push(g); solid(X(zx), X(zx + d), zc - w / 2, zc + w / 2);
       c.door(X(2.9), zc, 'zilmoney', 'Enter Zilla Money', '💼');
+      c.door(X(2.9), zc + 5.2, 'zilwork', 'Enter Zilla Workspace', '🪑');
+      c.door(X(2.9), zc - 5.2, 'zilterrace', 'Stairs to Zilla Terrace', '🌿');   /* the roof terrace */   /* the co-working floor, next to the main office and the incubator corner */
       /* the garden at the front: planters in white pots either side of the door (a low dark fence stands behind them in the photo) */
       for (let i = 0; i < 6; i++) { const zz = zc + (i - 2.5) * 2.6; if (Math.abs(zz - zc) < 1.9) continue; mesh(new THREE.CylinderGeometry(0.4, 0.3, 0.7, 10), mat(0xf1eee6), X(zx - 1.3), 0.35, zz, g); mesh(new THREE.SphereGeometry(0.62, 8, 6), mat(0x3f7a30, { flatShading: true }), X(zx - 1.3), 1.15, zz, g); }
     })();
