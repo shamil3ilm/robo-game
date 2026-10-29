@@ -12,7 +12,7 @@ A three.js browser game set in Manjeri and Malappuram, Kerala. Run the classic 3
 | | Computer | Phone |
 |---|---|---|
 | Walk | WASD or arrow keys | the stick on the left |
-| Run | Shift | (no separate run control yet) |
+| Run | Shift | the runner button, right side (tap to turn running on or off) |
 | Look around | Q / E, or drag | drag the screen |
 | Use / talk / get in / shoot | F | the big action button (it names what it does) |
 | Horn (on a bike or auto) | the bell button | the bell button |
