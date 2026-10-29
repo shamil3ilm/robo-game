@@ -54,7 +54,7 @@
       const spot = (lx, lz, kind, arg, label, emoji, r) => { marker(ox + lx, lz, kind === 'shop' ? 0xffd27a : 0xcfe8ff); spots.push({ x: ox + lx, z: lz, r: r || 1.9, kind, arg, label, emoji }); };
       const noteSpot = (lx, lz, key) => { const n = NOTES[key]; if (n) spot(lx, lz, 'note', key, n.title.split(' · ')[0], n.emoji); };
       const sign = (pw, ph, tw, th, draw, x, y, z, ry) => { const p = panel(pw, ph, tw, th, draw); p.position.set(ox + x, y, z); p.rotation.y = ry || 0; g.add(p); return p; };
-      const person = (type, lx, lz, yaw) => stander(type, ox + lx, lz, yaw || 0);
+      const person = (type, lx, lz, yaw, sit) => stander(type, ox + lx, lz, yaw || 0, sit ? { sit: true } : undefined);   // `sit`: a seated pose (on a chair)
       const block = (lx, lz, bw, bd, tag) => solid(ox + lx - bw / 2, ox + lx + bw / 2, lz - bd / 2, lz + bd / 2, tag || 'furniture', g);   // an invisible collider for furniture made of several thin parts
       furnish(R, { ox, g, mesh, bx, spot, noteSpot, sign, person, txt, w, d, block });
       return R;
@@ -103,6 +103,7 @@
       h.person(keeper, 0, -d2(R) + 0.2, 0); h.spot(0, -d2(R) + 2.2, 'shop', shopKind, R.title, '🍛');
       [-3.6, 0.3, 4.2].forEach((x) => [0.1, 2.0].forEach((z) => table(h, x, z)));
       h.person('mundu', -4, 1.6, PI / 2); h.person('lungi', 4, 3.7, -PI / 2);
+      [[-3.6 - 1.0, 0.1, -PI / 2, 'lungi'], [0.3 + 1.0, 0.1, PI / 2, 'mundu'], [4.2 - 1.0, 2.0, -PI / 2, 'saree'], [-3.6 + 1.0, 2.0, PI / 2, 'techie']].forEach(([x, z, yaw, type]) => h.person(type, x, z, yaw, true));   /* diners at four of the tables */
       /* by the door: a hand-wash basin with a mirror and a tap (every Kerala hotel has one) */
       { const bz = d2(R) - 1.4, bxx = h.w / 2 - 0.55; h.bx(0.56, 0.1, 0.42, white, bxx, 0.95, bz, 'furniture'); h.bx(0.1, 0.9, 0.1, white, bxx + 0.1, 0.45, bz); h.mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.14, 8), steel, bxx + 0.18, 1.07, bz, true); h.mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.1, 8).rotateZ(PI / 2), steel, bxx + 0.13, 1.14, bz, true);
         h.sign(0.5, 0.7, 128, 180, (x, w, hh) => { const g3 = x.createLinearGradient(0, 0, w, hh); g3.addColorStop(0, '#dfeef2'); g3.addColorStop(1, '#a9c4cc'); x.fillStyle = g3; x.fillRect(0, 0, w, hh); x.strokeStyle = '#6a5030'; x.lineWidth = 8; x.strokeRect(4, 4, w - 8, hh - 8); }, h.w / 2 - 0.2, 1.55, bz, -PI / 2); }

@@ -378,10 +378,16 @@
       if (spec.bun) { part(new THREE.SphereGeometry(0.07, 8, 6).translate(0, 0.78, 0.13), hair, 0, 0, 0, body); part(new THREE.TorusGeometry(0.075, 0.02, 5, 10).translate(0, 0.78, 0.13), mat(0xfaf6e8), 0, 0, 0, body); }   // jasmine garland on the bun
       if (spec.braids) [-1, 1].forEach((k) => part(new THREE.CylinderGeometry(0.03, 0.02, 0.4, 6).translate(k * 0.1, 0.55, 0.12), hair, 0, 0, 0, body));
       const P = { g, legs, arms, body, head, phase: rr(0, 6), walk: 0, update(t, dt, moving) {
+        if (P.sit) { body.position.y = 0.58 + Math.sin(t * 1.3 + P.phase) * 0.004; head.rotation.y = Math.sin(t * 0.5 + P.phase) * 0.2; return; }
         P.walk += ((moving ? 1 : 0) - P.walk) * Math.min(1, dt * 8); P.phase += dt * (moving ? 7.2 : 0);
         const s = Math.sin(P.phase) * 0.55 * P.walk; legs[0].rotation.x = s; legs[1].rotation.x = -s; arms[0].rotation.x = -s * 0.8; arms[1].rotation.x = s * 0.8;
         body.position.y = 0.95 + Math.abs(Math.cos(P.phase)) * 0.025 * P.walk + Math.sin(t * 1.5 + P.phase) * 0.004; head.rotation.y = Math.sin(t * 0.6 + P.phase) * 0.25 * (1 - P.walk);
       } };
+      if (o.sit) {   /* seated: hips at 0.55 m (a chair seat), thighs held out in front (hidden by a long garment), the garment shortened or lowered to the lap, body lower, arms reaching forward to the table */
+        P.sit = true; const dz = 0.92 - 0.55;
+        for (const ch of g.children) { if (ch.isMesh) { if (spec.low === 'long') ch.scale.y = (0.56 - 0.05) / 0.86; else ch.position.y -= dz; } }
+        legs.forEach((hp) => { hp.position.y = 0.55; if (spec.low !== 'long') { hp.rotation.x = PI / 2; hp.scale.y = 0.62; } }); arms.forEach((sh) => { sh.rotation.x = 0.85; }); body.position.y = 0.58;
+      }
       if (window.RoboMerge && !cb.noMerge) {   // far away a person is drawn as a few joined meshes in the rest pose (about a third of the draw calls); up close, the full model
         const nearKids = g.children.slice(), far = window.RoboMerge.bakeCopy(THREE, g); far.visible = false; g.add(far);
         P.lod = (isFar) => { if (P.isFar === isFar) return; P.isFar = isFar; for (const k of nearKids) k.visible = !isFar; far.visible = isFar; };
@@ -395,7 +401,7 @@
     ];
     const npcCircles = [];   // one moving collision circle per walker, in the same order as the walkers in `persons`
     function walker(type, pts, sp, jitter) { const p = person(type); p.route = pts; p.i = 0; p.speed = sp; p.wait = 0; p.g.position.set(pts[0][0], 0.04, pts[0][1] + rr(-(jitter || 0), jitter || 0)); add(p.g); persons.push(p); const c = { t: 'circle', x: p.g.position.x, z: p.g.position.z, r: 0.4, dyn: true, tag: 'person', who: p }; npcCircles.push(c); colliders.push(c); return p; }
-    function stander(type, x, z, yaw) { const p = person(type, { stand: true }); p.g.position.set(x, 0.05, z); p.g.rotation.y = yaw || 0; add(p.g); persons.push(p); return p; }
+    function stander(type, x, z, yaw, extra) { const p = person(type, Object.assign({ stand: true }, extra)); p.g.position.set(x, 0.05, z); p.g.rotation.y = yaw || 0; add(p.g); persons.push(p); return p; }
     WALKS.forEach(([type, pts, sp]) => walker(type, pts, sp, 4));
 
     /* ---------- street furniture: lamps, bunting, poles with wires, scooters, autos, bench ---------- */
