@@ -151,13 +151,42 @@
     /* the football turf (west, south end): Malappuram is football country */
     (() => {
       const cx = -21, cz = 44, w = 26, d = 28, g = new THREE.Group();
-      const tex = canvasTex(256, 280, (x, w2, h2) => { x.fillStyle = '#2f8a3a'; x.fillRect(0, 0, w2, h2); for (let i = 0; i < 8; i++) { x.fillStyle = i % 2 ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.06)'; x.fillRect(0, (i * h2) / 8, w2, h2 / 8); } x.strokeStyle = 'rgba(255,255,255,0.9)'; x.lineWidth = 4; x.strokeRect(12, 12, w2 - 24, h2 - 24); x.beginPath(); x.moveTo(12, h2 / 2); x.lineTo(w2 - 12, h2 / 2); x.stroke(); x.beginPath(); x.arc(w2 / 2, h2 / 2, 32, 0, 6.3); x.stroke(); x.strokeRect(w2 / 2 - 44, 12, 88, 36); x.strokeRect(w2 / 2 - 44, h2 - 48, 88, 36); });
+      /* the pitch: 1024 px across 26 m (2.5 cm a pixel), mowing stripes, grass grain and the markings of a small pitch: touchlines 1 m in, goal lines 1.4 m in (where the posts stand), halfway line, centre circle and spot, penalty and goal areas with spots, corner arcs */
+      const tex = canvasTex(1024, Math.round((1024 * d) / w), (x, w2, h2) => {
+        const s = w2 / w;   // pixels to a metre
+        x.fillStyle = '#2c8236'; x.fillRect(0, 0, w2, h2);
+        for (let i = 0; i < 14; i++) { x.fillStyle = i % 2 ? 'rgba(255,255,255,0.045)' : 'rgba(0,0,0,0.055)'; x.fillRect(0, (i * h2) / 14, w2, h2 / 14); }
+        for (let i = 0; i < 9000; i++) { x.fillStyle = i % 3 ? 'rgba(14,70,24,0.22)' : 'rgba(150,205,100,0.16)'; x.fillRect(Math.random() * w2, Math.random() * h2, 1.2, 3 + Math.random() * 4); }
+        x.strokeStyle = 'rgba(255,255,255,0.93)'; x.fillStyle = 'rgba(255,255,255,0.93)'; x.lineWidth = 0.1 * s;
+        const X0 = 1.0 * s, X1 = w2 - 1.0 * s, Y0 = 1.4 * s, Y1 = h2 - 1.4 * s, mx = w2 / 2, my = h2 / 2;
+        x.strokeRect(X0, Y0, X1 - X0, Y1 - Y0); x.beginPath(); x.moveTo(X0, my); x.lineTo(X1, my); x.stroke();
+        x.beginPath(); x.arc(mx, my, 3 * s, 0, 6.3); x.stroke(); x.beginPath(); x.arc(mx, my, 0.15 * s, 0, 6.3); x.fill();
+        [[Y0, 1], [Y1, -1]].forEach(([gy, dir]) => { x.strokeRect(mx - 6 * s, dir > 0 ? gy : gy - 4.5 * s, 12 * s, 4.5 * s); x.strokeRect(mx - 3.7 * s, dir > 0 ? gy : gy - 1.8 * s, 7.4 * s, 1.8 * s); x.beginPath(); x.arc(mx, gy + dir * 3.2 * s, 0.13 * s, 0, 6.3); x.fill(); });
+        [[X0, Y0, 0], [X1, Y0, 1], [X1, Y1, 2], [X0, Y1, 3]].forEach(([cx2, cy2, q]) => { x.beginPath(); x.arc(cx2, cy2, 0.45 * s, (q * PI) / 2, ((q + 1) * PI) / 2); x.stroke(); });
+      });
+      tex.anisotropy = 8;
       const turf = new THREE.Mesh(new THREE.PlaneGeometry(w, d).rotateX(-PI / 2), new THREE.MeshStandardMaterial({ map: tex, roughness: 1 })); turf.position.set(X(cx), 0.07, cz); turf.receiveShadow = true; add(turf);
-      [-1, 1].forEach((s) => { const gz = cz + s * (d / 2 - 1.4); box(0.12, 2.2, 0.12, white, X(cx - 3), 1.1, gz, undefined, true); box(0.12, 2.2, 0.12, white, X(cx + 3), 1.1, gz, undefined, true); box(6.1, 0.12, 0.12, white, X(cx), 2.2, gz, undefined, true); });
-      // mesh fence on three sides, a gap on the road side; floodlights at the corners
-      const fenceTex = canvasTex(64, 64, (x, w2, h2) => { x.clearRect(0, 0, w2, h2); x.strokeStyle = 'rgba(30,30,30,0.85)'; x.lineWidth = 2; for (let i = 0; i <= 8; i++) { x.beginPath(); x.moveTo(i * 8, 0); x.lineTo(i * 8, h2); x.moveTo(0, i * 8); x.lineTo(w2, i * 8); x.stroke(); } }, 6, 1);
-      const fm = new THREE.MeshBasicMaterial({ map: fenceTex, transparent: true, side: THREE.DoubleSide, alphaTest: 0.3 });
-      [[cx, cz - d / 2, w, 0], [cx, cz + d / 2, w, 0], [cx - w / 2, cz, d, PI / 2]].forEach(([fx, fz, len, ry]) => { const f = new THREE.Mesh(new THREE.PlaneGeometry(len, 1.8), fm); f.position.set(X(fx), 0.9, fz);   /* low enough for the camera to see over when it stands behind the fence */ f.rotation.y = ry; add(f); });
+      /* netting: a fine diamond mesh (a cell is about 22 cm, the cord about 5 mm), dark so it shows against the sky; made per piece because the repeat counts differ */
+      const netBase = canvasTex(64, 64, (x, w2, h2) => { x.clearRect(0, 0, w2, h2); x.strokeStyle = 'rgba(28,34,30,0.9)'; x.lineWidth = 2; x.beginPath(); x.moveTo(0, 0); x.lineTo(w2, h2); x.moveTo(w2, 0); x.lineTo(0, h2); x.stroke(); }, 1, 1);
+      netBase.anisotropy = 8;
+      const netMat = (len, hgt, cell, inward) => { const nt = netBase.clone(); nt.needsUpdate = true; nt.repeat.set(len / cell, hgt / cell); return new THREE.MeshBasicMaterial({ map: nt, transparent: true, side: inward ? THREE.FrontSide : THREE.DoubleSide, depthWrite: false, alphaTest: 0.04 }); };   /* `inward`: seen from inside the pitch only (the camera stands behind you, outside the south end, and would look through the net at close range) */
+      const NH = 5.0;   // the perimeter net is 5 m tall
+      /* the goals: round white posts and crossbar, a net behind, at the sides and on top */
+      [-1, 1].forEach((s) => {
+        const gz = cz + s * (d / 2 - 1.4), back = gz + s * 1.3;
+        [-3, 3].forEach((dx) => mesh(new THREE.CylinderGeometry(0.06, 0.06, 2.2, 10), white, X(cx + dx), 1.1, gz, g)); const bar = mesh(new THREE.CylinderGeometry(0.06, 0.06, 6.1, 10).rotateZ(PI / 2), white, X(cx), 2.2, gz, g);
+        const netBack = new THREE.Mesh(new THREE.PlaneGeometry(6.1, 2.2), netMat(6.1, 2.2, 0.1)); netBack.position.set(X(cx), 1.1, back); g.add(netBack);
+        [-3, 3].forEach((dx) => { const ns = new THREE.Mesh(new THREE.PlaneGeometry(1.3, 2.2), netMat(1.3, 2.2, 0.1)); ns.rotation.y = PI / 2; ns.position.set(X(cx + dx), 1.1, gz + s * 0.65); g.add(ns); });
+        const nt2 = new THREE.Mesh(new THREE.PlaneGeometry(6.1, 1.3).rotateX(-PI / 2), netMat(6.1, 1.3, 0.1)); nt2.position.set(X(cx), 2.2, gz + s * 0.65); g.add(nt2);
+        [-3, 3].forEach((dx) => mesh(new THREE.CylinderGeometry(0.03, 0.03, 2.2, 6), white, X(cx + dx), 1.1, back, g));
+      });
+      /* the perimeter net on poles: north, south, west, and the road side with the 3 m gate gap */
+      const sides = [[cx, cz - d / 2, w, 0], [cx, cz + d / 2, w, PI, true], [cx - w / 2, cz, d, PI / 2], [cx + w / 2, cz - 3, d - 6, PI / 2], [cx + w / 2, cz + d / 2 - 1.5, 3, PI / 2]];
+      sides.forEach(([fx, fz, len, ry, inward]) => {
+        const f = new THREE.Mesh(new THREE.PlaneGeometry(len, NH), netMat(len, NH, 0.22, inward)); f.position.set(X(fx), NH / 2 + 0.07, fz); f.rotation.y = ry; g.add(f);
+        const alongZ = Math.abs(Math.sin(ry)) > 0.5, rope = mesh(new THREE.BoxGeometry(alongZ ? 0.05 : len, 0.05, alongZ ? len : 0.05), dark, X(fx), NH + 0.07, fz, g);
+        const n = Math.max(1, Math.round(len / 3.7)); for (let i = 0; i <= n; i++) { const o = -len / 2 + (i * len) / n; mesh(new THREE.CylinderGeometry(0.05, 0.05, NH + 0.3, 8), dark, X(fx) + (alongZ ? 0 : o), (NH + 0.3) / 2, fz + (alongZ ? o : 0), g); }
+      });
       solid(X(cx - w / 2) - 0.3, X(cx + w / 2), cz - d / 2 - 0.2, cz - d / 2 + 0.2); solid(X(cx - w / 2) - 0.3, X(cx + w / 2), cz + d / 2 - 0.2, cz + d / 2 + 0.2); solid(X(cx - w / 2) - 0.3, X(cx - w / 2) + 0.3, cz - d / 2, cz + d / 2);
       solid(X(cx + w / 2) - 0.2, X(cx + w / 2) + 0.2, cz - d / 2, cz + d / 2 - 6); solid(X(cx + w / 2) - 0.2, X(cx + w / 2) + 0.2, cz + d / 2 - 3, cz + d / 2);   // the gate gap is on the road side
       [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx2, sz2]) => { const px = X(cx + sx2 * (w / 2 + 0.5)), pz = cz + sz2 * (d / 2 + 0.5); box(0.2, 8, 0.2, dark, px, 4, pz, undefined, true); mesh(new THREE.BoxGeometry(1.2, 0.5, 0.4), new THREE.MeshBasicMaterial({ color: 0xfff2c0 }), px, 8.1, pz, g); post(px, pz, 0.3); });

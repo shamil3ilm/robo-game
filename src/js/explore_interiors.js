@@ -74,7 +74,19 @@
       [0, 1, 2, 3, 4].forEach((i) => h.mesh(new THREE.CylinderGeometry(0.04, 0.035, 0.09, 8), mat(0xe8f0f4, { transparent: true, opacity: 0.7 }), -len * 0.3 + i * 0.1, 1.07, lz + 0.3, true));
       [0, 1, 2, 3].forEach((i) => h.mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.025, 14), plateM, len * 0.05, 1.04 + i * 0.03, lz + 0.3, true));
     };
-    const counter = (h, lx, lz, len, hex) => h.bx(len, 1.0, 0.9, mat(hex || 0x6a4a2a), lx, 0.5, lz, 'furniture');
+    /* a shop counter: a panelled front (tinted by `hex`), a dark toe-kick, a top slab with a small overhang, and on it a cash register, a service bell and a notepad */
+    const counterTex = canvasTex(128, 64, (x, w, hh) => { x.fillStyle = '#eeeeee'; x.fillRect(0, 0, w, hh); for (let i = 0; i < 4; i++) { const px = i * 32 + 3; x.fillStyle = '#d6d6d6'; x.fillRect(px, 5, 26, hh - 10); x.strokeStyle = '#a8a8a8'; x.lineWidth = 2; x.strokeRect(px, 5, 26, hh - 10); x.strokeStyle = '#ffffff'; x.lineWidth = 1; x.strokeRect(px + 2, 7, 22, hh - 14); } for (let i = 0; i < 300; i++) { x.fillStyle = 'rgba(0,0,0,0.05)'; x.fillRect(Math.random() * w, Math.random() * hh, 1, 6); } });
+    const counter = (h, lx, lz, len, hex) => {
+      const tint = mat(hex || 0x6a4a2a, { roughness: 0.65 }), tx = counterTex.clone(); tx.needsUpdate = true; tx.repeat.set(Math.max(1, Math.round(len / 1.0)), 1); tint.map = tx;
+      const body = h.bx(len, 1.0, 0.9, tint, lx, 0.5, lz, 'furniture');
+      h.bx(len + 0.02, 0.1, 0.95, dark, lx, 0.05, lz);                                                                                  // the toe-kick
+      h.bx(len + 0.14, 0.05, 1.04, mat(0xd2b078, { roughness: 0.55 }), lx, 1.025, lz);                                                  // the top slab, overhanging the front and the ends
+      const rx = lx + len / 2 - 0.5;
+      h.bx(0.42, 0.16, 0.34, dark, rx, 1.13, lz + 0.05); const scr = h.bx(0.3, 0.2, 0.04, dark, rx, 1.3, lz - 0.06); scr.rotation.x = -0.4; h.bx(0.26, 0.14, 0.01, mat(0x9ad8c0, { roughness: 0.3 }), rx, 1.3, lz - 0.035).rotation.x = -0.4;   // the register and its screen
+      h.mesh(new THREE.CylinderGeometry(0.07, 0.08, 0.04, 12), steel, lx - len / 2 + 0.45, 1.07, lz + 0.25, true); h.mesh(new THREE.SphereGeometry(0.035, 8, 6), steel, lx - len / 2 + 0.45, 1.1, lz + 0.25, true);   // the service bell
+      h.bx(0.2, 0.012, 0.15, mat(0xf4f1e6), lx - len / 2 + 1.0, 1.06, lz + 0.2);                                                         // the notepad
+      return body;
+    };
     const hotel = (menu, shopKind, noteKey, keeper) => (R, h) => {
       counter(h, 0, -d2(R) + 1.1, 6); h.bx(6.2, 0.08, 1.0, wood2, 0, 1.02, -d2(R) + 1.1); hotelCounter(h, -d2(R) + 1.1, 6);
       h.person(keeper, 0, -d2(R) + 0.2, 0); h.spot(0, -d2(R) + 2.2, 'shop', shopKind, R.title, '🍛');

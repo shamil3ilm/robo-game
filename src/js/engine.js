@@ -315,6 +315,7 @@ function create(container, opts) {
   let best = store.get(bestKey(), 0);
   let autoQ = store.get('autoQ', null) || (((navigator.deviceMemory && navigator.deviceMemory <= 4) || (touch && (navigator.hardwareConcurrency || 8) <= 4)) ? 'Low' : 'High');
   const effQ = () => (opt.quality === 'Auto' ? autoQ : opt.quality);
+  let inTown = false;   /* true while walking the town (set when it opens and closes): the pixel ratio differs there */
   let exSlow = store.get('exSlow', false);   /* the town ran slowly on this device: draw it at the device's plain resolution (set by the frame-rate watch in explore, kept between visits) */
   const audio = makeAudio(store);
   const weather = window.RoboWeather ? window.RoboWeather.create() : null;   // showers in the town
@@ -353,7 +354,7 @@ function create(container, opts) {
     } catch (e) { console.warn('[robo] post-processing unavailable, using the plain renderer', e); postFailed = true; composer = null; }
     return composer;
   };
-  const setPR = () => renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opt.quality === 'Auto' && exSlow ? 1 : effQ() === 'High' ? 2 : 1.5));
+  const setPR = () => renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, inTown && opt.quality === 'Auto' && exSlow ? 1.25 : inTown ? 2 : effQ() === 'High' ? 2 : 1.5));   /* the town is drawn sharp (up to 2 pixels to a CSS pixel: text and fine detail need it); only a device that cannot keep up drops to 1.25 */
   setPR();
   const cv = renderer.domElement;
   cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;';
@@ -1765,9 +1766,9 @@ function create(container, opts) {
         else { fps.t += raw; fps.n++; if (fps.t >= 3) { const f = fps.n / fps.t; fps.t = 0; fps.n = 0; if (opt.quality === 'Auto' && autoQ === 'High') { fps.low = f < 40 ? fps.low + 1 : 0; if (fps.low >= 2) { autoQ = 'Low'; store.set('autoQ', 'Low'); applyQuality(); showNotice('lowgfx'); } } } }
       }
     }
-    if (state === 'explore' && opt.quality === 'Auto' && !exSlow && renderer.getPixelRatio() > 1) {   /* the town: if it stays under 28 frames a second for two checks of 4 s, draw at the plain resolution (it is the pixels that cost most on a phone) */
+    if (state === 'explore' && opt.quality === 'Auto' && !exSlow && renderer.getPixelRatio() > 1.3) {   /* the town: if it stays under 22 frames a second for three checks of 4 s, draw at a lower resolution (it is the pixels that cost most on a phone); a slow stretch must last 12 s, so a loading hitch does not trigger it */
       if (fps.skip > 0) fps.skip -= raw;
-      else { fps.t += raw; fps.n++; if (fps.t >= 4) { const f = fps.n / fps.t; fps.t = 0; fps.n = 0; fps.low = f < 28 ? fps.low + 1 : 0; if (fps.low >= 2) { exSlow = true; store.set('exSlow', true); applyQuality(); if (exUI) exUI.note({ title: 'Smoother mode', emoji: '⚙️', body: 'The town was running slowly on this device, so it now draws at a lower sharpness to keep moving smoothly. Set Quality to High in Settings to turn this off.', src: '' }); } } }
+      else { fps.t += raw; fps.n++; if (fps.t >= 4) { const f = fps.n / fps.t; fps.t = 0; fps.n = 0; fps.low = f < 22 ? fps.low + 1 : 0; if (fps.low >= 3) { exSlow = true; store.set('exSlow', true); applyQuality(); if (exUI) exUI.note({ title: 'Smoother mode', emoji: '⚙️', body: 'The town was running slowly on this device, so it now draws at a lower sharpness to keep moving smoothly. Set Quality to High in Settings to turn this off.', src: '' }); } } }
     }
     for (const o of obs) if (o.active && o.g.userData.tick) o.g.userData.tick(time);   // animated obstacles (the spider on its web)
     if (state === 'explore') renderer.render(ex.scene, camera); else if (usePost() && ensureComposer()) composer.render(); else renderer.render(scene, camera);
@@ -2031,8 +2032,8 @@ function create(container, opts) {
           onTalk(npc) { const Q = window.RoboQuests; if (!Q) return; if (exUI.noteOpen()) { exUI.hideNote(); return; } const r = Q.talk(npc); if (r) { exUI.note(r.card); if (r.events.length) pendingStory = (pendingStory || []).concat(r.events); } }, onJob(kind, mode) { if (kind === 'done') storyEmit('job', { mode: mode || 'parcel' }); }, onRideEnd(i) { audio.power(); onRideEnd(i); }, onMenu(m) { onMenu(m); }, onHorn() { audio.bump('vehicle', 0.3); }, storyJob() { const Q = window.RoboQuests; if (!Q || !storyMode) return null; const nx = Q.next(); return nx && nx.type === 'job' ? { from: nx.from, to: nx.to, mode: nx.mode } : null; }, onSplash() { audio.splash(); }, onDrip() { audio.drip(); }, onFade(t) { exUI.fade(t); }, onTravel(name) { audio.power(); exUI.fade('KSRTC · ' + name); }, onShop(kind) { audio.power(); onShop(kind); }, onGate() { api.exitExplore(true); } });
         ex.scene.environment = scene.environment;
       }
-      ex.setStory(storyMode); resetWorld(); state = 'explore'; fps.skip = 3; fps.t = 0; fps.n = 0; fps.low = 0; ex.scene.add(R.root); R.root.scale.setScalar(0.78); R.root.visible = true; ex.enter();
-      camera.fov = aspect < 0.8 ? 64 : 56; camera.near = 0.4; camera.updateProjectionMatrix(); exUI.show(true);   /* the town camera never gets closer than a few metres to anything that matters; a larger near plane gives the depth buffer about four times the precision, so thin things (road paint, kerbs) at 60 m or more stop shimmering */ exUI.update(null, coinsTotal, lastInput === 'touch'); exR = null; last = performance.now(); acc = 0;
+      ex.setStory(storyMode); resetWorld(); state = 'explore'; inTown = true; fps.skip = 3; fps.t = 0; fps.n = 0; fps.low = 0; ex.scene.add(R.root); R.root.scale.setScalar(0.78); R.root.visible = true; ex.enter();
+      camera.fov = aspect < 0.8 ? 64 : 56; camera.near = 0.4; applyQuality(); camera.updateProjectionMatrix(); exUI.show(true);   /* the town camera never gets closer than a few metres to anything that matters; a larger near plane gives the depth buffer about four times the precision, so thin things (road paint, kerbs) at 60 m or more stop shimmering */ exUI.update(null, coinsTotal, lastInput === 'touch'); exR = null; last = performance.now(); acc = 0;
       emit(); return true;
     },
     exitExplore(toRun) {
@@ -2042,7 +2043,7 @@ function create(container, opts) {
       if (window.RoboMap && window.RoboMap.isOpen()) window.RoboMap.close();
       for (const k in exKeys) delete exKeys[k];
       scene.add(R.root); R.root.scale.setScalar(1); R.root.rotation.set(0, 0, 0); exUI.show(false); if (audio.rainSet) audio.rainSet(0);
-      storyMode = false; resetWorld(); state = 'title'; camBlend = 0; audio.music('title'); emit(); onExploreExit(!!toRun);
+      storyMode = false; resetWorld(); state = 'title'; inTown = false; applyQuality(); camBlend = 0; audio.music('title'); emit(); onExploreExit(!!toRun);
     },
     pause() { if (state !== 'playing') return; state = 'paused'; btn.down = false; audio.suspend(); emit(); },
     resume() { if (state !== 'paused') return; state = 'playing'; last = performance.now(); fps.skip = 2; audio.resume(); emit(); },

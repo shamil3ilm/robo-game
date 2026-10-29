@@ -205,7 +205,7 @@
     const post = (x, z, r, tag, obj) => colliders.push({ t: 'circle', x, z, r, tag: tag || 'pole', obj });
     const std = (o) => new THREE.MeshStandardMaterial(o);
     const matCache = {}, mat = (hex, o) => matCache[hex + (o ? JSON.stringify(o) : '')] || (matCache[hex + (o ? JSON.stringify(o) : '')] = std(Object.assign({ color: hex, roughness: 0.85 }, o)));
-    const canvasTex = (w, h, draw, rx, ry) => { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; draw(cv.getContext('2d'), w, h); const t = new THREE.CanvasTexture(cv); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; if (rx) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); } return t; };
+    const canvasTex = (w, h, draw, rx, ry) => { const cv = document.createElement('canvas'); cv.width = w; cv.height = h; draw(cv.getContext('2d'), w, h); const t = new THREE.CanvasTexture(cv); t.encoding = THREE.sRGBEncoding; t.anisotropy = 8; if (rx) { t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(rx, ry); } return t; };
 
     /* light and sky: golden hour, the sun low in the west over the sea */
     const hemi = add(new THREE.HemisphereLight(0xffe4be, 0x7a6248, 0.6)), sun = add(new THREE.DirectionalLight(0xffc27a, 1.7));
@@ -247,7 +247,7 @@
     const PHOTO = cb.tex || {};
     const photo = (slug, mats, rx, ry, tint) => {
       const t = PHOTO[slug]; if (!t || !t.d) return;
-      const im = new Image(); im.onload = () => { for (const [m, ax, ay] of mats) { const tx = new THREE.Texture(im); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 4; tx.repeat.set(ax, ay); tx.needsUpdate = true; m.map = tx; m.color.setHex(tint === undefined ? 0xffffff : tint); m.needsUpdate = true; } };
+      const im = new Image(); im.onload = () => { for (const [m, ax, ay] of mats) { const tx = new THREE.Texture(im); tx.wrapS = tx.wrapT = THREE.RepeatWrapping; tx.encoding = THREE.sRGBEncoding; tx.anisotropy = 8; tx.repeat.set(ax, ay); tx.needsUpdate = true; m.map = tx; m.color.setHex(tint === undefined ? 0xffffff : tint); m.needsUpdate = true; } };
       im.src = t.d;
     };
     photo('asphalt_02', [[asphaltMat, 3, 14]], 0, 0, 0xcfcac2); photo('square_pavers', [[paverMat, 1.5, 14], [promMat, 12, 3]], 0, 0, 0xf0dcc0); photo('sand_01', [[sandMat, 7, 3]], 0, 0, 0xf2dcb4);
