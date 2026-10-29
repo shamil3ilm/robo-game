@@ -32,7 +32,9 @@
       const wm = mat(0xc4c0b8, { roughness: 0.95 }), H = 3.6, T = 0.3; wm.map = wallTex(wallHex);
       bx(w, H, T, wm, 0, H / 2, -d / 2, 'wall'); bx(T, H, d, wm, -w / 2, H / 2, 0, 'wall'); bx(T, H, d, wm, w / 2, H / 2, 0, 'wall');
       const half = (w - 3.2) / 2; [-1, 1].forEach((s) => bx(half, H, T, wm, s * (1.6 + half / 2), H / 2, d / 2, 'wall'));      // the south wall, with a doorway 3.2 m wide
-      bx(w - 0.4, 0.14, 0.08, mat(0xe8e0cc), 0, 0.12, -d / 2 + 0.2);                                                          // skirting
+      bx(w - 0.4, 0.14, 0.08, mat(0xe8e0cc), 0, 0.12, -d / 2 + 0.2);
+      [[w, 0, -d / 2 + 0.5, 0], [d, -w / 2 + 0.5, 0, PI / 2], [d, w / 2 - 0.5, 0, -PI / 2]].forEach(([len, ex, ez, ry]) => { const e = new THREE.Mesh(new THREE.PlaneGeometry(len, 0.7).rotateX(-PI / 2), aoEdgeM); e.position.set(ox + ex, 0.079, ez); e.rotation.y = ry; g.add(e); });
+      [-1, 1].forEach((s) => { const e = new THREE.Mesh(new THREE.PlaneGeometry(half, 0.7).rotateX(-PI / 2), aoEdgeM); e.position.set(ox + s * (1.6 + half / 2), 0.079, d / 2 - 0.5); e.rotation.y = PI; g.add(e); });                                                          // skirting
       mesh(new THREE.PlaneGeometry(Math.min(6, w - 3), Math.min(4, d - 3)).rotateX(-PI / 2), mat(pick([0x8a3a2a, 0x2f5a6a, 0x6a4a2a]), { roughness: 1 }), 0, 0.07, 0.3);   // a rug
       [-w / 4, w / 4].forEach((fx, i) => {                                                                                   // ceiling fans, turning
         const fan = new THREE.Group(); fan.position.set(ox + fx, 3.0, -d / 6); g.add(fan);
@@ -63,6 +65,10 @@
       h.bx(1.3, 0.07, 0.9, wood2, lx, 0.8, lz); h.bx(1.34, 0.02, 0.94, cloth, lx, 0.845, lz); [[-0.55, -0.35], [0.55, -0.35], [-0.55, 0.35], [0.55, 0.35]].forEach(([a, b]) => h.bx(0.08, 0.78, 0.08, wood, lx + a, 0.39, lz + b)); h.block(lx, lz, 1.3, 0.9);
       [-0.38, 0.38].forEach((s, i) => { const p = h.mesh(new THREE.CylinderGeometry(0.19, 0.16, 0.03, 14), plateM, lx + s, 0.875, lz + 0.12, true); if (i === 0) { h.mesh(new THREE.CylinderGeometry(0.11, 0.1, 0.05, 12), riceM, lx + s, 0.91, lz + 0.12, true); h.mesh(new THREE.SphereGeometry(0.07, 8, 6), curryM, lx + s + 0.08, 0.93, lz + 0.14, true); } else h.mesh(new THREE.BoxGeometry(0.22, 0.015, 0.2), leafM, lx + s, 0.89, lz + 0.12, true); });
       h.mesh(new THREE.CylinderGeometry(0.055, 0.045, 0.12, 10), steel, lx - 0.1, 0.92, lz - 0.2, true); h.mesh(new THREE.CylinderGeometry(0.055, 0.045, 0.12, 10), steel, lx + 0.1, 0.92, lz - 0.24, true);
+      aoBlob(h, lx, lz, 2.2, 1.6);
+      /* what is always on a table: a steel water jug with a handle, a napkin stand, a little bowl of pickle */
+      h.mesh(new THREE.CylinderGeometry(0.07, 0.06, 0.2, 12), steel, lx + 0.38, 0.955, lz - 0.28, true); h.bx(0.03, 0.12, 0.012, steel, lx + 0.46, 0.955, lz - 0.28);
+      h.bx(0.11, 0.1, 0.06, steel, lx - 0.38, 0.9, lz - 0.3); h.mesh(new THREE.CylinderGeometry(0.05, 0.04, 0.04, 10), mat(0x8a2a1c), lx + 0.02, 0.88, lz - 0.3, true);
       chair(h, lx - 1.0, lz, 0); chair(h, lx + 1.0, lz, 0);
     };
     /* a hotel's counter: a glass case of snacks, rows of steel vessels, a tea station with a kettle and glasses, and a stack of plates */
@@ -74,11 +80,16 @@
       [0, 1, 2, 3, 4].forEach((i) => h.mesh(new THREE.CylinderGeometry(0.04, 0.035, 0.09, 8), mat(0xe8f0f4, { transparent: true, opacity: 0.7 }), -len * 0.3 + i * 0.1, 1.07, lz + 0.3, true));
       [0, 1, 2, 3].forEach((i) => h.mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.025, 14), plateM, len * 0.05, 1.04 + i * 0.03, lz + 0.3, true));
     };
+    /* contact shadows: soft dark gradients where a wall meets the floor and under furniture, which ground everything (the room is lit evenly, with no sun) */
+    const aoEdgeM = new THREE.MeshBasicMaterial({ map: canvasTex(8, 64, (x, w, hh) => { const g = x.createLinearGradient(0, 0, 0, hh); g.addColorStop(0, 'rgba(0,0,0,0.5)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, w, hh); }), transparent: true, depthWrite: false });
+    const aoBlobM = new THREE.MeshBasicMaterial({ map: canvasTex(64, 64, (x, w, hh) => { const g = x.createRadialGradient(w / 2, hh / 2, 4, w / 2, hh / 2, w / 2); g.addColorStop(0, 'rgba(0,0,0,0.42)'); g.addColorStop(0.6, 'rgba(0,0,0,0.22)'); g.addColorStop(1, 'rgba(0,0,0,0)'); x.fillStyle = g; x.fillRect(0, 0, w, hh); }), transparent: true, depthWrite: false });
+    const aoBlob = (h, lx, lz, bw, bd) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(bw, bd).rotateX(-PI / 2), aoBlobM); m.position.set(h.ox + lx, 0.081, lz); h.g.add(m); return m; };
     /* a shop counter: a panelled front (tinted by `hex`), a dark toe-kick, a top slab with a small overhang, and on it a cash register, a service bell and a notepad */
     const counterTex = canvasTex(128, 64, (x, w, hh) => { x.fillStyle = '#eeeeee'; x.fillRect(0, 0, w, hh); for (let i = 0; i < 4; i++) { const px = i * 32 + 3; x.fillStyle = '#d6d6d6'; x.fillRect(px, 5, 26, hh - 10); x.strokeStyle = '#a8a8a8'; x.lineWidth = 2; x.strokeRect(px, 5, 26, hh - 10); x.strokeStyle = '#ffffff'; x.lineWidth = 1; x.strokeRect(px + 2, 7, 22, hh - 14); } for (let i = 0; i < 300; i++) { x.fillStyle = 'rgba(0,0,0,0.05)'; x.fillRect(Math.random() * w, Math.random() * hh, 1, 6); } });
     const counter = (h, lx, lz, len, hex) => {
       const tint = mat(hex || 0x6a4a2a, { roughness: 0.65 }), tx = counterTex.clone(); tx.needsUpdate = true; tx.repeat.set(Math.max(1, Math.round(len / 1.0)), 1); tint.map = tx;
       const body = h.bx(len, 1.0, 0.9, tint, lx, 0.5, lz, 'furniture');
+      aoBlob(h, lx, lz + 0.15, len + 0.9, 1.9);
       h.bx(len + 0.02, 0.1, 0.95, dark, lx, 0.05, lz);                                                                                  // the toe-kick
       h.bx(len + 0.14, 0.05, 1.04, mat(0xd2b078, { roughness: 0.55 }), lx, 1.025, lz);                                                  // the top slab, overhanging the front and the ends
       const rx = lx + len / 2 - 0.5;
@@ -92,6 +103,9 @@
       h.person(keeper, 0, -d2(R) + 0.2, 0); h.spot(0, -d2(R) + 2.2, 'shop', shopKind, R.title, '🍛');
       [-3.6, 0.3, 4.2].forEach((x) => [0.1, 2.0].forEach((z) => table(h, x, z)));
       h.person('mundu', -4, 1.6, PI / 2); h.person('lungi', 4, 3.7, -PI / 2);
+      /* by the door: a hand-wash basin with a mirror and a tap (every Kerala hotel has one) */
+      { const bz = d2(R) - 1.4, bxx = h.w / 2 - 0.55; h.bx(0.56, 0.1, 0.42, white, bxx, 0.95, bz, 'furniture'); h.bx(0.1, 0.9, 0.1, white, bxx + 0.1, 0.45, bz); h.mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.14, 8), steel, bxx + 0.18, 1.07, bz, true); h.mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.1, 8).rotateZ(PI / 2), steel, bxx + 0.13, 1.14, bz, true);
+        h.sign(0.5, 0.7, 128, 180, (x, w, hh) => { const g3 = x.createLinearGradient(0, 0, w, hh); g3.addColorStop(0, '#dfeef2'); g3.addColorStop(1, '#a9c4cc'); x.fillStyle = g3; x.fillRect(0, 0, w, hh); x.strokeStyle = '#6a5030'; x.lineWidth = 8; x.strokeRect(4, 4, w - 8, hh - 8); }, h.w / 2 - 0.2, 1.55, bz, -PI / 2); }
       h.sign(3.4, 1.5, 512, 220, (x, w, hh) => { x.fillStyle = '#1f3a2a'; x.fillRect(0, 0, w, hh); x.strokeStyle = '#d9b86a'; x.lineWidth = 6; x.strokeRect(6, 6, w - 12, hh - 12); txt(x, R.title.toUpperCase(), w / 2, 40, 'bold 38px sans-serif', '#f3e6cf'); menu.forEach((m, i) => txt(x, m, w / 2, 92 + i * 38, 'bold 26px ' + ML, '#ffe9b0')); }, 0, 2.4, -d2(R) + 0.2);
       h.sign(1.6, 1.1, 256, 170, (x, w, hh) => { x.fillStyle = '#f4efdc'; x.fillRect(0, 0, w, hh); x.strokeStyle = '#8a5a2a'; x.lineWidth = 8; x.strokeRect(4, 4, w - 8, hh - 8); txt(x, '📜', w / 2, 56, '52px sans-serif', '#000'); txt(x, 'Read the board', w / 2, 120, 'bold 26px sans-serif', '#5a3a1a'); }, R.bounds.x1 - R.ox - 0.3, 1.8, 0, -PI / 2);
       h.noteSpot(R.bounds.x1 - R.ox - 0.7, 0, noteKey);
