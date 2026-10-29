@@ -5,7 +5,7 @@ A three.js browser game set in Manjeri and Malappuram, Kerala. Run the classic 3
 ## Play
 
 - **On a computer or phone:** serve the folder and open it (see Run below). Everything runs in the browser; progress is kept in the browser's own storage.
-- **On GitHub:** the root `index.html` sends visitors to `src/index.html`, so GitHub Pages can host it (Settings, Pages, deploy from branch `main`, folder `/ (root)`). Pages is not switched on yet.
+- **Online:** https://shamil3ilm.github.io/robo-game/ (GitHub Pages, deployed from branch `main`, folder `/ (root)`; the root `index.html` sends visitors to `src/index.html`). Every push to `main` updates it after a minute or two.
 
 ### Controls
 
