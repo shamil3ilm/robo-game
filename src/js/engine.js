@@ -315,6 +315,7 @@ function create(container, opts) {
   let best = store.get(bestKey(), 0);
   let autoQ = store.get('autoQ', null) || (((navigator.deviceMemory && navigator.deviceMemory <= 4) || (touch && (navigator.hardwareConcurrency || 8) <= 4)) ? 'Low' : 'High');
   const effQ = () => (opt.quality === 'Auto' ? autoQ : opt.quality);
+  let exSlow = store.get('exSlow', false);   /* the town ran slowly on this device: draw it at the device's plain resolution (set by the frame-rate watch in explore, kept between visits) */
   const audio = makeAudio(store);
   const weather = window.RoboWeather ? window.RoboWeather.create() : null;   // showers in the town
   const clock = window.RoboClock ? window.RoboClock.create({ hours: store.get('clockH', 16.5) }) : null;   // the game clock: it runs in the town and on the road, and is remembered
@@ -352,7 +353,7 @@ function create(container, opts) {
     } catch (e) { console.warn('[robo] post-processing unavailable, using the plain renderer', e); postFailed = true; composer = null; }
     return composer;
   };
-  const setPR = () => renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, effQ() === 'High' ? 2 : 1.5));
+  const setPR = () => renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, opt.quality === 'Auto' && exSlow ? 1 : effQ() === 'High' ? 2 : 1.5));
   setPR();
   const cv = renderer.domElement;
   cv.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;';
@@ -1764,6 +1765,10 @@ function create(container, opts) {
         else { fps.t += raw; fps.n++; if (fps.t >= 3) { const f = fps.n / fps.t; fps.t = 0; fps.n = 0; if (opt.quality === 'Auto' && autoQ === 'High') { fps.low = f < 40 ? fps.low + 1 : 0; if (fps.low >= 2) { autoQ = 'Low'; store.set('autoQ', 'Low'); applyQuality(); showNotice('lowgfx'); } } } }
       }
     }
+    if (state === 'explore' && opt.quality === 'Auto' && !exSlow && renderer.getPixelRatio() > 1) {   /* the town: if it stays under 28 frames a second for two checks of 4 s, draw at the plain resolution (it is the pixels that cost most on a phone) */
+      if (fps.skip > 0) fps.skip -= raw;
+      else { fps.t += raw; fps.n++; if (fps.t >= 4) { const f = fps.n / fps.t; fps.t = 0; fps.n = 0; fps.low = f < 28 ? fps.low + 1 : 0; if (fps.low >= 2) { exSlow = true; store.set('exSlow', true); applyQuality(); if (exUI) exUI.note({ title: 'Smoother mode', emoji: '⚙️', body: 'The town was running slowly on this device, so it now draws at a lower sharpness to keep moving smoothly. Set Quality to High in Settings to turn this off.', src: '' }); } } }
+    }
     for (const o of obs) if (o.active && o.g.userData.tick) o.g.userData.tick(time);   // animated obstacles (the spider on its web)
     if (state === 'explore') renderer.render(ex.scene, camera); else if (usePost() && ensureComposer()) composer.render(); else renderer.render(scene, camera);
   };
@@ -2025,7 +2030,7 @@ function create(container, opts) {
           onTalk(npc) { const Q = window.RoboQuests; if (!Q) return; if (exUI.noteOpen()) { exUI.hideNote(); return; } const r = Q.talk(npc); if (r) { exUI.note(r.card); if (r.events.length) pendingStory = (pendingStory || []).concat(r.events); } }, onJob(kind, mode) { if (kind === 'done') storyEmit('job', { mode: mode || 'parcel' }); }, onRideEnd(i) { audio.power(); onRideEnd(i); }, onMenu(m) { onMenu(m); }, onHorn() { audio.bump('vehicle', 0.3); }, storyJob() { const Q = window.RoboQuests; if (!Q || !storyMode) return null; const nx = Q.next(); return nx && nx.type === 'job' ? { from: nx.from, to: nx.to, mode: nx.mode } : null; }, onSplash() { audio.splash(); }, onDrip() { audio.drip(); }, onFade(t) { exUI.fade(t); }, onTravel(name) { audio.power(); exUI.fade('KSRTC · ' + name); }, onShop(kind) { audio.power(); onShop(kind); }, onGate() { api.exitExplore(true); } });
         ex.scene.environment = scene.environment;
       }
-      ex.setStory(storyMode); resetWorld(); state = 'explore'; ex.scene.add(R.root); R.root.scale.setScalar(0.78); R.root.visible = true; ex.enter();
+      ex.setStory(storyMode); resetWorld(); state = 'explore'; fps.skip = 3; fps.t = 0; fps.n = 0; fps.low = 0; ex.scene.add(R.root); R.root.scale.setScalar(0.78); R.root.visible = true; ex.enter();
       camera.fov = aspect < 0.8 ? 64 : 56; camera.updateProjectionMatrix(); exUI.show(true); exUI.update(null, coinsTotal, lastInput === 'touch'); exR = null; last = performance.now(); acc = 0;
       emit(); return true;
     },
@@ -2090,7 +2095,8 @@ function create(container, opts) {
     clockHours() { return clock ? clock.hours() : 16.5; },
     earnCoins(n) { n = Math.floor(Number(n)); if (!(n > 0)) return; coinsTotal += n; store.set('coins', coinsTotal); audio.coin(); emit(); },   // money coming in (the scrap dealer pays you)
     shopDone() { if (state !== 'explore') invuln = Math.max(invuln, 1.5); },
-    setOptions(o) { const q = effQ(), w = opt.world; Object.assign(opt, o); if ('pack' in o) applyPack(); if (opt.world !== w && state === 'title') { resetWorld(); frameVisuals(0); } if (o.keymap) opt.keymap = Object.assign({}, DEFAULT_KEYS, o.keymap); if ('combat' in o && !o.combat) CB.clear(); if ('assist' in o) best = store.get(bestKey(), 0); if (o.skin) setSkin(o.skin); if (effQ() !== q) applyQuality(); emit(); },
+    setOptions(o) { const q = effQ(), w = opt.world; if ('quality' in o && o.quality !== opt.quality) { exSlow = false; store.set('exSlow', false); }   /* choosing a quality again starts the watch afresh */
+      Object.assign(opt, o); if ('pack' in o) applyPack(); if (opt.world !== w && state === 'title') { resetWorld(); frameVisuals(0); } if (o.keymap) opt.keymap = Object.assign({}, DEFAULT_KEYS, o.keymap); if ('combat' in o && !o.combat) CB.clear(); if ('assist' in o) best = store.get(bestKey(), 0); if (o.skin) setSkin(o.skin); if (effQ() !== q) applyQuality(); emit(); },
     // test hooks
     debug: { shadows(on) { renderer.shadowMap.enabled = !!on; if (ex) ex.scene.traverse((o) => { if (o.material) { (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => { m.needsUpdate = true; }); } }); return renderer.shadowMap.enabled; },
       visible() { if (!ex) return null; const cam = camera, fr = new THREE.Frustum(), pm = new THREE.Matrix4().multiplyMatrices(cam.projectionMatrix, cam.matrixWorldInverse); fr.setFromProjectionMatrix(pm); let n = 0, casters = 0, groups = {}; ex.scene.traverse((o) => { if (!o.isMesh) return; let v = true, p = o; while (p) { if (!p.visible) { v = false; break; } p = p.parent; } if (!v) return; if (o.geometry.boundingSphere === null) o.geometry.computeBoundingSphere(); const s = o.geometry.boundingSphere.clone().applyMatrix4(o.matrixWorld); if (!fr.intersectsSphere(s)) return; n++; if (o.castShadow) casters++; const m = Array.isArray(o.material) ? o.material[0] : o.material; const k = (m && m.map ? 'textured' : 'plain') + (m && m.transparent ? '+transparent' : '') + (o.isInstancedMesh ? '+instanced' : ''); groups[k] = (groups[k] || 0) + 1; }); return { visibleMeshes: n, shadowCasters: casters, groups }; },

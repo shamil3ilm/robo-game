@@ -37,4 +37,5 @@ A three.js browser game set in Manjeri and Malappuram, Kerala. Run the classic 3
 
 - All story people and companies are made up. "Zilla Money" is a parody with its own name, logo and colours, not the real brand.
 - Real places are used only where a public source (such as Google Maps) confirms them. Political parties are neutral. The 2024 Wayanad landslide, alcohol, drugs and gambling are left out.
+- With Quality on Auto, the town lowers its sharpness by itself if it runs slowly (a "Smoother mode" card appears); picking a quality in Settings resets that.
 - Malayalam text is partly machine-written and needs a native reader to check.
