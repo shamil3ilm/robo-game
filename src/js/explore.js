@@ -97,6 +97,12 @@
     if (az >= ax) return vz < 0 ? 0 : PI;
     return vx > 0 ? -PI / 2 : PI / 2;
   };
+  /* a vehicle parked at the kerb faces the shop fronts: getting in turns it along the street, towards the end it is nearest to facing (else the camera starts on a blank wall). Outside a street the heading is kept. */
+  const streetYaw = (x, z, yaw) => {
+    if (!inFollowZone(x, z)) return yaw;
+    const r = FOLLOW.find((q) => x > q[0] && x < q[1] && z > q[2] && z < q[3]), ns = r ? (r[3] - r[2]) > (r[1] - r[0]) : Math.abs(x) < STREET_X, dx = -Math.sin(yaw), dz = -Math.cos(yaw);
+    return ns ? (dz <= 0 ? 0 : PI) : (dx >= 0 ? -PI / 2 : PI / 2);
+  };
   /* the delivery bike: stick up is the throttle, stick sideways is the steering. v is the bike's signed speed (m/s, forward positive); returns the new speed and the turn rate (rad/s, positive = turning left).
      It speeds up slowly, brakes faster, reverses slowly, and cannot turn on the spot: the turn rate grows with speed. max is the top speed (the run key and the gear and battery multipliers raise it). */
   const bikeDrive = (v, th, st, dt, max, agil) => {
@@ -641,7 +647,7 @@
       const type = sp.arg === 'auto' ? 'auto' : 'bike', j = jobs.cur;
       if (j && (j.kind === 'ride') !== (type === 'auto')) { toast(j.kind === 'ride' ? 'You have a passenger job: take an auto.' : 'You have a parcel job: take the bike or a scooter.'); return; }
       sp.obj.visible = false; sp.off = true; const i = colliders.indexOf(sp.col); if (i >= 0) colliders.splice(i, 1); takenVehicles.push(sp);
-      state.bike = true; state.vtype = type; bikePark = null; state.bs = 0; state.x = sp.x; state.z = sp.z; state.yaw = sp.yaw || 0; state.vx = state.vz = 0;
+      state.bike = true; state.vtype = type; bikePark = null; state.bs = 0; state.x = sp.x; state.z = sp.z; state.yaw = streetYaw(sp.x, sp.z, sp.yaw || 0); state.camYaw = state.yaw; state.vx = state.vz = 0;
       const first = !tipped[type]; tipped[type] = true;   // the first time, a longer tip; after that, a short line
       toast(type === 'auto' ? (first ? 'You are in the auto. Stick up to drive, sideways to steer, down to reverse. The bell is the horn. Get out with the button. For fares: stop at the delivery desk and take Get a passenger.' : 'In the auto. Stick up to drive, the bell is the horn.') : (first ? 'You are on the scooter. Stick up to ride, sideways to steer, down to reverse. The bell is the horn. Get off with the button; park it anywhere and get on again when you come near.' : 'On the scooter. Stick up to ride, the bell is the horn.'));
       if (first) jobs.msgT = 9;
@@ -923,6 +929,6 @@
     return api;
   }
 
-  window.RoboExplore = { move, bumpGate, nearest, stick, snapAxis, snapYaw, placeName, AREAS, followYaw, fare, tip, pickJob, segHitsRect, bikeDrive, namedJob, inFollowZone, layout: { world: WORLD, hwZ: HW_Z, churamX: CHURAM_X, wayanadX: WAYANAD_X, bounds: BOUNDS, streetX: STREET_X, z0: STREET_Z0, z1: STREET_Z1, laneZ: LANE_Z, maps: ACTIVE && ACTIVE.indexOf('city') < 0 ? Object.assign({}, MAPS, { world: undefined }) : MAPS,   // Manjeri alone: the round map is Manjeri's own, not the whole world's
+  window.RoboExplore = { move, bumpGate, nearest, stick, snapAxis, snapYaw, placeName, AREAS, followYaw, fare, tip, pickJob, segHitsRect, bikeDrive, namedJob, inFollowZone, streetYaw, layout: { world: WORLD, hwZ: HW_Z, churamX: CHURAM_X, wayanadX: WAYANAD_X, bounds: BOUNDS, streetX: STREET_X, z0: STREET_Z0, z1: STREET_Z1, laneZ: LANE_Z, maps: ACTIVE && ACTIVE.indexOf('city') < 0 ? Object.assign({}, MAPS, { world: undefined }) : MAPS,   // Manjeri alone: the round map is Manjeri's own, not the whole world's
          manjeriX: MANJERI_X }, create };
 })();

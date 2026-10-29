@@ -57,6 +57,15 @@ t('the camera follows the way you go in every street of the open towns, not only
   for (const [x, z] of [[mx + 20, 50], [mx - 30, 45], [mx + 70, 40], [900 + 40, 40]]) assert.equal(E.inFollowZone(x, z), false, 'open ground is free: ' + x + ',' + z);
   assert.equal(E.followYaw(mx + 50, 0, 4, 0), -Math.PI / 2, 'heading east on the east road: the camera looks east'); assert.equal(E.followYaw(mx, 30, 0, 4), Math.PI, 'heading south on the highway'); assert.equal(E.followYaw(mx + 20, 50, 4, 0), null, 'the football turf is free');
 });
+t('a vehicle parked sideways at the kerb is turned along the street when you get in', () => {
+  const L = E.layout, mx = L.manjeriX, PI = Math.PI;
+  assert.equal(E.streetYaw(mx + 3.9, -30, -PI / 2), 0, 'on the highway, facing east at the shop fronts: turned north (the nearer way is north or south by heading)');
+  assert.equal(E.streetYaw(mx + 3.9, -30, PI / 2) === 0 || E.streetYaw(mx + 3.9, -30, PI / 2) === PI, true, 'always along the highway');
+  assert.equal(E.streetYaw(mx + 3.9, -30, 0.2), 0, 'already facing along it: kept');
+  assert.equal(E.streetYaw(mx + 3.9, -30, 3.0), PI, 'facing south: kept south');
+  assert.equal(E.streetYaw(mx + 50, 3.0, 0.4) === -PI / 2 || E.streetYaw(mx + 50, 3.0, 0.4) === PI / 2, true, 'on the east road: along the road (east or west)');
+  assert.equal(E.streetYaw(mx + 20, 50, 1.1), 1.1, 'open ground: the heading is kept');
+});
 t('a delivery pays a base fare plus a distance fare, and a quick run earns a tip', () => {
   assert.equal(E.fare(0), 30); assert.equal(E.fare(100), 45); assert.equal(E.fare(150), 53);
   assert.equal(E.tip(72, 5), 10, 'well inside the par time'); assert.equal(E.tip(72, 36), 5, 'a bit slow'); assert.equal(E.tip(72, 90), 0, 'far too slow');
