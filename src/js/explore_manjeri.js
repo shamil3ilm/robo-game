@@ -110,6 +110,27 @@
     const wallM = mat(0x8d8a84, { roughness: 0.95 }); [-135.4, -57.6].forEach((wz) => { box(9.4, 2.4, 0.6, wallM, X(40), 1.2, wz, undefined, true); solid(X(40) - 4.7, X(40) + 4.7, wz - 0.4, wz + 0.4, 'wall'); });
     const runX = (side, a, b) => { const n = Math.max(1, Math.round((b - a) / 7.5)), w = (b - a) / n; for (let i = 0; i < n; i++) building(side, a + i * w, a + (i + 1) * w, ox + 40); };
     runX(-1, -134, -106); runX(-1, -94, -60); runX(1, -134, -106); runX(1, -94, -60);
+    /* overhead service wires, as on every Kerala street: bundles of three cables sagging across the highway and the two main roads from facade to facade, joined by cables along each side; one line mesh per 70 m chunk (a single draw call each) so culling by distance does not make a long street pop in and out */
+    (() => {
+      const wireM = new THREE.MeshBasicMaterial({ color: 0x15171a, side: THREE.DoubleSide }), sag = (a, b, drop, n) => { const out = []; for (let i = 0; i < n; i++) { const u0 = i / n, u1 = (i + 1) / n, f = (u) => [a[0] + (b[0] - a[0]) * u, a[1] + (b[1] - a[1]) * u - drop * 4 * u * (1 - u), a[2] + (b[2] - a[2]) * u]; out.push(...f(u0), ...f(u1)); } return out; };
+      const chunk = (segs, cx2, cz2) => {   /* thin square tubes (a GL line is one pixel and not drawn everywhere): 4 faces a segment, 2.2 cm a side */
+        const r = 0.022, pos = [], idx = []; for (let s = 0; s < segs.length; s += 6) { const p0 = [segs[s], segs[s + 1], segs[s + 2]], p1 = [segs[s + 3], segs[s + 4], segs[s + 5]], d = [p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]], dl = Math.hypot(d[0], d[1], d[2]) || 1; d[0] /= dl; d[1] /= dl; d[2] /= dl;
+          let u = [d[2], 0, -d[0]]; const ul = Math.hypot(u[0], u[2]); if (ul < 1e-3) u = [1, 0, 0]; else { u[0] /= ul; u[2] /= ul; } const v = [d[1] * u[2] - d[2] * u[1], d[2] * u[0] - d[0] * u[2], d[0] * u[1] - d[1] * u[0]], b = pos.length / 3;
+          [[1, 1], [1, -1], [-1, -1], [-1, 1]].forEach(([a1, b1]) => pos.push(p0[0] + (u[0] * a1 + v[0] * b1) * r, p0[1] + (u[1] * a1 + v[1] * b1) * r, p0[2] + (u[2] * a1 + v[2] * b1) * r)); [[1, 1], [1, -1], [-1, -1], [-1, 1]].forEach(([a1, b1]) => pos.push(p1[0] + (u[0] * a1 + v[0] * b1) * r, p1[1] + (u[1] * a1 + v[1] * b1) * r, p1[2] + (u[2] * a1 + v[2] * b1) * r));
+          for (let q = 0; q < 4; q++) { const q2 = (q + 1) % 4; idx.push(b + q, b + q2, b + 4 + q, b + q2, b + 4 + q2, b + 4 + q); } }
+        const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); geo.setIndex(idx); geo.computeBoundingSphere(); const ln = new THREE.Mesh(geo, wireM); ln.frustumCulled = false; const gr = new THREE.Group(); gr.add(ln); gr.userData = { x: cx2, z: cz2 }; add(gr); cullables.push(gr); };
+      /* the highway: a bundle every 11 m from z -128 to 96 (x from the west facade to the east one), wires along both sides */
+      const zs = []; for (let z = -128; z <= 96; z += 11) zs.push(z);
+      for (let k = 0; k < zs.length; k += 6) { const part = zs.slice(k, k + 7), segs = [];
+        part.forEach((z, i) => { const hy = 5.4 + ((z * 7) % 5) * 0.14; [0, 1, 2].forEach((w) => segs.push(...sag([X(-5.5), hy + w * 0.16, z + w * 0.18], [X(5.5), hy + 0.1 + w * 0.16, z + w * 0.18], 0.55, 10)));
+          if (i) [-5.5, 5.5].forEach((sx) => [0, 1, 2].forEach((w) => segs.push(...sag([X(sx), 6.3 + w * 0.14, part[i - 1] + w * 0.1], [X(sx), 6.3 + w * 0.14, z + w * 0.1], 0.3, 8)))); });
+        chunk(segs, X(0), (part[0] + part[part.length - 1]) / 2); }
+      /* the east road (x 16 to 96) and the bypass road (x -92 to -16), across z -5.5 to 5.5 */
+      [[16, 96], [-92, -16]].forEach(([xa, xb]) => { const segs = []; let prev = null; for (let x = xa; x <= xb; x += 12) { [0, 1, 2].forEach((w) => segs.push(...sag([X(x) + w * 0.18, 5.2 + w * 0.15, -5.5], [X(x) + w * 0.18, 5.3 + w * 0.15, 5.5], 0.5, 10))); if (prev !== null) [-5.5, 5.5].forEach((sz) => [0, 1, 2].forEach((w) => segs.push(...sag([X(prev) + w * 0.1, 6.1 + w * 0.14, sz], [X(x) + w * 0.1, 6.1 + w * 0.14, sz], 0.3, 8)))); prev = x; } chunk(segs, X((xa + xb) / 2), 0); });
+      /* manhole covers: an iron rim and a darker lid, a few on the highway */
+      const rimM = mat(0x55585a, { roughness: 0.6, metalness: 0.5 }), lidM = mat(0x2f3234, { roughness: 0.7, metalness: 0.4 });
+      [[-2.2, -112], [1.8, -86], [-1.9, -48], [2.1, -22], [-1.7, 18], [2.0, 44], [-2.2, 74], [1.9, 92]].forEach(([lx, lz]) => { const rim = new THREE.Mesh(new THREE.CircleGeometry(0.4, 20).rotateX(-PI / 2), rimM), lid = new THREE.Mesh(new THREE.CircleGeometry(0.32, 20).rotateX(-PI / 2), lidM); rim.position.set(X(lx), 0.047, lz); lid.position.set(X(lx), 0.049, lz); rim.receiveShadow = lid.receiveShadow = true; add(rim); add(lid); });
+    })();
     for (let i = 0; i < 3; i++) { buildingEW(1, 15 + i * 6, 21 + i * 6, -100, ox); buildingEW(-1, 15 + i * 6, 21 + i * 6, -100, ox); }
     for (let i = 0; i < 6; i++) addPickup('coin', null, X(40 + (i % 2 ? -1 : 1) * rr(0.4, 2)), -130 + i * 12);
     walker('schoolgirl', [[X(41.2), -130], [X(41.2), -64]], 1.2, 2); walker('mundu', [[X(18), -98.4], [X(36), -98.4]], 1.0, 1);
