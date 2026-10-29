@@ -171,6 +171,10 @@
       let b = fresh(), now = 0, home = 0, away = 0, pause = 0, told = false, paid = 0, wins = 0;   /* ₹10 for each of your first five goals since the page was opened, so goals cannot be farmed */
       const shot = { x: b.x, z: b.z, r: 1.9, kind: 'kick', label: 'Shoot', emoji: '⚽', quiet: true, off: true, use: () => { const pl = c.player(); b = TU.shoot(b, pl, -Math.sin(pl.yaw), -Math.cos(pl.yaw), now); } };
       c.spots.push(shot);
+      /* the scoreboard: a small panel above the north goal, redrawn after each goal (one more draw call, only when it changes) */
+      const sc = document.createElement('canvas'); sc.width = 256; sc.height = 96; const sx = sc.getContext('2d'), stex = new THREE.CanvasTexture(sc);
+      const drawScore = () => { sx.fillStyle = '#0b2d1a'; sx.fillRect(0, 0, 256, 96); sx.strokeStyle = '#fff'; sx.lineWidth = 4; sx.strokeRect(3, 3, 250, 90); sx.textAlign = 'center'; sx.fillStyle = '#ffd24a'; sx.font = 'bold 22px sans-serif'; sx.fillText('YOU          THEM', 128, 28); sx.fillStyle = '#fff'; sx.font = 'bold 50px sans-serif'; sx.fillText(home + '  :  ' + away, 128, 78); stex.needsUpdate = true; };
+      const sb = new THREE.Mesh(new THREE.PlaneGeometry(3.2, 1.2), new THREE.MeshBasicMaterial({ map: stex })); sb.position.set(X(cx + 7), 4.2, cz - d / 2 + 0.1); add(sb); drawScore();
       c.onFrame((dt) => {
         now += dt; const pl = c.player && c.player(); if (!pl || Math.abs(pl.x - b.x) > 70 || Math.abs(pl.z - b.z) > 70) return;
         const playing = !pl.room && !pl.ride && !pl.bike; shot.off = !playing || pause > 0;
@@ -182,7 +186,7 @@
           const gl = TU.goal(b, pitch);
           if (gl) { if (gl === 'north') home++; else away++; const pay = gl === 'north' && paid < 5 && c.coin; if (pay) { paid++; c.coin(10); } const won = TU.result(home, away), line = home + ' - ' + away;
           if (won) { const bonus = won === 'home' && wins < 2 && c.coin; if (bonus) { wins++; c.coin(30); } c.toast && c.toast(won === 'home' ? 'FULL TIME! You win ' + line + (bonus ? '   +₹30' : '') : 'FULL TIME. They win ' + line + '. Try again.'); home = away = 0; pause = 4.5; }
-          else { c.toast && c.toast(gl === 'north' ? 'GOAL for you! ⚽  ' + line + (pay ? '   +₹10' : '') : 'Goal for them.  ' + line); pause = 1.6; } b = fresh(); team.forEach((q) => { q.s = Object.assign({}, q.s, { x: q.s.hx, z: q.s.hz }); q.p.g.position.x = q.s.hx; q.p.g.position.z = q.s.hz; }); }
+          else { c.toast && c.toast(gl === 'north' ? 'GOAL for you! ⚽  ' + line + (pay ? '   +₹10' : '') : 'Goal for them.  ' + line); pause = 1.6; } drawScore(); b = fresh(); team.forEach((q) => { q.s = Object.assign({}, q.s, { x: q.s.hx, z: q.s.hz }); q.p.g.position.x = q.s.hx; q.p.g.position.z = q.s.hz; }); }
         }
         ball.position.set(b.x, 0.25 + b.hop, b.z); ball.rotation.x += b.vz * dt * 4; ball.rotation.z -= b.vx * dt * 4; shot.x = b.x; shot.z = b.z;
       });
